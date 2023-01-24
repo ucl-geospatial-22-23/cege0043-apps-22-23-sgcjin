@@ -85,13 +85,33 @@ let busStationFeature = {
     [-3.451385557332611, 52.62629635973269],
     [-3.451296339904943, 52.62360030515013]]]
 }};
-busStationLayer=L.geoJSON(busStationFeature).addTo(mymap).bindPopup("<b>"+busStationFeature.properties.name+"<b>");
-
+busStationLayer=L.geoJSON(busStationFeature).addTo(mymap).
+bindPopup("<b>"+busStationFeature.properties.name+"<b>");
+// fit bounds of bus station
 mymap.fitBounds(busStationLayer.getBounds());
 
+// add waiting room polygon
+let waitingRoomFeature = {
+ "type": "Feature",
+ "properties": {
+ "waiting_room_id": "1",
+ "bus_station_id": "1",
+"opening_time": "5.3",
+"closing_time": "23.3",
+ "user_id": "user605",
+ "ucl_user_id": "ucescj0"
+ },
+ "geometry": {
+ "type": "Polygon",
+ "coordinates": [[[-3.450572825965498, 52.624058693770685],
+    [-3.449096059732196, 52.624076772162645],
+    [-3.449155447329065, 52.625874143637304],
+    [-3.45063227402122, 52.62585606407699],
+    [-3.450572825965498, 52.624058693770685]]]
+}};
 
-
-
+L.geoJSON(waitingRoomFeature).addTo(mymap).bindPopup("<b>"+waitingRoomFeature.properties.waiting_room_id+"<b>");
+console.log("added polygons");
 
 
 
