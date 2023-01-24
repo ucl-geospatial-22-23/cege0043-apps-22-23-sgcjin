@@ -1,0 +1,56 @@
+<html>
+<head>
+<!-- code for Leaflet -->
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css"
+ integrity="sha256-kLaT2GOSpHechhsozzB+flnD+zUyjE2LlfWPgU04xyI="
+ crossorigin=""/>
+<script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js"
+ integrity="sha256-WBkoXOwTeyKclOHuWtc+i2uENFpDZ9YPdf5Hf+D7ewM="
+ crossorigin=""></script>
+ <script
+ src="https://code.jquery.com/jquery-3.4.1.min.js"
+ integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+ crossorigin="anonymous"></script>
+ <script src="js/basicMap.js"></script>
+ <script src="js/earthquakes.js"></script>
+<style type="text/css">
+#mapid { height: 180px; }
+</style>
+<title>Leaflet and Javascript Example </title>
+<!-- the following links incorporate the CSS required for custom icon creation -->
+<link rel="stylesheet" href="css/ionicons.min.css">
+<link rel="stylesheet" href="css/leaflet.awesome-markers.css">
+<script src="js/leaflet.awesome-markers.js"></script>
+</head>
+
+<body>
+<div>
+This is my first HTML Page <br>
+My name is: Chunyu Jin <br>
+My UCL username is: ucescj0 <br>
+My GitHub username is: sgcjin
+</div>
+
+<!-- the mapid div will hold the map -->
+<div id="mapid" style="width: 600px; height: 400px;"></div>
+<button id="loadEarthquakeData" name="loadEarthquakeData" onclick="getEarthquakeData()">Click here to load the Earthquake data </button>
+<button id="removeEarthquakeData" name="removeEarthquakeData"
+onclick="removeEarthquakeData()">Click here to remove the Earthquake data </button>
+<!-- the following script will load the map and set the default view and zoom, as well as loading the
+basemap tiles -->
+
+<script>
+"use strict";
+document.addEventListener('DOMContentLoaded', function() {
+ loadMap();
+}, false);
+function loadMap() {
+loadLeafletMap();
+// getEarthquakeData();
+}
+
+</script>
+
+
+</body>
+</html>
