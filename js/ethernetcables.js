@@ -54,5 +54,10 @@ switch (layer.feature.properties.criticality) {
 
 }
 function removeEthernetData(){
+try {
 alert("Ethernet cables data will be removed");
+mymap.removeLayer( ethernetCables );
+} catch (err) {
+alert("Layer does not exist :" + err);
+}
 }
