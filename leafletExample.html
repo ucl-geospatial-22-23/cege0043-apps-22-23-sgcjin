@@ -67,6 +67,22 @@ color: 'orange',
 fillColor: '#f03',
 fillOpacity: 0.5
 }).addTo(mymap).bindPopup("I am a polygon in 2022.");
+
+let geojsonFeature = {
+ "type": "Feature",
+ "properties": {
+ "name": "London",
+ "popupContent": "This is where UCL is based. We have on campus and off campus activity."
+ },
+ "geometry": {
+ "type": "Point",
+ "coordinates": [-0.118092, 51.509865]
+}};
+
+L.geoJSON(geojsonFeature).addTo(mymap).bindPopup("<b>"+geojsonFeature.properties.name+""+geojsonFeature.properties.popupContent+"<b>");
+
+
+
 } // end code to add the basic markers
 
 window.onload = loadLeafletMap;
