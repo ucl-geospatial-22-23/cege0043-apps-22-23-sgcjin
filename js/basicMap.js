@@ -1,5 +1,5 @@
 "use strict";
-
+// the code is adapted from practicals in moodle
 let mymap; // global variable to store the map
 
 function loadLeafletMap() {
@@ -14,7 +14,7 @@ L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
 // now add the click event detector to the map
 mymap.on('click', onMapClick);
 // now call the code to add the markers
- addBasicMarkers();
+addBasicMarkers();
 } //end code to add the leaflet map
 
 
@@ -64,6 +64,39 @@ L.geoJSON(geojsonFeature, {
  return L.marker(latlng, {icon:testMarkerPink});
  }
  }).addTo(mymap).bindPopup("<b>"+geojsonFeature.properties.name+""+geojsonFeature.properties.popupContent+"<b>");
+
+
+// add bustation polygon
+var busStationLayer
+let busStationFeature = {
+ "type": "Feature",
+ "properties": {
+ "bus_station_id": "1",
+ "last_repainted": "2019-03-20",
+ "name": "Main Bus Station 302",
+ "user_id": "user605",
+ "ucl_user_id": "ucescj0"
+ },
+ "geometry": {
+ "type": "Polygon",
+ "coordinates": [[[-3.451296339904943, 52.62360030515013],
+    [-3.448342837666167, 52.623636461349896],
+    [-3.448431873717275, 52.62633251943749],
+    [-3.451385557332611, 52.62629635973269],
+    [-3.451296339904943, 52.62360030515013]]]
+}};
+busStationLayer=L.geoJSON(busStationFeature).addTo(mymap).bindPopup("<b>"+busStationFeature.properties.name+"<b>");
+
+mymap.fitBounds(busStationLayer.getBounds());
+
+
+
+
+
+
+
+
+
 
 
 } // end code to add the basic markers
