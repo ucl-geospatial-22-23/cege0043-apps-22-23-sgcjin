@@ -50,7 +50,13 @@ color: 'green',
 fillColor: '#f03',
 fillOpacity: 0.2
 }).addTo(mymap).
-bindPopup("<b>"+busStationFeature.properties.name+"<b>");
+bindPopup(
+    "<b>"+busStationFeature.properties.name+"</b>"+
+"<br>"+"bus_station_id: "+busStationFeature.properties.bus_station_id+
+"<br>"+"last_repainted: "+busStationFeature.properties.last_repainted+
+"<br>"+"user_id: "+busStationFeature.properties.user_id+"<br>"+
+"ucl_user_id: "+busStationFeature.properties.ucl_user_id
+    );
 // fit bounds of bus station
 mymap.fitBounds(busStationLayer.getBounds());
 
@@ -78,7 +84,15 @@ L.geoJSON(waitingRoomFeature,{
 color: 'orange',
 fillColor: '#f03',
 fillOpacity: 0.5
-}).addTo(mymap).bindPopup("<b>"+waitingRoomFeature.properties.waiting_room_id+"<b>");
+}).addTo(mymap).bindPopup(
+"<b>"+"waiting_room_id: "+
+waitingRoomFeature.properties.waiting_room_id+"</b>"+"<br>"+
+"bus_station_id: "+waitingRoomFeature.properties.bus_station_id+
+"<br>"+"opening_time: "+waitingRoomFeature.properties.opening_time+
+"<br>"+"closing_time: "+waitingRoomFeature.properties.closing_time+
+"<br>"+"user_id: "+waitingRoomFeature.properties.user_id+"<br>"+
+"ucl_user_id: "+waitingRoomFeature.properties.ucl_user_id
+);
 
 // add sensors points
 let sensorsFeature = {
