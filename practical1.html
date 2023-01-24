@@ -16,7 +16,7 @@
 <style type="text/css">
 #mapid { height: 180px; }
 </style>
-<title>Leaflet and Javascript Example </title>
+<title>CEGE0043 Assignment 1</title>
 <!-- the following links incorporate the CSS required for custom icon creation -->
 <link rel="stylesheet" href="css/ionicons.min.css">
 <link rel="stylesheet" href="css/leaflet.awesome-markers.css">
@@ -25,7 +25,6 @@
 
 <body>
 <div>
-This is my first HTML Page <br>
 My name is: Chunyu Jin <br>
 My UCL username is: ucescj0 <br>
 My GitHub username is: sgcjin
@@ -36,6 +35,9 @@ My GitHub username is: sgcjin
 <button id="loadEarthquakeData" name="loadEarthquakeData" onclick="getEarthquakeData()">Click here to load the Earthquake data </button>
 <button id="removeEarthquakeData" name="removeEarthquakeData"
 onclick="removeEarthquakeData()">Click here to remove the Earthquake data </button>
+
+
+
 <!-- the following script will load the map and set the default view and zoom, as well as loading the
 basemap tiles -->
 
@@ -46,7 +48,6 @@ document.addEventListener('DOMContentLoaded', function() {
 }, false);
 function loadMap() {
 loadLeafletMap();
-// getEarthquakeData();
 }
 
 </script>
