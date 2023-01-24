@@ -7,6 +7,10 @@
 <script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js"
  integrity="sha256-WBkoXOwTeyKclOHuWtc+i2uENFpDZ9YPdf5Hf+D7ewM="
  crossorigin=""></script>
+ <script
+ src="https://code.jquery.com/jquery-3.4.1.min.js"
+ integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+ crossorigin="anonymous"></script>
 <style type="text/css">
 #mapid { height: 180px; }
 </style>
@@ -32,6 +36,28 @@ basemap tiles -->
 
 <script>
 "use strict";
+
+
+var earthquakelayer;
+
+function getEarthquakeData() {
+let layerURL =
+"https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_hour.geojson";
+$.ajax({url: layerURL, crossDomain: true,success: function(result){
+console.log(result); // check that the data is correct
+ // add the JSON layer onto the map - it will appear using the default icons
+ earthquakelayer = L.geoJson(result).addTo(mymap);
+ console.log('loaded earthquakelayer'); 
+ // change the map zoom so that all the data is shown
+ mymap.fitBounds(earthquakelayer.getBounds());
+
+} // end of the inner function
+}); // end of the ajax request
+} // end of the getEarthquakeData function
+
+
+
+
 
 let mymap; // global variable to store the map
 
@@ -116,9 +142,16 @@ popup
 
 
 
+// window.onload = loadLeafletMap;
 
+document.addEventListener('DOMContentLoaded', function() {
+ loadMap();
+}, false);
+function loadMap() {
+loadLeafletMap();
+getEarthquakeData();
+}
 
-window.onload = loadLeafletMap;
 </script>
 
 
