@@ -5,20 +5,20 @@ alert("loading busstopslayer");
 console.log(document.location.origin + "/data/busstops.geojson");
 let busstopURL = document.location.origin + "/data/busstops.geojson";
 
-// $.ajax({url: layerURL, crossDomain: true,success: function(result){
-// console.log(result); // check that the data is correct
+$.ajax({url: busstopURL, crossDomain: true,success: function(result){
+console.log(result); // check that the data is correct
  
-// let testMarkerGreen = L.AwesomeMarkers.icon({
-//  icon: 'play',
-//  markerColor: 'green'
-//  });
-// let testMarkerPink = L.AwesomeMarkers.icon({
-//  icon: 'play',
-//  markerColor: 'pink'
-//  });
+let testMarkerGreen = L.AwesomeMarkers.icon({
+ icon: 'play',
+ markerColor: 'green'
+ });
+let testMarkerPink = L.AwesomeMarkers.icon({
+ icon: 'play',
+ markerColor: 'pink'
+ });
 
-//  // add the JSON layer onto the map - it will appear using the customised icons
-//  // earthquakelayer = L.geoJson(result).addTo(mymap);
+ // add the JSON layer onto the map - it will appear using the customised icons
+ earthquakelayer = L.geoJson(result).addTo(mymap);
 
 
 // // load the geoJSON layer
@@ -44,8 +44,8 @@ let busstopURL = document.location.origin + "/data/busstops.geojson";
 //  // change the map zoom so that all the data is shown
 //  mymap.fitBounds(earthquakelayer.getBounds());
 
-// } // end of the inner function
-// }); // end of the ajax request
+} // end of the inner function
+}); // end of the ajax request
 }
 function removeBusStopsData() {
     alert("Earthquake data will be removed");
