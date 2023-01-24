@@ -1,7 +1,6 @@
 "use strict";
 let busstopslayer;
 function getBusStopsData() {
-alert("loading busstopslayer");
 console.log(document.location.origin + "/data/busstops.geojson");
 let busstopURL = document.location.origin + "/data/busstops.geojson";
 
@@ -26,14 +25,14 @@ let testMarkerPink = L.AwesomeMarkers.icon({
  {
  // use point to layer to create the points
  pointToLayer: function (feature, latlng){
- // use a different marker depending on this value
- // also include a pop-up that shows the place value of the earthquakes
+
+ // use a different marker depending on IIT_TYPE
  if (feature.properties.IIT_TYPE > 5) {
  return L.marker(latlng,
 {icon:testMarkerGreen}).bindPopup("<b>"+"OBJECTID: "+feature.properties.OBJECTID +"</b>");
  }
  else {
- // magnitude is 1.75 or less
+ // IIT_TYPE is 5 or less
  return L.marker(latlng,
 {icon:testMarkerPink}).bindPopup("<b>"+"OBJECTID: "+feature.properties.OBJECTID +"</b>");;
  }
@@ -42,17 +41,16 @@ let testMarkerPink = L.AwesomeMarkers.icon({
 
  console.log('loaded busstopslayer'); 
 //  // change the map zoom so that all the data is shown
-// mymap.fitBounds(earthquakelayer.getBounds());
+mymap.fitBounds(busstopslayer.getBounds());
 
 } // end of the inner function
 }); // end of the ajax request
 }
 function removeBusStopsData() {
-    alert("Earthquake data will be removed");
-// try {
-// alert("Earthquake data will be removed");
-// mymap.removeLayer( earthquakelayer );
-// } catch (err) {
-// alert("Layer does not exist :" + err);
-// }
+try {
+alert("Bus stops data will be removed");
+mymap.removeLayer( busstopslayer );
+} catch (err) {
+alert("Layer does not exist :" + err);
+}
 }
