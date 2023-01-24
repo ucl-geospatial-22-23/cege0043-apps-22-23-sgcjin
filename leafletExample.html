@@ -174,7 +174,13 @@ popup
 }
 
 function removeEarthquakeData() {
-alert("remove the earthquake data here");
+try {
+alert("Earthquake data will be removed");
+mymap.removeLayer( earthquakelayer );
+} catch (err) {
+alert("Layer does not exist :" + err);
+}
+
 }
 
 // window.onload = loadLeafletMap;
