@@ -18,31 +18,31 @@ let testMarkerPink = L.AwesomeMarkers.icon({
  });
 
  // add the JSON layer onto the map - it will appear using the customised icons
- earthquakelayer = L.geoJson(result).addTo(mymap);
+//busstopslayer = L.geoJson(result).addTo(mymap);
 
 
-// // load the geoJSON layer
-//  earthquakelayer = L.geoJson(result,
-//  {
-//  // use point to layer to create the points
-//  pointToLayer: function (feature, latlng){
-//  // use a different marker depending on this value
-//  // also include a pop-up that shows the place value of the earthquakes
-//  if (feature.properties.mag > 1.75) {
-//  return L.marker(latlng,
-// {icon:testMarkerGreen}).bindPopup("<b>"+feature.properties.place +"</b>");
-//  }
-//  else {
-//  // magnitude is 1.75 or less
-//  return L.marker(latlng,
-// {icon:testMarkerPink}).bindPopup("<b>"+feature.properties.place +"</b>");;
-//  }
-//  }, // end of point to layer
-//  }).addTo(mymap);
+// load the geoJSON layer
+ busstopslayer = L.geoJson(result,
+ {
+ // use point to layer to create the points
+ pointToLayer: function (feature, latlng){
+ // use a different marker depending on this value
+ // also include a pop-up that shows the place value of the earthquakes
+ if (feature.properties.IIT_TYPE > 5) {
+ return L.marker(latlng,
+{icon:testMarkerGreen}).bindPopup("<b>"+"OBJECTID: "+feature.properties.OBJECTID +"</b>");
+ }
+ else {
+ // magnitude is 1.75 or less
+ return L.marker(latlng,
+{icon:testMarkerPink}).bindPopup("<b>"+"OBJECTID: "+feature.properties.OBJECTID +"</b>");;
+ }
+ }, // end of point to layer
+ }).addTo(mymap);
 
-//  console.log('loaded earthquakelayer'); 
+ console.log('loaded busstopslayer'); 
 //  // change the map zoom so that all the data is shown
-//  mymap.fitBounds(earthquakelayer.getBounds());
+// mymap.fitBounds(earthquakelayer.getBounds());
 
 } // end of the inner function
 }); // end of the ajax request
