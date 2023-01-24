@@ -1,3 +1,5 @@
+"use strict";
+
 let mymap; // global variable to store the map
 
 function loadLeafletMap() {
