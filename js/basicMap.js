@@ -85,7 +85,11 @@ let busStationFeature = {
     [-3.451385557332611, 52.62629635973269],
     [-3.451296339904943, 52.62360030515013]]]
 }};
-busStationLayer=L.geoJSON(busStationFeature).addTo(mymap).
+busStationLayer=L.geoJSON(busStationFeature,{
+color: 'green',
+fillColor: '#f03',
+fillOpacity: 0.2
+}).addTo(mymap).
 bindPopup("<b>"+busStationFeature.properties.name+"<b>");
 // fit bounds of bus station
 mymap.fitBounds(busStationLayer.getBounds());
@@ -115,7 +119,6 @@ color: 'orange',
 fillColor: '#f03',
 fillOpacity: 0.5
 }).addTo(mymap).bindPopup("<b>"+waitingRoomFeature.properties.waiting_room_id+"<b>");
-console.log("added polygons");
 
 
 
