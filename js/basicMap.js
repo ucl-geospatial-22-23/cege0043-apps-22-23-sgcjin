@@ -26,46 +26,6 @@ function addBasicMarkers() {
  markerColor: 'pink'
  });
 
-	// add a circle
-L.circle([51.508, -0.11], 5000, {
-color: 'green',
-fillColor: '#f03',
-fillOpacity: 0.8
-}).addTo(mymap).bindPopup("I am a circle.");
-
-console.log("added a circle");
-
-// add a polygon
-let myPolygon = L.polygon([
-[51.709, -0.10],
-[51.703, 0.07],
-[51.22, 0.07],
-[51.22, -0.057]
-],{
-color: 'orange',
-fillColor: '#f03',
-fillOpacity: 0.5
-}).addTo(mymap).bindPopup("I am a polygon in 2022.");
-
-let geojsonFeature = {
- "type": "Feature",
- "properties": {
- "name": "London",
- "popupContent": "This is where UCL is based. We have on campus and off campus activity."
- },
- "geometry": {
- "type": "Point",
- "coordinates": [-0.132630, 51.522449]
-}};
-
-//L.geoJSON(geojsonFeature).addTo(mymap).bindPopup("<b>"+geojsonFeature.properties.name+""+geojsonFeature.properties.popupContent+"<b>");
-L.geoJSON(geojsonFeature, {
- pointToLayer: function (feature, latlng) {
- return L.marker(latlng, {icon:testMarkerPink});
- }
- }).addTo(mymap).bindPopup("<b>"+geojsonFeature.properties.name+""+geojsonFeature.properties.popupContent+"<b>");
-
-
 // add bustation polygon
 var busStationLayer
 let busStationFeature = {
@@ -180,17 +140,12 @@ L.geoJSON(sensorsFeature,
  }, // end of point to layer
  }).addTo(mymap);
 
-
-
-
-
 } // end code to add the basic markers
 
 
 // create a custom popup as a global variable
 let popup = L.popup();
 // create an event detector to wait for the user's click event and then use the popup to show them where they clicked
-// note that you don't need to do any complicated maths to convert screen coordinates to real world coordiantes - the Leaflet API does this for you
 function onMapClick(e) {
 popup
 .setLatLng(e.latlng)
