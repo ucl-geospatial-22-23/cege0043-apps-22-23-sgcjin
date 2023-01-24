@@ -11,6 +11,10 @@
 #mapid { height: 180px; }
 </style>
 <title>Leaflet and Javascript Example </title>
+<!-- the following links incorporate the CSS required for custom icon creation -->
+<link rel="stylesheet" href="css/ionicons.min.css">
+<link rel="stylesheet" href="css/leaflet.awesome-markers.css">
+<script src="js/leaflet.awesome-markers.js"></script>
 </head>
 
 <body>
@@ -40,6 +44,8 @@ L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
  attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
 }).addTo(mymap);
 
+// now add the click event detector to the map
+mymap.on('click', onMapClick);
 // now call the code to add the markers
  addBasicMarkers();
 } //end code to add the leaflet map
@@ -85,8 +91,24 @@ L.geoJSON(geojsonFeature).addTo(mymap).bindPopup("<b>"+geojsonFeature.properties
 
 } // end code to add the basic markers
 
-window.onload = loadLeafletMap;
 
+// create a custom popup as a global variable
+let popup = L.popup();
+// create an event detector to wait for the user's click event and then use the popup to show them where they clicked
+// note that you don't need to do any complicated maths to convert screen coordinates to real world coordiantes - the Leaflet API does this for you
+function onMapClick(e) {
+popup
+.setLatLng(e.latlng)
+.setContent("You clicked the map at " + e.latlng.toString())
+.openOn(mymap);
+}
+
+
+
+
+
+
+window.onload = loadLeafletMap;
 </script>
 
 
