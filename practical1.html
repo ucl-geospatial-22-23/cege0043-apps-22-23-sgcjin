@@ -14,7 +14,8 @@
 
  <script src="js/earthquakes.js"></script>
  <script src="js/busstops.js"></script>
-  <script src="js/basicMap.js"></script>
+ <script src="js/basicMap.js"></script>
+  <script src="js/ethernetcables.js"></script>
 <style type="text/css">
 #mapid { height: 180px; }
 </style>
@@ -34,6 +35,7 @@ My GitHub username is: sgcjin
 
 <!-- the mapid div will hold the map -->
 <div id="mapid" style="width: 600px; height: 400px;"></div>
+
 <button id="loadEarthquakeData" name="loadEarthquakeData" onclick="getEarthquakeData()">Click here to load the Earthquake data </button>
 <button id="removeEarthquakeData" name="removeEarthquakeData"
 onclick="removeEarthquakeData()">Click here to remove the Earthquake data </button>
@@ -41,6 +43,10 @@ onclick="removeEarthquakeData()">Click here to remove the Earthquake data </butt
 <button id="loadBusStopsData" name="loadBusStopsData" onclick="getBusStopsData()">Click here to load the Bus Stops data </button>
 <button id="removeBusStopsData" name="removeBusStopsData"
 onclick="removeBusStopsData()">Click here to remove the Bus Stops data </button>
+
+<button id="loadEthernetData" name="loadEthernetData" onclick="getEthernetData()">Click here to load the Ethernet Cables data</button>
+<button id="removeEthernetData" name="removeEthernetData"
+onclick="removeEthernetData()">Click here to remove the Ethernet Cables data </button>
 
 <!-- the following script will load the map and set the default view and zoom, as well as loading the
 basemap tiles -->
