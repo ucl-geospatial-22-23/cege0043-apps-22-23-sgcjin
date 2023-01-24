@@ -135,7 +135,11 @@ L.geoJSON(sensorsFeature,
  // use point to layer to create the points
  pointToLayer: function (feature, latlng){
  return L.marker(latlng,
-{icon:testMarkerPink}).bindPopup("<b>"+feature.properties.sensor_make +"</b>");
+{icon:testMarkerPink}).bindPopup("<b>"+feature.properties.sensor_make +"</b>"+"<br>"+
+"sensor_installation_date: "+
+feature.properties.sensor_installation_date+"<br>"+"sensor_id: "+feature.properties.sensor_id+
+"<br>"+"waiting_room_id: "+feature.properties.waiting_room_id+"<br>"+
+"user_id: "+feature.properties.user_id+"<br>"+"ucl_user_id: "+feature.properties.ucl_user_id);
  
  }, // end of point to layer
  }).addTo(mymap);
