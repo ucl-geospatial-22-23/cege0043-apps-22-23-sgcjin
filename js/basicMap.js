@@ -110,7 +110,11 @@ let waitingRoomFeature = {
     [-3.450572825965498, 52.624058693770685]]]
 }};
 
-L.geoJSON(waitingRoomFeature).addTo(mymap).bindPopup("<b>"+waitingRoomFeature.properties.waiting_room_id+"<b>");
+L.geoJSON(waitingRoomFeature,{
+color: 'orange',
+fillColor: '#f03',
+fillOpacity: 0.5
+}).addTo(mymap).bindPopup("<b>"+waitingRoomFeature.properties.waiting_room_id+"<b>");
 console.log("added polygons");
 
 
