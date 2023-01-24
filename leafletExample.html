@@ -52,7 +52,13 @@ mymap.on('click', onMapClick);
 
 
 function addBasicMarkers() {
-// CODE TO CREATE THE MARKERS GOES HERE 
+// CODE TO CREATE THE MARKERS GOES HERE
+
+ let testMarkerPink = L.AwesomeMarkers.icon({
+ icon: 'play',
+ markerColor: 'pink'
+ });
+
 	// add a circle
 L.circle([51.508, -0.11], 5000, {
 color: 'green',
@@ -85,8 +91,12 @@ let geojsonFeature = {
  "coordinates": [-0.132630, 51.522449]
 }};
 
-L.geoJSON(geojsonFeature).addTo(mymap).bindPopup("<b>"+geojsonFeature.properties.name+""+geojsonFeature.properties.popupContent+"<b>");
-
+//L.geoJSON(geojsonFeature).addTo(mymap).bindPopup("<b>"+geojsonFeature.properties.name+""+geojsonFeature.properties.popupContent+"<b>");
+L.geoJSON(geojsonFeature, {
+ pointToLayer: function (feature, latlng) {
+ return L.marker(latlng, {icon:testMarkerPink});
+ }
+ }).addTo(mymap).bindPopup("<b>"+geojsonFeature.properties.name+""+geojsonFeature.properties.popupContent+"<b>");
 
 
 } // end code to add the basic markers
