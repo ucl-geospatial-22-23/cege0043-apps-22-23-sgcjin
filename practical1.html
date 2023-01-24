@@ -13,6 +13,7 @@
  crossorigin="anonymous"></script>
 
  <script src="js/earthquakes.js"></script>
+  <script src="js/busstops.js"></script>
 <style type="text/css">
 #mapid { height: 180px; }
 </style>
@@ -36,7 +37,9 @@ My GitHub username is: sgcjin
 <button id="removeEarthquakeData" name="removeEarthquakeData"
 onclick="removeEarthquakeData()">Click here to remove the Earthquake data </button>
 
-
+<button id="loadBusStopsData" name="loadBusStopsData" onclick="getBusStopsData()">Click here to load the Bus Stops data </button>
+<button id="removeBusStopsData" name="removeBusStopsData"
+onclick="removeBusStopsData()">Click here to remove the Bus Stops data </button>
 
 <!-- the following script will load the map and set the default view and zoom, as well as loading the
 basemap tiles -->
