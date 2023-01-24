@@ -120,7 +120,65 @@ fillColor: '#f03',
 fillOpacity: 0.5
 }).addTo(mymap).bindPopup("<b>"+waitingRoomFeature.properties.waiting_room_id+"<b>");
 
+// add sensors points
+let sensorsFeature = {
+"type":"FeatureCollection","features": [
+{
+"type": "Feature",
+ "properties": {
+ "sensor_make": "UCL Sensors 302",
+ "sensor_installation_date": "2023-09-19",
+"sensor_id": "1",
+"waiting_room_id": "1",
+ "user_id": "user605",
+ "ucl_user_id": "ucescj0"
+ },
+ "geometry": {
+ "type": "Point",
+ "coordinates": [-3.449849296912167, 52.624517078045535]}
+},
+{
+"type": "Feature",
+ "properties": {
+ "sensor_make": "UCL Sensors 202",
+ "sensor_installation_date": "2023-09-23",
+"sensor_id": "2",
+"waiting_room_id": "1",
+ "user_id": "user605",
+ "ucl_user_id": "ucescj0"
+ },
+ "geometry": {
+ "type": "Point",
+ "coordinates": [-3.449776051975446, 52.62453595566769]}
+},
+{
+"type": "Feature",
+ "properties": {
+ "sensor_make": "UCL Sensors 151",
+ "sensor_installation_date": "2023-09-25",
+"sensor_id": "3",
+"waiting_room_id": "1",
+ "user_id": "user605",
+ "ucl_user_id": "ucescj0"
+ },
+ "geometry": {
+ "type": "Point",
+ "coordinates": [-3.449705183393333, 52.62462672809025]}
+}
+]
+}
 
+
+
+L.geoJSON(sensorsFeature,
+ {
+ // use point to layer to create the points
+ pointToLayer: function (feature, latlng){
+ return L.marker(latlng,
+{icon:testMarkerPink}).bindPopup("<b>"+feature.properties.sensor_make +"</b>");
+ 
+ }, // end of point to layer
+ }).addTo(mymap);
 
 
 
