@@ -41,7 +41,7 @@ switch (layer.feature.properties.criticality) {
  layer.setStyle(style2);
  break;
  default:
- layer.setStyle(style2);
+ layer.setStyle(style3);
  }
 });
 
