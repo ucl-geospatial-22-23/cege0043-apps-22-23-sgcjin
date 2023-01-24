@@ -31,6 +31,7 @@ My GitHub username is: sgcjin
 
 <!-- the mapid div will hold the map -->
 <div id="mapid" style="width: 600px; height: 400px;"></div>
+<button id="loadEarthquakeData" name="loadEarthquakeData" onclick="getEarthquakeData()">Click here to load the Earthquake data </button>
 <!-- the following script will load the map and set the default view and zoom, as well as loading the
 basemap tiles -->
 
@@ -180,7 +181,7 @@ document.addEventListener('DOMContentLoaded', function() {
 }, false);
 function loadMap() {
 loadLeafletMap();
-getEarthquakeData();
+// getEarthquakeData();
 }
 
 </script>
