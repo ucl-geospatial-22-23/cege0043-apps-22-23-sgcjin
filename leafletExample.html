@@ -30,6 +30,7 @@ basemap tiles -->
 "use strict";
 
 let mymap; // global variable to store the map
+
 function loadLeafletMap() {
 
 // CODE TO INITIALISE AND CREATE THE MAP GOES HERE 
@@ -66,9 +67,9 @@ color: 'orange',
 fillColor: '#f03',
 fillOpacity: 0.5
 }).addTo(mymap).bindPopup("I am a polygon in 2022.");
-loadLeafletMap()
 } // end code to add the basic markers
 
+window.onload = loadLeafletMap;
 
 </script>
 
