@@ -1,4 +1,6 @@
 "use strict";
+// the code is adapted from practicals in moodle
+
 let busstopslayer;
 function getBusStopsData() {
 console.log(document.location.origin + "/data/busstops.geojson");
