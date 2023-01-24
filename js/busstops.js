@@ -7,17 +7,40 @@ let busstopURL = document.location.origin + "/data/busstops.geojson";
 $.ajax({url: busstopURL, crossDomain: true,success: function(result){
 console.log(result); // check that the data is correct
  
-let testMarkerGreen = L.AwesomeMarkers.icon({
+ let testMarkerRed = L.AwesomeMarkers.icon({
  icon: 'play',
- markerColor: 'green'
+ markerColor: 'red'
  });
-let testMarkerPink = L.AwesomeMarkers.icon({
+ let testMarkerGray = L.AwesomeMarkers.icon({
+ icon: 'play',
+ markerColor: 'gray'
+ });
+
+ let testMarkerPink = L.AwesomeMarkers.icon({
  icon: 'play',
  markerColor: 'pink'
  });
+ let testMarkerBlue = L.AwesomeMarkers.icon({
+ icon: 'play',
+ markerColor: 'blue'
+ });
+ let testMarkerPurple = L.AwesomeMarkers.icon({
+ icon: 'play',
+ markerColor: 'purple'
+ });
+ let testMarkerGreen = L.AwesomeMarkers.icon({
+ icon: 'play',
+ markerColor: 'green'
+ });
+ let testMarkerBlack = L.AwesomeMarkers.icon({
+ icon: 'play',
+ markerColor: 'black'
+ });
+ let testMarkerOrange = L.AwesomeMarkers.icon({
+ icon: 'play',
+ markerColor: 'orange'
+ });
 
- // add the JSON layer onto the map - it will appear using the customised icons
-//busstopslayer = L.geoJson(result).addTo(mymap);
 
 
 // load the geoJSON layer
@@ -26,16 +49,31 @@ let testMarkerPink = L.AwesomeMarkers.icon({
  // use point to layer to create the points
  pointToLayer: function (feature, latlng){
 
- // use a different marker depending on IIT_TYPE
- if (feature.properties.IIT_TYPE > 5) {
- return L.marker(latlng,
-{icon:testMarkerGreen}).bindPopup("<b>"+"OBJECTID: "+feature.properties.OBJECTID +"</b>");
+if (feature.properties.IIT_METHOD == '1') {
+ return L.marker(latlng, {icon: testMarkerGray
+}).bindPopup("<b>"+feature.properties.IIT_METHOD +"</b>");
+ }
+ else if (feature.properties.IIT_METHOD =='2') {
+ return L.marker(latlng, {icon:testMarkerOrange}).bindPopup("<b>"+
+feature.properties.IIT_METHOD +"</b>");
+ }
+ else if (feature.properties.IIT_METHOD =='3') {
+ return L.marker(latlng, {icon:testMarkerPurple}).bindPopup("<b>"+
+feature.properties.IIT_METHOD +"</b>");
+ }
+ else if (feature.properties.IIT_METHOD == '4') {
+ return L.marker(latlng, {icon:testMarkerPink}).bindPopup("<b>"+
+feature.properties.IIT_METHOD +"</b>");
+ }
+ else if (feature.properties.IIT_METHOD =='9') {
+ return L.marker(latlng, {icon:testMarkerBlue}).bindPopup("<b>"+
+feature.properties.IIT_METHOD +"</b>");
  }
  else {
- // IIT_TYPE is 5 or less
- return L.marker(latlng,
-{icon:testMarkerPink}).bindPopup("<b>"+"OBJECTID: "+feature.properties.OBJECTID +"</b>");;
+ return L.marker(latlng, {icon:testMarkerBlack}).bindPopup("<b>"+
+feature.properties.IIT_METHOD +"</b>");;
  }
+
  }, // end of point to layer
  }).addTo(mymap);
 
