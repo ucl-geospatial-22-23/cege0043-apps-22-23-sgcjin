@@ -1,11 +1,13 @@
 "use strict";
 var earthquakelayer;
 
+// the code is adapted from practicals in moodle
 
 function getEarthquakeData() {
 let layerURL =
 "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_hour.geojson";
 $.ajax({url: layerURL, crossDomain: true,success: function(result){
+console.log("Earthquake data is: ");
 console.log(result); // check that the data is correct
  
 let testMarkerGreen = L.AwesomeMarkers.icon({
@@ -16,9 +18,6 @@ let testMarkerPink = L.AwesomeMarkers.icon({
  icon: 'play',
  markerColor: 'pink'
  });
-
- // add the JSON layer onto the map - it will appear using the customised icons
- // earthquakelayer = L.geoJson(result).addTo(mymap);
 
 
 // load the geoJSON layer
@@ -53,6 +52,7 @@ try {
 alert("Earthquake data will be removed");
 mymap.removeLayer( earthquakelayer );
 } catch (err) {
+console.log(err);
 alert("Layer does not exist :" + err);
 }
 }
