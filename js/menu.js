@@ -3,7 +3,7 @@ function menu1(){
 alert("menu 1 clicked")
 }
 function menu2(){
-alert("menu 1 clicked")
+alert("menu 2 clicked")
 }
 function menu3(){
 alert("menu 1 clicked")
