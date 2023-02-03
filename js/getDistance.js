@@ -22,6 +22,7 @@ function calculateDistance(lat1, lon1, lat2, lon2, unit) {
  let theta = lon1-lon2;
  let radtheta = Math.PI * theta/180;
  let subAngle = Math.sin(radlat1) * Math.sin(radlat2) + Math.cos(radlat1) * Math.cos(radlat2) * Math.cos(radtheta);
+ let dist;
  subAngle = Math.acos(subAngle);
  subAngle = subAngle * 180/Math.PI; // convert the degree value returned by acos back to degrees from radians
  dist = (subAngle/360) * 2 * Math.PI * 3956; // ((subtended angle in degrees)/360) * 2 * pi * radius )
