@@ -1,11 +1,49 @@
 <html>
 <head>
 <title>Test HTML Location Functionality</title>
+
+<!-- code for Leaflet -->
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css"
+ integrity="sha256-kLaT2GOSpHechhsozzB+flnD+zUyjE2LlfWPgU04xyI="
+ crossorigin=""/>
+<script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js"
+ integrity="sha256-WBkoXOwTeyKclOHuWtc+i2uENFpDZ9YPdf5Hf+D7ewM="
+ crossorigin=""></script>
+ <script
+ src="https://code.jquery.com/jquery-3.4.1.min.js"
+ integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+ crossorigin="anonymous"></script>
+
 <script src="js/trackLocation.js"></script>
+<script src="js/leaflet.awesome-markers.js"></script>
+<style type="text/css">
+#mapid { height: 180px; }
+</style>
+
+<!-- the following links incorporate the CSS required for custom icon creation -->
+<link rel="stylesheet" href="css/ionicons.min.css">
+<link rel="stylesheet" href="css/leaflet.awesome-markers.css">
+<script src="js/leaflet.awesome-markers.js"></script>
+
+
+
 </head>
 <body>
 <b>This code will display your current location</b>
 <div id='showLocation'>Location will be displayed here</div>
 <button id='trackLocation' onclick='trackLocation()'>Click Me to Get Your Location</button>
+<!-- the mapid div will hold the map -->
+<div id="mapid" style="width: 600px; height: 400px;"></div>
+<script>
+"use strict";
+// the code is adapted from practicals in moodle
+
+document.addEventListener('DOMContentLoaded', function() {
+ loadMap();
+}, false);
+function loadMap() {
+loadLeafletMap();
+}
+</script>
 </body>
 </html>
