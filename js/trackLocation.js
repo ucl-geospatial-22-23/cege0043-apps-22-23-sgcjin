@@ -45,8 +45,8 @@ function showPosition(position) {
 
 // add the new point into the array
 // the 'push' command
-trackLocationLayer.push(L.marker([position.coords.latitude,position.coords.longitude]).addTo(mymap)
-);
+trackLocationLayer.push(L.marker([position.coords.latitude,position.coords.longitude]).addTo(mymap));
+mymap.flyTo([position.coords.latitude,position.coords.longitude],10)
 }
 
 function removePositionPoints() {
