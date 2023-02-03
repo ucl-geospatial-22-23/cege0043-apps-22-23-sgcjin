@@ -11,6 +11,7 @@ if (navigator.geolocation) {
  // so that we don’t have multiple tracking going on
  try {
  (navigator.geolocation.clearWatch(geoLocationID));
+ console.log(trackLocationLayer)
  }
  catch (e){
  console.log(e);
@@ -39,9 +40,13 @@ function errorPosition(error){
 }
 
 function showPosition(position) {
+	document.getElementById('showLocation').innerHTML = "Latitude: " + position.coords.latitude +
+ "<br>Longitude: " + position.coords.longitude; 
+
 // add the new point into the array
 // the 'push' command
-trackLocationLayer.push(L.marker([position.coords.latitude,position.coords.longitude]).addTo(mymap));
+trackLocationLayer.push(L.marker([position.coords.latitude,position.coords.longitude]).addTo(mymap)
+);
 }
 
 function removePositionPoints() {
