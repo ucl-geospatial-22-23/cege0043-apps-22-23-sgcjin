@@ -1,9 +1,10 @@
 "use strict";
-let mymap;
 // create an array to store all the location tracking points
 let trackLocationLayer = [];
 // store the ID of the location tracker so that it can be used to switch the location tracking off
 let geoLocationID;
+let mymap;
+
 
 function trackLocation() {
 if (navigator.geolocation) {
@@ -70,17 +71,3 @@ trackLocationLayer.pop();
 
 }
 
-// load map"use strict";
-// the code is adapted from practicals in moodle
-// global variable to store the map
-function loadLeafletMap() {
-
-// CODE TO INITIALISE AND CREATE THE MAP GOES HERE 
-mymap = L.map('mapid').setView([51.505, -0.09], 13);
-L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
- maxZoom: 19,
- attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-}).addTo(mymap);
-
-
-} //end code to add the leaflet map
