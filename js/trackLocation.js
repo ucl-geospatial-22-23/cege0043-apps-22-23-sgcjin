@@ -40,8 +40,7 @@ function errorPosition(error){
 }
 
 function showPosition(position) {
-	document.getElementById('showLocation').innerHTML = "Latitude: " + position.coords.latitude +
- "<br>Longitude: " + position.coords.longitude; 
+	//document.getElementById('showLocation').innerHTML = "Latitude: " + position.coords.latitude + "<br>Longitude: " + position.coords.longitude; 
 
 // add the new point into the array
 // the 'push' command
