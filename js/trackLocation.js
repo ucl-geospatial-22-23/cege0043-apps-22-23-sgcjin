@@ -83,6 +83,4 @@ L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
 }).addTo(mymap);
 
 
-// now call the code to add the markers
-//addBasicMarkers();
 } //end code to add the leaflet map
