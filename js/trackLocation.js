@@ -11,7 +11,7 @@ if (navigator.geolocation) {
  // so that we don’t have multiple tracking going on
  try {
  (navigator.geolocation.clearWatch(geoLocationID));
- console.log(trackLocationLayer)
+ //console.log(trackLocationLayer)
  }
  catch (e){
  console.log(e);
@@ -30,7 +30,8 @@ const options = {
 geoLocationID = navigator.geolocation.watchPosition(showPosition, errorPosition, options);
 }
 else {
-document.getElementById('showLocation').innerHTML = "Geolocation is not supported by this browser.";
+// document.getElementById('showLocation').innerHTML = "Geolocation is not supported by this browser.";
+alert("Geolocation is not supported by this browser.")
 }
 }
 
@@ -41,7 +42,7 @@ function errorPosition(error){
 
 function showPosition(position) {
 	//document.getElementById('showLocation').innerHTML = "Latitude: " + position.coords.latitude + "<br>Longitude: " + position.coords.longitude; 
-
+// alert("Latitude: " + position.coords.latitude + "Longitude: " + position.coords.longitude)
 // add the new point into the array
 // the 'push' command
 trackLocationLayer.push(L.marker([position.coords.latitude,position.coords.longitude]).addTo(mymap));
@@ -60,7 +61,7 @@ function removeTracks(){
 // a loop doesn't work
 // also we use -1 as arrays in javascript start counting at 0
 for (let i=trackLocationLayer.length-1; i > -1;i--) {
-console.log("removing point "+i + " which has coordinates "+trackLocationLayer[i].getLatLng());
+//console.log("removing point "+i + " which has coordinates "+trackLocationLayer[i].getLatLng());
 mymap.removeLayer(trackLocationLayer[i]);
 // if you want to totally remove the points, you can also remove them
 // from the array where they are stored, using the pop command
