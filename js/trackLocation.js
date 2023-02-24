@@ -1,9 +1,10 @@
 "use strict";
-let mymap;
 // create an array to store all the location tracking points
 let trackLocationLayer = [];
 // store the ID of the location tracker so that it can be used to switch the location tracking off
 let geoLocationID;
+let mymap;
+
 
 function trackLocation() {
 if (navigator.geolocation) {
@@ -11,7 +12,7 @@ if (navigator.geolocation) {
  // so that we don’t have multiple tracking going on
  try {
  (navigator.geolocation.clearWatch(geoLocationID));
- console.log(trackLocationLayer)
+ //console.log(trackLocationLayer)
  }
  catch (e){
  console.log(e);
@@ -30,7 +31,8 @@ const options = {
 geoLocationID = navigator.geolocation.watchPosition(showPosition, errorPosition, options);
 }
 else {
-document.getElementById('showLocation').innerHTML = "Geolocation is not supported by this browser.";
+// document.getElementById('showLocation').innerHTML = "Geolocation is not supported by this browser.";
+alert("Geolocation is not supported by this browser.")
 }
 }
 
@@ -40,13 +42,12 @@ function errorPosition(error){
 }
 
 function showPosition(position) {
-	document.getElementById('showLocation').innerHTML = "Latitude: " + position.coords.latitude +
- "<br>Longitude: " + position.coords.longitude; 
-
+	//document.getElementById('showLocation').innerHTML = "Latitude: " + position.coords.latitude + "<br>Longitude: " + position.coords.longitude; 
+// alert("Latitude: " + position.coords.latitude + "Longitude: " + position.coords.longitude)
 // add the new point into the array
 // the 'push' command
 trackLocationLayer.push(L.marker([position.coords.latitude,position.coords.longitude]).addTo(mymap));
-mymap.flyTo([position.coords.latitude,position.coords.longitude],10)
+// mymap.flyTo([position.coords.latitude,position.coords.longitude],10)
 }
 
 function removePositionPoints() {
@@ -61,7 +62,7 @@ function removeTracks(){
 // a loop doesn't work
 // also we use -1 as arrays in javascript start counting at 0
 for (let i=trackLocationLayer.length-1; i > -1;i--) {
-console.log("removing point "+i + " which has coordinates "+trackLocationLayer[i].getLatLng());
+//console.log("removing point "+i + " which has coordinates "+trackLocationLayer[i].getLatLng());
 mymap.removeLayer(trackLocationLayer[i]);
 // if you want to totally remove the points, you can also remove them
 // from the array where they are stored, using the pop command
@@ -70,19 +71,3 @@ trackLocationLayer.pop();
 
 }
 
-// load map"use strict";
-// the code is adapted from practicals in moodle
-// global variable to store the map
-function loadLeafletMap() {
-
-// CODE TO INITIALISE AND CREATE THE MAP GOES HERE 
-mymap = L.map('mapid').setView([51.505, -0.09], 13);
-L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
- maxZoom: 19,
- attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-}).addTo(mymap);
-
-
-// now call the code to add the markers
-//addBasicMarkers();
-} //end code to add the leaflet map
