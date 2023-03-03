@@ -10,7 +10,7 @@ function loadThing(thingname) {
  // first check if the thing is loaded already
  for (var i=0;i<listOfThings.length ;i++){
  if (listOfThings[i][1] == thingname){
- console.log("equal");
+
  alert("Thing already loaded");
  return;
  }
@@ -18,14 +18,14 @@ function loadThing(thingname) {
 
 let thingURL = document.location.origin + "/api/geojson/ucfscde"+thingname;
  $.ajax({url: thingURL, crossDomain: true,success: function(result){
- console.log(result); // check that the data is correct
+ // check that the data is correct
 let loadlayer=L.geoJSON().addTo(mymap)
 loadlayer.addData(result)
  mymap.fitBounds(loadlayer.getBounds());
 let newThing = [loadlayer,thingname]
  // now add the thing into the array so that we can reference it later on
  // push adds an item to the top of the array
- console.log(newThing[1]);
+
   listOfThings.push(newThing);
 
  } // end of the inner function
@@ -45,10 +45,10 @@ function listAllThings() {
 function removeThing(thingname){
  for (var i=0;i<listOfThings.length ;i++){
  if (listOfThings[i][1] == thingname){
- console.log("equal");
+
  mymap.removeLayer(listOfThings[i][0]);
  listOfThings.splice(i,1);
-listAllThings()
+
 // don't continue the loop as we now have 1 less element in the array which means
 // that when we try to get the last element it won't be there any more
  break;

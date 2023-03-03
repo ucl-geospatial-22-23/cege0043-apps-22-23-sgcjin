@@ -26,7 +26,7 @@ function loadGraph(){
 // code to create the graph goes here – see below
 let widtha = document.getElementById("assetDataWrapper").clientWidth;
  let heighta = document.getElementById("assetDataWrapper").offsetHeight;
- console.log(widtha+" "+heighta);
+
  
  // Add the close button and an SVG element for the graph
  document.getElementById("assetDataWrapper").innerHTML=`<div class="h-100 w-100">
@@ -59,7 +59,7 @@ d3.json(dataURL).then(data => {
       if (xLen < feature.properties.title.length) {
         xLen = feature.properties.title.length;
       }
-      console.log(xLen);
+
         });
 
   // adjust the space available for the x-axis titles, depending on the length of the text
@@ -69,9 +69,7 @@ d3.json(dataURL).then(data => {
   else {
     marginBottom = xLen + 20;  // the 20 allows for the close button 
   } //rough approximation for now
-   console.log('marginBottom');
-  console.log(marginBottom);
-  
+
  let svg     = d3.select("#svg1"),
       margin  = {top: marginTop, right: marginRight, bottom: marginBottom, left: marginLeft},
       width   = svg.attr("width") - marginLeft - marginRight,
@@ -81,8 +79,7 @@ d3.json(dataURL).then(data => {
       g       = svg.append("g")
                    .attr("transform", `translate(${margin.left},${margin.top})`);
 
- console.log('height is')
-console.log(height)
+
 
  x.domain(data.map(d => d.properties.title));
  y.domain([0, d3.max(data, d => d.properties.mag)]);
