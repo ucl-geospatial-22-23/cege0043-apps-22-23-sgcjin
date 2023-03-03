@@ -43,7 +43,7 @@
 <script src="js/leaflet.awesome-markers.js"></script>
         <!-- code for js files -->
         <script src="js/basicMap.js"></script>
-        <script src="js/trackLocation.js"></script>
+        <script src="js/centennial.js"></script>
             
     </head>
     <body onload="loadLeafletMap()">
@@ -93,14 +93,14 @@
                             
                             </a>
                             <div class="dropdown-menu bg-transparent border-0">
-                                <a class="dropdown-item" class="dropdown-item" href="#" onclick="menu12()" ;>Load buildings</a>
-                                <a class="dropdown-item" class="dropdown-item" href="#" onclick="menu13()">Remove buildings</a>
-                                <a class="dropdown-item" class="dropdown-item" href="#" onclick="menu12()" ;>Load ethernet cables</a>
-                                <a class="dropdown-item" class="dropdown-item" href="#" onclick="menu12()" ;>Remove ethernet cables</a>
-                                <a class="dropdown-item" class="dropdown-item" href="#" onclick="menu12()" ;>Load rooms</a>
-                                <a class="dropdown-item" class="dropdown-item" href="#" onclick="menu12()" ;>Remove rooms</a>
-                                <a class="dropdown-item" class="dropdown-item" href="#" onclick="menu12()" ;>Load sensors</a>
-                                <a class="dropdown-item" class="dropdown-item" href="#" onclick="menu12()" ;>Remove sensors</a>
+                                <a class="dropdown-item" class="dropdown-item" href="#" onclick="loadThing('/buildings/building_id/location')">Load buildings</a>
+                                <a class="dropdown-item" class="dropdown-item" href="#" onclick="removeThing('/buildings/building_id/location')">Remove buildings</a>
+                                <a class="dropdown-item" class="dropdown-item" href="#" onclick="loadThing('/ethernet_cables/ethernet_id/location')" >Load ethernet cables</a>
+                                <a class="dropdown-item" class="dropdown-item" href="#" onclick="removeThing('/ethernet_cables/ethernet_id/location')" >Remove ethernet cables</a>
+                                <a class="dropdown-item" class="dropdown-item" href="#" onclick="loadThing('/rooms/room_id/location')" >Load rooms</a>
+                                <a class="dropdown-item" class="dropdown-item" href="#" onclick="removeThing('/rooms/room_id/location')" >Remove rooms</a>
+                                <a class="dropdown-item" class="dropdown-item" href="#" onclick="loadThing('/temperature_sensors/sensor_id/location')" >Load sensors</a>
+                                <a class="dropdown-item" class="dropdown-item" href="#" onclick="removeThing('/temperature_sensors/sensor_id/location')" >Remove sensors</a>
                                 
                             </div>
                         </div>
