@@ -46,8 +46,9 @@
         <script src="js/basicMap.js"></script>
         <script src="js/centennial.js"></script>
         <script src="js/graph.js"></script>
+         <script src="js/utilities.js"></script>   
     </head>
-    <body onload="loadLeafletMap()">
+    <body onload="loadLeafletMap()" onresize="processWindowResize()">
         <div class="container-xxl position-relative bg-white p-0">
             <!-- Spinner Start -->
             <div id="spinner" class="show bg-white position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
@@ -114,8 +115,8 @@
                             
                             </a>
                             <div class="dropdown-menu bg-transparent border-0">
-                                <a class="dropdown-item" class="dropdown-item" href="#" onclick="trackLocation()" ;>Show Graph</a>
-                                <a class="dropdown-item" class="dropdown-item" href="#" onclick="removePositionPoints()">Remove Graph</a>
+                                <a class="dropdown-item" class="dropdown-item" href="#" onclick="loadGraph()" ;>Show Graph</a>
+                                <a class="dropdown-item" class="dropdown-item" href="#" onclick="closeAssetData()">Remove Graph</a>
                             </div>
                         </div>
                
