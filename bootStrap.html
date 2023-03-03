@@ -46,7 +46,26 @@
  <script src="js/basicMap.js"></script>
 <script src="js/centennial.js"></script>
 <script src="js/graph.js"></script>
-<script src="js/utilities.js"></script>   
+<script src="js/utilities.js"></script> 
+<script src="https://d3js.org/d3.v5.min.js"></script> 
+<!-- set the style for the bar graph -->
+<style>
+.bar {
+  fill: #71EEB8;
+}
+
+.bar:hover {
+  fill: slateblue;
+}
+
+.axis-x path {
+  display: none;
+}
+
+.axis text {
+  font-weight: bold;
+}
+</style>
     </head>
     <body onload="loadLeafletMap()" onresize="processWindowResize()">
         <div class="container-xxl position-relative bg-white p-0">
@@ -182,14 +201,14 @@
                     </div>
                 </nav>
                 <!-- Navbar End -->
-                    
+
                  <div id="mapWrapper" class="col vh-100 collapse show" aria-expanded="true" style="margin-top:65px;z-order:0">
-                 <div id="mapid"  class="col vh-100 vw-100" style="height:calc(100% - 65px);">
+                 <div id="mapid"  style="height:calc(100vh - 65px);">
                  </div> <!-- map id -->
                  </div> <!-- map wrapper -->
                     
                 <div id="assetDataWrapperWrapper" class="col vh-100 collapse hide" style="background-color:lightgray; margin-top:65px;z-order:0">
-                 <div id="assetDataWrapper" style="height:calc(100% - 65px);">
+                 <div id="assetDataWrapper"  style="height:calc(100vh - 65px);">
                  </div> <!-- asset data wrapper -->
                  </div> <!-- asset data wrapper wrapper wrapper -->
 
@@ -222,3 +241,4 @@
 
     </body>
 </html>
+
