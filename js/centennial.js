@@ -11,7 +11,7 @@ function loadThing(thingname) {
  for (var i=0;i<listOfThings.length ;i++){
  if (listOfThings[i][1] == thingname){
 
- alert("Thing already loaded");
+ alert("Layer already loaded");
  return;
  }
  }
