@@ -10,8 +10,8 @@ function loadThing(thingname) {
  // first check if the thing is loaded already
  for (var i=0;i<listOfThings.length ;i++){
  if (listOfThings[i][1] == thingname){
+ alert("Layer already loaded")
 
- alert("Layer already loaded");
  return;
  }
  }
