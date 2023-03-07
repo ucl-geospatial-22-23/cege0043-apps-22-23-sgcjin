@@ -24,7 +24,7 @@ function loadGraph(){
  bsAdwCollapse.show();
  
 // code to create the graph goes here – see below
-let widtha = document.getElementById("assetDataWrapper").clientWidth;
+let widtha = document.getElementById("assetDataWrapper").clientWidth*2;
  let heighta = document.getElementById("assetDataWrapper").offsetHeight;
 
  
