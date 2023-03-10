@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<head>
+<title>Simple Form Creation Example</title>
+</head>
+<body>
+<h1> This is a simple form</h1>
+
+<div>
+
+<p>asset_information</p>
+<label for="asset_name">Asset_name</label><input type="text" size="25" id="name"/><br />
+<label for="installation_date">Installation date</label><input type="text" size="25" id="surname"/><br />
+<label for="latitude">Latitude</label><input type="text" size="25" id="module"/><br />
+<label for="longitude">Longitude</label><input type="text" size="25" id="module"/><br />
+
+<p>asset_condition_information</p>
+<label for="asset_id">asset_id</label><input type="text" size="25" id="module"/><br />
+<label for="condition_id">condition_id</label><input type="text" size="25" id="module"/><br />
+
+<p>asset_condition_options</p>
+	1: <input type="radio" name="amorpm" id="1" /><br />
+	2: <input type="radio" name="amorpm" id ="2"/><br />
+    3: <input type="radio" name="amorpm" id="3" /><br />
+    4: <input type="radio" name="amorpm" id="4" /><br />
+    5: <input type="radio" name="amorpm" id="5" /><br />
+
+<hr>
+<hr>
+<p>Which modules are you taking?</p>
+	CEGEG077: <input type="checkbox" name="modules" id = check1 value="CEGEG077" checked="yes" /><br />
+	CEGEG129: <input type="checkbox" name="modules" id = check2 value="CEGEG129" /><br />
+	CEGEG082: <input type="checkbox" name="modules" id = check3 value="CEGEG082" /><br />
+	CEGEG034: <input type="checkbox" name="modules" id = check4 value="CEGEG034"  /><br />
+
+<p>What is your first language?</p>
+<select name="languageselectbox" id="languageselectbox">
+	<option >English </option>
+	<option>Mandarin</option>
+	<option>Greek</option>
+	<option>Italian</option>
+	<option>Spanish</option>
+	<option>Other</option>
+
+</select>
+<br />
+<br />
+<label for="latitude">Latitude</label><input type="text" size="25" id="latitude"/><br />
+<label for="longitude">Longitude</label><input type="text" size="25" id="longitude"/><br />
+
+
+<p>Click here to upload the data</p>
+<button id="startUpload" onclick="startDataUpload()">Start Data Upload</button>
+<br />
+<br />
+<div id="dataUploadResult">The result of the upload goes here</div>
+<br />
+<br />
+
+<hr>
+<hr>
+
+<label for="deleteID">Delete ID</label><input type="text" size="25" id="deleteID"/><br />
+<button id="startDelete" onclick="deleteRecord()">Delete Record</button>
+<div id="dataDeleteResult">The result of the upload goes here</div>
+
+
+
+</div>
+
+
+</body>
+ <script
+  src="https://code.jquery.com/jquery-3.4.1.min.js"
+  integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+  crossorigin="anonymous"></script> 
+<script src="js/uploadData.js"> </script>
