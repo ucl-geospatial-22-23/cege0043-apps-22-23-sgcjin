@@ -1,12 +1,6 @@
 "use strict";
-	if (document.getElementById("morning").checked) {
- 		 postString=postString+"&lecturetime=morning";
-	}
-	if (document.getElementById("afternoon").checked) {
- 		 postString=postString+"&lecturetime=afternoon";
-	}
 
-function saveCondition(){
+function saveConditionInformation(){
     let postString = "";
 
 	// The previous condition (from the hidden field)
@@ -54,8 +48,7 @@ function processData(postString) {
 }
 
 // create the code to process the response from the data server
-function conditionResult(data) {
+function dataUploaded(data) {
 	// change the DIV to show the response
-	document.getElementById("responseDIV").innerHTML =
-	JSON.stringify(data);
+	document.getElementById("conditionResult").innerHTML = JSON.stringify(data);
 	}
