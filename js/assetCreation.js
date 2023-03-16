@@ -5,18 +5,12 @@ function saveNewAsset(){
 	let installation_date = document.getElementById("installation_date").value;
 	let latitude = document.getElementById("latitude").value;
 	let longitude = document.getElementById("longitude").value;
-// get asset_condition_information values
-	let asset_id = document.getElementById("asset_id").value;
-	let condition_id = document.getElementById("condition_id").value;
-	let asset_condition_options = document.getElementById("asset_condition_options").value;
+
 // add to postString
 	let postString = "asset_name="+asset_name;
 	 postString = postString + "&installation_date="+installation_date;
 	 postString = postString + "&latitude="+latitude;
 	 postString = postString + "&longitude="+longitude;
-	 postString = postString + "&asset_id="+asset_id;
-	 postString = postString + "&condition_id="+condition_id;
-	 postString = postString + "&asset_condition_options="+asset_condition_options;
 	// call the AJAX code
 	processData(postString);
 	console.log(postString)
