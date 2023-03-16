@@ -43,3 +43,20 @@ function dataUploaded(data) {
 	document.getElementById("responseDIV").innerHTML =
 	JSON.stringify(data);
 	}
+
+function deleteSingleAsset() {
+	let deleteID = document.getElementById("del_asset_id").value;
+	let deleteString = "id="+deleteID;
+	console.log(deleteString)
+	let serviceUrl= document.location.origin + "/api/testCRUD";
+	$.ajax({
+	    url: serviceUrl,
+	    crossDomain: true,
+	    type: "POST",
+	    success: function(data){console.log(data); dataDeleted(data);},
+	    data: deleteString
+});	
+}
+function dataDeleted(data){
+    document.getElementById("deleteAssetResponse").innerHTML = JSON.stringify(data);
+}
