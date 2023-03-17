@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<head>
+<title>asset condition information</title>
+<script
+ src="https://code.jquery.com/jquery-3.4.1.min.js"
+ integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+ crossorigin="anonymous"></script>
+ <script src="js/conditionSurvey.js"></script>
+</head>
+<body>
+
+
+<div>
+
+
+<label for="asset_name">Asset_name</label><input type="text" size="25" id="asset_name"/><br />
+<label for="installation_date">Installation date</label><input type="text" size="25" id="installation_date"/><br />
+<label for="user_id">the user_id of the person who created the asset</label><input type="text" size="25" id="user_id"/><br />
+
+<p>asset_condition_options</p>
+	1: <input type="radio" name="amorpm" id="con_1" /><br />
+	2: <input type="radio" name="amorpm" id ="con_2"/><br />
+	3: <input type="radio" name="amorpm" id ="con_3"/><br />
+	4: <input type="radio" name="amorpm" id ="con_4"/><br />
+	5: <input type="radio" name="amorpm" id ="con_5"/><br />
+
+<div id="previousConditionValue" style="display: none;">1</div>
+<div id="assetID" style="display: none;">2</div>
+<br />
+<br />
+ <button id="saveCondition" onclick="saveConditionInformation()">saveCondition</button>
+<br />
+<br />
+ <div id="conditionResult">The result of the saveCondition goes here</div>
+
+
+
+</div>
+
+
+</body>
+ <script
+  src="https://code.jquery.com/jquery-3.4.1.min.js"
+  integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+  crossorigin="anonymous"></script> 
