@@ -50,5 +50,8 @@ function processData(postString) {
 // create the code to process the response from the data server
 function dataUploaded(data) {
 	// change the DIV to show the response
-	document.getElementById("conditionResult").innerHTML = JSON.stringify(data);
+	//document.getElementById("conditionResult").innerHTML = JSON.stringify(data);
+	// alert and consol log for prac4
+	alert(JSON.stringify(data));
+	console.log(JSON.stringify(data));
 	}
