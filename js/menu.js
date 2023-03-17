@@ -1,79 +1,67 @@
 "use strict";
-function menu1(){
+function listOfAssets(){
 
 let re = /([^(]+)@|at ([^(]+) \(/g;
 let aRegexResult = re.exec(new Error().stack);
 let sCallerName = aRegexResult[1] || aRegexResult[2];
-alert("menu number is 1 and menu is called by: "+ sCallerName);
+alert("function name is listOfAssets and menu is called by: "+ sCallerName);
 }
 // menu 2
-function menu3(){
+function dailyReportingRates(){
 let re = /([^(]+)@|at ([^(]+) \(/g;
 let aRegexResult = re.exec(new Error().stack);
 let sCallerName = aRegexResult[1] || aRegexResult[2];
-alert("menu number is 3 and menu is called by: "+ sCallerName);
+alert("function name is dailyReportingRates and menu is called by: "+ sCallerName);
 }
-function menu4(){
+function help(){
 let re = /([^(]+)@|at ([^(]+) \(/g;
 let aRegexResult = re.exec(new Error().stack);
 let sCallerName = aRegexResult[1] || aRegexResult[2];
-alert("menu number is 4 and menu is called by: "+ sCallerName);
+alert("function name is help and menu is called by: "+ sCallerName);
 }
 // menu 5
-function menu6(){
+function userRanking(){
 let re = /([^(]+)@|at ([^(]+) \(/g;
 let aRegexResult = re.exec(new Error().stack);
 let sCallerName = aRegexResult[1] || aRegexResult[2];
-alert("menu number is 6 and menu is called by: "+ sCallerName);
+alert("function name is userRanking and menu is called by: "+ sCallerName);
 }
-function menu7(){
+function add5ClosestAssets(){
 let re = /([^(]+)@|at ([^(]+) \(/g;
 let aRegexResult = re.exec(new Error().stack);
 let sCallerName = aRegexResult[1] || aRegexResult[2];
-alert("menu number is 7 and menu is called by: "+ sCallerName);
+alert("function name is add5ClosestAssets and menu is called by: "+ sCallerName);
 }
 // menu 8
-function menu9(){
+function remove5ClosestAssets(){
 let re = /([^(]+)@|at ([^(]+) \(/g;
 let aRegexResult = re.exec(new Error().stack);
 let sCallerName = aRegexResult[1] || aRegexResult[2];
-alert("menu number is 9 and menu is called by: "+ sCallerName);
+alert("function name is remove5ClosestAssets and menu is called by: "+ sCallerName);
 }
-function menu10(){
+function add5LastReports(){
 let re = /([^(]+)@|at ([^(]+) \(/g;
 let aRegexResult = re.exec(new Error().stack);
 let sCallerName = aRegexResult[1] || aRegexResult[2];
-alert("menu number is 10 and menu is called by: "+ sCallerName);
+alert("function name is add5LastReports and menu is called by: "+ sCallerName);
 }
 // menu 11
-function menu12(){
+function remove5LastReports(){
 let re = /([^(]+)@|at ([^(]+) \(/g;
 let aRegexResult = re.exec(new Error().stack);
 let sCallerName = aRegexResult[1] || aRegexResult[2];
-alert("menu number is 11 and menu is called by: "+ sCallerName);
+alert("function name is remove5LastReports and menu is called by: "+ sCallerName);
 }
-function menu13(){
+function addNotRated(){
 let re = /([^(]+)@|at ([^(]+) \(/g;
 let aRegexResult = re.exec(new Error().stack);
 let sCallerName = aRegexResult[1] || aRegexResult[2];
-alert("menu number is 13 and menu is called by: "+ sCallerName);
+alert("function name is addNotRated and menu is called by: "+ sCallerName);
 }
 // menu 14
-function menu15(){
+function removeNotRated(){
 let re = /([^(]+)@|at ([^(]+) \(/g;
 let aRegexResult = re.exec(new Error().stack);
 let sCallerName = aRegexResult[1] || aRegexResult[2];
-alert("menu number is 15 and menu is called by: "+ sCallerName);
-}
-function menu16(){
-let re = /([^(]+)@|at ([^(]+) \(/g;
-let aRegexResult = re.exec(new Error().stack);
-let sCallerName = aRegexResult[1] || aRegexResult[2];
-alert("menu number is 16 and menu is called by: "+ sCallerName);
-}
-function search(){
-let re = /([^(]+)@|at ([^(]+) \(/g;
-let aRegexResult = re.exec(new Error().stack);
-let sCallerName = aRegexResult[1] || aRegexResult[2];
-alert("menu number is search and menu is called by: "+ sCallerName);
+alert("function name is removeNotRated and menu is called by: "+ sCallerName);
 }
