@@ -85,7 +85,7 @@ let con_5 = "Not working and needs immediate, urgent maintenance";
 let asset_id = "2";
 let previousCondition = con_1;
 let htmlString = "<DIV id='popup'"+ id+ ">";
-htmlString = htmlString+ "<div id=asset_name_" + id + "value='"+asset_name+"'>Asset Name: "+asset_name+"</div>";
+htmlString = htmlString+ "<div id=asset_name_" + id + " value='"+asset_name+"'>Asset Name: "+asset_name+"</div>";
 // now include a hidden element with the previous condition value
 htmlString = htmlString + "<div id=previousCondition_" + id + " style='display: none;'>"+previousCondition+"</div>";
 // and a hidden element with the ID of the asset so that we can insert the condition with the correct asset later
@@ -99,7 +99,9 @@ htmlString = htmlString + "<input type='radio' name='answer' value='"+con_4+"' i
 htmlString = htmlString + "<input type='radio' name='answer' value='"+con_5+"' id ='"+id+"_5'/>"+con_5+"<br/>";
 htmlString = htmlString + "<button onclick='checkCondition(" + id + ");return false;'>SAVE CONDITION BUTTON</button>";
 htmlString = htmlString + "</div>";
+
 return htmlString;
+
 }
 
 

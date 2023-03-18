@@ -19,7 +19,7 @@ function saveNewAsset() {
 }
 
 function checkCondition(id){
-
+    let postString = '';
 	// The previous condition (from the hidden field)
 	let previousConditionValue = document.getElementById("previousCondition_"+id).innerHTML;
     postString = "&old_condition="+previousConditionValue;
@@ -27,7 +27,7 @@ function checkCondition(id){
 	let user_id = document.getElementById("user_"+id).innerHTML;
     postString = postString + "&user_id="+user_id;
     // asset name
-    let asset_name = document.getElementById("asset_name_"+id).getAttribute("value");
+    let asset_name = document.getElementById("asset_name_" + id).getAttribute("value");
     postString = postString + "&asset_name="+asset_name;
     // installation_date
     let installation_date = document.getElementById("installation_date").getAttribute("value");
@@ -60,7 +60,7 @@ function checkCondition(id){
         document.getElementById("previousCondition_"+id).innerHTML=condition
 	}
     // asset id
-    let postString = "&asset_id="+id;
+    postString = postString+"&asset_id="+id;
 	processData(postString)  
     
 }
