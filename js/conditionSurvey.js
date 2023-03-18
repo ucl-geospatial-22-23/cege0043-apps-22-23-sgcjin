@@ -4,9 +4,9 @@ function saveConditionInformation(){
     let postString = "";
 
 	// The previous condition (from the hidden field)
-	let previousConditionValue = document.getElementById("previousConditionValue").value;
+	let previousConditionValue = document.getElementById("previousConditionValue").innerHTML;
 	// The ID of the asset (from the hidden field)
-	let assetID = document.getElementById("assetID").value;
+	let assetID = document.getElementById("assetID").innerHTML;
 	let condition = "";
 	
 	if (document.getElementById("con_1").checked) {
