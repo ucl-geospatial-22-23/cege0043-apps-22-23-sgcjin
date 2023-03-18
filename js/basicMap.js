@@ -131,10 +131,10 @@ function checkCondition(id){
 	}
 
 	if (condition == previousConditionValue){
-		alert("The the selected condition is the same as the previous condition");
+		alert("The selected condition is the same as the previous condition");
 		postString = postString + "&condition="+condition
 	}else{
-		alert("The the selected condition is NOT the same as the previous condition");
+		alert("The selected condition is NOT the same as the previous condition");
 		postString = postString + "&condition="+condition
 	}
 	processData(postString)    
@@ -164,6 +164,9 @@ function onMapClick(e) {
  let formHTML = basicFormHtml();
  //debug
  popup = L.popup();
+ // change te latlon
+ document.getElementById("longitude")=e.latlng.lng().toString();
+ document.getElementById("latitude")=e.latlng.lat().toString();
  popup.setLatLng(e.latlng).setContent("You clicked the map at " + e.latlng.toString()+"<br>"+formHTML).openOn(mymap);
  }
 
@@ -171,8 +174,13 @@ function onMapClick(e) {
 
 function basicFormHtml() {
 
-var myvar = '<label for="asset_name">Asset Name: </label><input type="text" size="25" id="asset_name"/><br />'+
+var myvar = '<div>'+
+'<label for="asset_name">Asset Name: </label><input type="text" size="25" id="asset_name"/><br />'+
 '<label for="installation_date">Installation Date: </label><input type="text" size="25" id="installation_date"/><br />'+
-'<br />'+' <button id="startUpload" onclick="saveNewAsset()">Save Asset</button>';
+'<div id="longitude" style="display: none;"></div>'+
+' <div id="latitude" style="display: none;"></div>'+
+'<br />'+
+' <button id="startUpload" onclick="saveNewAsset()">saveAsset</button>'+
+'</div>';
 return myvar;
 }
