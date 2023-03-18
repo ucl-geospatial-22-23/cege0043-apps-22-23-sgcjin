@@ -63,7 +63,7 @@ function processData(postString) {
 	url: serviceUrl,
 	crossDomain: true,
 	type: "POST",
-	success: function(data){console.log(data); dataUploaded(data);},
+	success: function(data){dataUploaded(data);},
 	data: postString
 	});
 }
