@@ -85,13 +85,13 @@ let con_5 = "Not working and needs immediate, urgent maintenance";
 let asset_id = "2";
 let previousCondition = con_1;
 let htmlString = "<DIV id='popup'"+ id+ ">";
-htmlString = htmlString+ "<div>" + "Asset Name: "+asset_name + "</div><br>";
+htmlString = htmlString+ "<div id=asset_name_" + id + "value='"+asset_name+"'>Asset Name: "+asset_name+"</div>";
 // now include a hidden element with the previous condition value
 htmlString = htmlString + "<div id=previousCondition_" + id + " style='display: none;'>"+previousCondition+"</div>";
 // and a hidden element with the ID of the asset so that we can insert the condition with the correct asset later
 htmlString = htmlString + "<div id=asset_" + id + " style='display: none;'>"+id+"</div>";
 htmlString = htmlString + "<div id=user_" + id +" style='display: none;'>"+user_id+"</div>";
-htmlString = htmlString + "<div>"+"Asset Installation Date: "+installation_date + "</div><br/>";
+htmlString = htmlString + "<div id=installation_date value='"+installation_date+"'>Asset Installation Date: "+installation_date+"</div>";
 htmlString = htmlString + "<input type='radio' name='answer' value='"+con_1+"' id ='"+id+"_1'/>"+con_1+"<br/>";
 htmlString = htmlString + "<input type='radio' name='answer' value='"+con_2+"' id ='"+id+"_2'/>"+con_2+"<br/>";
 htmlString = htmlString + "<input type='radio' name='answer' value='"+con_3+"' id ='"+id+"_3'/>"+con_3+"<br/>";
