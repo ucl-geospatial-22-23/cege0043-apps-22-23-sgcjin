@@ -92,12 +92,13 @@ htmlString = htmlString+ "<div>" + "Asset Name: "+asset_name + "</div><br>";
 htmlString = htmlString + "<div id=previousCondition_" + id + " style='display: none;'>"+previousCondition+"</div>";
 // and a hidden element with the ID of the asset so that we can insert the condition with the correct asset later
 htmlString = htmlString + "<div id=asset_" + id + " style='display: none;'>"+id+"</div>";
-htmlString = htmlString + "<div>"+"Asset Installation Date: "+installation_date + "</div><br>";
-htmlString = htmlString + "<input type='radio' name='answer' id ='"+id+"_1'/>"+con_1+"<br>";
-htmlString = htmlString + "<input type='radio' name='answer' id ='"+id+"_2'/>"+con_2+"<br>";
-htmlString = htmlString + "<input type='radio' name='answer' id ='"+id+"_3'/>"+con_3+"<br>";
-htmlString = htmlString + "<input type='radio' name='answer' id ='"+id+"_4'/>"+con_4+"<br>";
-htmlString = htmlString + "<input type='radio' name='answer' id ='"+id+"_5'/>"+con_5+"<br>";
+htmlString = htmlString + "<div id=user_" + id +" style='display: none;'>"+user_id+"</div>";
+htmlString = htmlString + "<div>"+"Asset Installation Date: "+installation_date + "</div><br/>";
+htmlString = htmlString + "<input type='radio' name='answer' value='"+con_1+"' id ='"+id+"_1'/>"+con_1+"<br/>";
+htmlString = htmlString + "<input type='radio' name='answer' value='"+con_2+"' id ='"+id+"_2'/>"+con_2+"<br/>";
+htmlString = htmlString + "<input type='radio' name='answer' value='"+con_3+"' id ='"+id+"_3'/>"+con_3+"<br/>";
+htmlString = htmlString + "<input type='radio' name='answer' value='"+con_4+"' id ='"+id+"_4'/>"+con_4+"<br/>";
+htmlString = htmlString + "<input type='radio' name='answer' value='"+con_5+"' id ='"+id+"_5'/>"+con_5+"<br/>";
 htmlString = htmlString + "<button onclick='checkCondition(" + id + ");return false;'>SAVE CONDITION BUTTON</button>";
 htmlString = htmlString + "</div>";
 return htmlString;
@@ -107,9 +108,9 @@ function checkCondition(id){
     let postString = "&asset_id="+id;
 
 	// The previous condition (from the hidden field)
-	let previousConditionValue = document.getElementById("previousCondition_"+id).value;
+	let previousConditionValue = document.getElementById("previousCondition_"+id).innerHTML;
 	// The ID of the asset (from the hidden field)
-	let assetID = document.getElementById("assetID").value;
+	let user_id = document.getElementById("user_"+id).innerHTML;
 	let condition = "";
 	
 	if (document.getElementById(id+"_1").checked) {
@@ -127,7 +128,7 @@ function checkCondition(id){
 	if (document.getElementById(id+"_5").checked) {
  		 condition = document.getElementById(id+"_5").value;
 	}
-   
+
 	if (condition == previousConditionValue){
 		alert("The the selected condition is the same as the previous condition");
 		postString = postString + "&condition="+condition
@@ -138,6 +139,25 @@ function checkCondition(id){
 	processData(postString)    
 }
  
+function processData(postString) {
+	let serviceUrl= document.location.origin +"/api/testCRUD"
+	//serviceUrl = "https://cege0043-7.cs.ucl.ac.uk/api/testCRUD"
+	$.ajax({
+	url: serviceUrl,
+	crossDomain: true,
+	type: "POST",
+	success: function(data){console.log(data); dataUploaded(data);},
+	data: postString
+	});
+}
+
+// create the code to process the response from the data server
+function dataUploaded(data) {
+	// change the DIV to show the response
+	//document.getElementById("conditionResult").innerHTML = JSON.stringify(data);
+	// alert and consol log for prac4
+	alert(JSON.stringify(data));
+}
 
 function onMapClick(e) {
  let formHTML = basicFormHtml();
