@@ -4,8 +4,10 @@ function saveNewAsset() {
     // get asset_information values
 	let asset_name = document.getElementById("asset_name").value;
     let installation_date = document.getElementById("installation_date").value;
-    let latitude = document.getElementById("latitude").innerHTML;
-	let longitude = document.getElementById("longitude").innerHTML;
+    let latitude = document.getElementById("latitude").value;
+	let longitude = document.getElementById("longitude").value;
+    let user_id = document.getElementById("user_id").innerHTML;
+
     // add to postString
 	let postString = "asset_name="+asset_name;
 	 postString = postString + "&installation_date="+installation_date;

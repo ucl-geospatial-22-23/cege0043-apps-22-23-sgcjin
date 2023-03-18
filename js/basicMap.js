@@ -5,7 +5,6 @@ let mapPoint; // store the geoJSON feature so that we can remove it if the scree
 
 
 function loadLeafletMap() {
-
     // CODE TO INITIALISE AND CREATE THE MAP GOES HERE 
     mymap = L.map('mapid').setView([51.505, -0.09], 13);
     L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -124,10 +123,10 @@ function basicFormHtml() {
 var myvar = '<div>'+
 '<label for="asset_name">Asset Name: </label><input type="text" size="25" id="asset_name"/><br />'+
 '<label for="installation_date">Installation Date: </label><input type="text" size="25" id="installation_date"/><br />'+
-'<div id="longitude" style="display: none;">1</div>'+
-' <div id="latitude" style="display: none;">1</div>'+
-'<br />'+
-' <button id="startUpload" onclick="saveNewAsset()">saveAsset</button>'+
+'<label for="latitude">Latitude: </label><input type="text" size="25" id="latitude"/><br />'+
+'<label for="longitude">Longitude: </label><input type="text" size="25" id="longitude"/><br />'+
+'<div id="user_id" style="display: none;">2</div>'+
+'<button id="startUpload" onclick="saveNewAsset()">saveAsset</button>'+
 '</div>';
 return myvar;
 }
