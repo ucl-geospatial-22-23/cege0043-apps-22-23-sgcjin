@@ -111,6 +111,7 @@ function checkCondition(id){
 	let previousConditionValue = document.getElementById("previousCondition_"+id).innerHTML;
 	// The ID of the asset (from the hidden field)
 	let user_id = document.getElementById("user_"+id).innerHTML;
+    postString = postString + "&user_id="+user_id;
 	let condition = "";
 	
 	if (document.getElementById(id+"_1").checked) {
