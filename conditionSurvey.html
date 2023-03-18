@@ -13,9 +13,13 @@
 <div>
 
 
-<label for="asset_name">Asset_name</label><input type="text" size="25" id="asset_name"/><br />
-<label for="installation_date">Installation date</label><input type="text" size="25" id="installation_date"/><br />
-<label for="user_id">the user_id of the person who created the asset</label><input type="text" size="25" id="user_id"/><br />
+<label for="asset_name">Asset Name: </label><input type="text" size="25" id="asset_name"/><br />
+<div id="previousConditionValue" style="display: none;">1</div>
+<div id="assetID" style="display: none;">2</div>
+<div id="user_id" style="display: none;">2</div>
+
+<label for="installation_date">Asset Installation Date: </label><input type="text" size="25" id="installation_date"/><br />
+<!---label for="user_id">the user_id of the person who created the asset</label><input type="text" size="25" id="user_id"/><br /--->
 
 <p>asset_condition_options</p>
 	1: <input type="radio" name="amorpm" id="con_1" /><br />
@@ -23,18 +27,7 @@
 	3: <input type="radio" name="amorpm" id ="con_3"/><br />
 	4: <input type="radio" name="amorpm" id ="con_4"/><br />
 	5: <input type="radio" name="amorpm" id ="con_5"/><br />
-
-<div id="previousConditionValue" style="display: none;">1</div>
-<div id="assetID" style="display: none;">2</div>
-<br />
-<br />
- <button id="saveCondition" onclick="saveConditionInformation()">saveCondition</button>
-<br />
-<br />
- <div id="conditionResult">The result of the saveCondition goes here</div>
-
-
-
+<button id="saveCondition" onclick="saveConditionInformation()">SAVE CONDITION BUTTON</button>
 </div>
 
 

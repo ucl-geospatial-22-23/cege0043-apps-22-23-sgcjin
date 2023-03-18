@@ -34,8 +34,9 @@ function processData(postString) {
 // create the code to process the response from the data server
 function dataUploaded(data) {
 	// change the DIV to show the response
-	document.getElementById("responseDIV").innerHTML =
-	JSON.stringify(data);
+	//document.getElementById("responseDIV").innerHTML = JSON.stringify(data);
+	alert(JSON.stringify(data));
+	console.log(JSON.stringify(data));
 	}
 
 function deleteSingleAsset() {
@@ -52,5 +53,7 @@ function deleteSingleAsset() {
 });	
 }
 function dataDeleted(data){
-    document.getElementById("deleteAssetResponse").innerHTML = JSON.stringify(data);
+    //document.getElementById("deleteAssetResponse").innerHTML = JSON.stringify(data);
+	alert(JSON.stringify(data));
+	console.log(JSON.stringify(data));
 }

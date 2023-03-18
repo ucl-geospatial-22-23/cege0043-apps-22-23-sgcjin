@@ -43,7 +43,8 @@
 <script src="js/leaflet.awesome-markers.js"></script>
         
 <!-- code for js files -->
- <script src="js/basicMap.js"></script>
+<script src="js/uploadData.js"></script>
+<script src="js/basicMap.js"></script>
 <script src="js/centennial.js"></script>
 <script src="js/graph.js"></script>
 <script src="js/utilities.js"></script> 
@@ -95,49 +96,59 @@
                     </div>
                 </div>
                 <div class="navbar-nav">
-        <!-- Nav Item - Pages Collapse Menu -->
-          <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="" onclick="alert('menu 1 clicked');" aria-expanded="true" aria-controls="collapseOne">
-            <!-- the next line is the cog image -->
-            <i class="fas fa-fw fa-cog"></i>
-            <span>Menu 1</span>
-          </a>
 
         <!-- Divider -->
         <hr class="sidebar-divider">
-                       <!-- Nav Item - Pages Collapse Menu Centennial-->
-                        <div class="nav-item dropdown d-md-none d-lg-block d-xl-none">
-                            <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
-                                <i class="fa fa-laptop me-2"></i>
-                                Centennial
-                            
-                            </a>
-                            <div class="dropdown-menu bg-transparent border-0">
-                                <a class="dropdown-item" class="dropdown-item" href="#" onclick="loadThing('/buildings/building_id/location')">Load buildings</a>
-                                <a class="dropdown-item" class="dropdown-item" href="#" onclick="removeThing('/buildings/building_id/location')">Remove buildings</a>
-                                <a class="dropdown-item" class="dropdown-item" href="#" onclick="loadThing('/ethernet_cables/ethernet_id/location')" >Load ethernet cables</a>
-                                <a class="dropdown-item" class="dropdown-item" href="#" onclick="removeThing('/ethernet_cables/ethernet_id/location')" >Remove ethernet cables</a>
-                                <a class="dropdown-item" class="dropdown-item" href="#" onclick="loadThing('/rooms/room_id/location')" >Load rooms</a>
-                                <a class="dropdown-item" class="dropdown-item" href="#" onclick="removeThing('/rooms/room_id/location')" >Remove rooms</a>
-                                <a class="dropdown-item" class="dropdown-item" href="#" onclick="loadThing('/temperature_sensors/sensor_id/location')" >Load sensors</a>
-                                <a class="dropdown-item" class="dropdown-item" href="#" onclick="removeThing('/temperature_sensors/sensor_id/location')" >Remove sensors</a>
-                                
-                            </div>
-                        </div>
-                            
-                        <!-- Nav Item - Pages Collapse Menu for Graph -->
-                        <div class="nav-item dropdown d-none d-lg-block d-xl-none">
-                            <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
-                                <i class="fa fa-laptop me-2"></i>
-                                Graphs
-                            
-                            </a>
-                            <div class="dropdown-menu bg-transparent border-0">
-                                <a class="dropdown-item" class="dropdown-item" href="#" onclick="loadGraph()" ;>Show Graph</a>
-                                <a class="dropdown-item" class="dropdown-item" href="#" onclick="closeAssetData()">Remove Graph</a>
-                            </div>
-                        </div>
-
-
+                 
+       <!-- non nested menus -->          
+         <div class="nav-item">
+           <a class="nav-link collapsed d-none d-lg-block d-xl-none" href="#" data-toggle="collapse" data-target="" onclick="listOfAssets()" aria-expanded="true" aria-controls="collapseOne">
+                <i class="fa fa-laptop me-2"></i>
+                <span>List of Assets in Best Condition</span>
+           </a>
+          <a class="nav-link collapsed d-none d-lg-block d-xl-none" href="#" data-toggle="collapse" data-target="" onclick="dailyReportingRates()" aria-expanded="true" aria-controls="collapseOne">
+                <i class="fa fa-laptop me-2"></i>
+                <span>List of Assets in Best Condition</span>
+           </a>
+          <a class="nav-link collapsed d-md-none" href="#" data-toggle="collapse" data-target="" onclick="help()" aria-expanded="true" aria-controls="collapseOne">
+                <i class="fa fa-laptop me-2"></i>
+                <span>Help</span>
+           </a>
+          <a class="nav-link collapsed d-md-none" href="#" data-toggle="collapse" data-target="" onclick="userRanking()" aria-expanded="true" aria-controls="collapseOne">
+                <i class="fa fa-laptop me-2"></i>
+                <span>User Ranking</span>
+           </a>
+           <a class="nav-link collapsed d-md-none" href="#" data-toggle="collapse" data-target="" onclick="add5ClosestAssets()" aria-expanded="true" aria-controls="collapseOne">
+                <i class="fa fa-laptop me-2"></i>
+                <span>Add Layer – 5 closest assets</span>
+           </a>
+           </a>
+           <a class="nav-link collapsed d-md-none" href="#" data-toggle="collapse" data-target="" onclick="remove5ClosestAssets()" aria-expanded="true" aria-controls="collapseOne">
+                <i class="fa fa-laptop me-2"></i>
+                <span>Remove Layer – 5 closest assets</span>
+           </a>
+           </a>
+           <a class="nav-link collapsed d-md-none" href="#" data-toggle="collapse" data-target="" onclick="add5LastReports()" aria-expanded="true" aria-controls="collapseOne">
+                <i class="fa fa-laptop me-2"></i>
+                <span>Add Layer – last 5 reports</span>
+           </a>
+          </a>
+          <a class="nav-link collapsed d-md-none" href="#" data-toggle="collapse" data-target="" onclick="remove5LastReports()" aria-expanded="true" aria-controls="collapseOne">
+                <i class="fa fa-laptop me-2"></i>
+                <span>Remove layer – last 5 reports</span>
+           </a>
+          </a>
+          <a class="nav-link collapsed d-md-none" href="#" data-toggle="collapse" data-target="" onclick="addNotRated()" aria-expanded="true" aria-controls="collapseOne">
+                <i class="fa fa-laptop me-2"></i>
+                <span>Add Layer – not rated in the last 3 days</span>
+           </a>
+          </a>
+         <a class="nav-link collapsed d-md-none" href="#" data-toggle="collapse" data-target="" onclick="removeNotRated()" aria-expanded="true" aria-controls="collapseOne">
+                <i class="fa fa-laptop me-2"></i>
+                <span>Remove Layer – not rated in the last 3 days</span>
+           </a>
+         </div>
+                </div>
                  
         </nav>
         </div>
@@ -224,10 +235,6 @@ style="background-color:lightgray; margin-top:65px;z-order:0">
         <script src="lib/tempusdominus/js/moment.min.js"></script>
         <script src="lib/tempusdominus/js/moment-timezone.min.js"></script>
         <script src="lib/tempusdominus/js/tempusdominus-bootstrap-4.min.js"></script>
-               
-        
-
-
             <!-- Template Javascript -->
         <script src="js/bootstrapTemplate.js"></script>
 

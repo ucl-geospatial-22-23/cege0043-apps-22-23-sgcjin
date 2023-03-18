@@ -4,9 +4,9 @@ function saveConditionInformation(){
     let postString = "";
 
 	// The previous condition (from the hidden field)
-	let previousConditionValue = document.getElementById("previousConditionValue").value;
+	let previousConditionValue = document.getElementById("previousConditionValue").innerHTML;
 	// The ID of the asset (from the hidden field)
-	let assetID = document.getElementById("assetID").value;
+	let assetID = document.getElementById("assetID").innerHTML;
 	let condition = "";
 	
 	if (document.getElementById("con_1").checked) {
@@ -50,5 +50,8 @@ function processData(postString) {
 // create the code to process the response from the data server
 function dataUploaded(data) {
 	// change the DIV to show the response
-	document.getElementById("conditionResult").innerHTML = JSON.stringify(data);
+	//document.getElementById("conditionResult").innerHTML = JSON.stringify(data);
+	// alert and consol log for prac4
+	alert(JSON.stringify(data));
+	console.log(JSON.stringify(data));
 	}
