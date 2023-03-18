@@ -170,54 +170,9 @@ function onMapClick(e) {
 
 
 function basicFormHtml() {
-let mylet = '<label for="name">Name</label><input type="text" size="25" id="name"/><br />'+
-'<label for="surname">Surname</label><input type="text" size="25" id="surname"/><br />'+
-'<label for="module">Module</label><input type="text" size="25" id="module"/><br />'+
-''+
-''+
-'<p>Would you like lectures in the morning or afternoon?</p>'+
-' Morning: <input type="radio" name="amorpm" id="morning" /><br />'+
-' Afternoon: <input type="radio" name="amorpm" id ="afternoon"/><br />'+
-''+
-''+
-''+
-'<p>Which modules are you taking?</p>'+
-' CEGEG077: <input type="checkbox" name="modules" id = check1 value="CEGEG077"checked="yes" /><br />'+
-' CEGEG129: <input type="checkbox" name="modules" id = check2 value="CEGEG129" /><br />'+
-' CEGEG082: <input type="checkbox" name="modules" id = check3 value="CEGEG082" /><br />'+
-' CEGEG034: <input type="checkbox" name="modules" id = check4 value="CEGEG034" /><br />'+
-''+
-'<p>What is your first language?</p>'+
-'<select name="languageselectbox" id="languageselectbox">'+
 
-' <option >English </option>'+
-' <option>Mandarin</option>'+
-' <option>Greek</option>'+
-' <option>Italian</option>'+
-' <option>Spanish</option>'+
-' <option>Other</option>'+
-''+
-'</select>'+
-'<br />'+
-'<br />'+
-'<label for="latitude">Latitude</label><input type="text" size="25" id="latitude"/><br />'+
-'<label for="longitude">Longitude</label><input type="text" size="25" id="longitude"/><br />'+
-''+
-''+
-'<p>Click here to upload the data</p>'+
-'<button id="startUpload" onclick="startDataUpload()">Start Data Upload</button>'+
-'<br />'+
-'<br />'+
-'<div id="dataUploadResult">The result of the upload goes here</div>'+
-'<br />'+
-'<br />'+
-''+
-'<hr>'+
-'<hr>'+
-''+
-'<label for="deleteID">Delete ID</label><input type="text" size="25" id="deleteID"/><br />'+
-'<button id="startDelete" onclick="deleteRecord()">Delete Record</button>'+
-'<div id="dataDeleteResult">The result of the upload goes here</div>';
-
-return mylet;
+var myvar = '<label for="asset_name">Asset Name: </label><input type="text" size="25" id="asset_name"/><br />'+
+'<label for="installation_date">Installation Date: </label><input type="text" size="25" id="installation_date"/><br />'+
+'<br />'+' <button id="startUpload" onclick="saveNewAsset()">Save Asset</button>';
+return myvar;
 }
