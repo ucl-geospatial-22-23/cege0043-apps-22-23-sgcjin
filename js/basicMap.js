@@ -62,7 +62,6 @@ function setUpPointClick() {
      // and add it to the map and zoom to that location
      // the on click functionality of the POINT should pop up partially populated condition form so that the user can select the condition they require
      let popUpHTML = getPopupHTML();
-     console.log(popUpHTML);
     // use the mapPoint variable so that we can remove this point layer on
     mapPoint= L.geoJSON(geojsonFeature).addTo(mymap).bindPopup(popUpHTML);
     mymap.setView([51.522449,-0.13263], 12)
