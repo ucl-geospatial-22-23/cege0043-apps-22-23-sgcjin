@@ -62,7 +62,7 @@ function setUpPointClick() {
      };
      // and add it to the map and zoom to that location
      // the on click functionality of the POINT should pop up partially populated condition form so that the user can select the condition they require
-     let popUpHTML = getPopupHTML;
+     let popUpHTML = getPopupHTML();
      console.log(popUpHTML);
     // use the mapPoint variable so that we can remove this point layer on
     mapPoint= L.geoJSON(geojsonFeature).addTo(mymap).bindPopup(popUpHTML);
@@ -74,28 +74,70 @@ function setUpPointClick() {
 function getPopupHTML(){
 // (in the final assignment, all the required values for the asset pop-up will be
 //derived from feature.properties.xxx – see the Earthquakes code for how this is done)
-let id = "1272"; // this will be the asset ID
-let surname = "Ellul";
-let name = "Claire";
-let module="CEGE0043";
-let language = "English";
-let lecturetime = "6am";
-let previousCondition = 3;
- let htmlString = "<DIV id='popup'"+ id+ "><h2>" + name + "</h2><br>";
- htmlString = htmlString + "<h3>"+surname + "</h3><br>";
- htmlString = htmlString + "<input type='radio' name='answer' id ='"+id+"_1'/>"+module+"<br>";
- htmlString = htmlString + "<input type='radio' name='answer' id ='"+id+"_2'/>"+language+"<br>";
- htmlString = htmlString + "<input type='radio' name='answer' id ='"+id+"_3'/>"+lecturetime+"<br>";
- htmlString = htmlString + "<button onclick='checkCondition(" + id + ");return false;'>SubmitCondition</button>";
- // now include a hidden element with the previous condition value
- htmlString = htmlString + "<div id=previousCondition_" + id + "hidden>"+previousCondition+"</div>";
+let id = "2"; // this will be the asset ID
+let asset_name = "UCL";
+let installation_date = "2023";
+let user_id="user_id";
+// condition values
+let con_1 = "Element is in very good condition";
+let con_2 = "Some aesthetic defects, needs minor repair";
+let con_3 = "Functional degradation of some parts, needs maintenance";
+let con_4 = "Not working and maintenance must be done as soon as reasonably possible";
+let con_5 = "Not working and needs immediate, urgent maintenance";
+let asset_id = "2";
+let previousCondition = con_1;
+let htmlString = "<DIV id='popup'"+ id+ ">";
+htmlString = htmlString+ "<div>" + "Asset Name: "+asset_name + "</div><br>";
+// now include a hidden element with the previous condition value
+htmlString = htmlString + "<div id=previousCondition_" + id + " style='display: none;'>"+previousCondition+"</div>";
 // and a hidden element with the ID of the asset so that we can insert the condition with the correct asset later
- htmlString = htmlString + "<div id=asset_ " + id + " hidden>"+id+"</div>";
- htmlString = htmlString + "</div>";
+htmlString = htmlString + "<div id=asset_" + id + " style='display: none;'>"+id+"</div>";
+htmlString = htmlString + "<div>"+"Asset Installation Date: "+installation_date + "</div><br>";
+htmlString = htmlString + "<input type='radio' name='answer' id ='"+id+"_1'/>"+con_1+"<br>";
+htmlString = htmlString + "<input type='radio' name='answer' id ='"+id+"_2'/>"+con_2+"<br>";
+htmlString = htmlString + "<input type='radio' name='answer' id ='"+id+"_3'/>"+con_3+"<br>";
+htmlString = htmlString + "<input type='radio' name='answer' id ='"+id+"_4'/>"+con_4+"<br>";
+htmlString = htmlString + "<input type='radio' name='answer' id ='"+id+"_5'/>"+con_5+"<br>";
+htmlString = htmlString + "<button onclick='checkCondition(" + id + ");return false;'>SAVE CONDITION BUTTON</button>";
+htmlString = htmlString + "</div>";
 return htmlString;
 }
 
+function checkCondition(id){
+    let postString = "&asset_id="+id;
 
+	// The previous condition (from the hidden field)
+	let previousConditionValue = document.getElementById("previousCondition_"+id).value;
+	// The ID of the asset (from the hidden field)
+	let assetID = document.getElementById("assetID").value;
+	let condition = "";
+	
+	if (document.getElementById(id+"_1").checked) {
+ 		 condition = document.getElementById(id+"_1").value;
+	}
+	if (document.getElementById(id+"_2").checked) {
+ 		 condition = document.getElementById(id+"_2").value;
+	}
+	if (document.getElementById(id+"_3").checked) {
+ 		 condition = document.getElementById(id+"_3").value;
+	}
+	if (document.getElementById(id+"_4").checked) {
+ 		 condition = document.getElementById(id+"_4").value;
+	}
+	if (document.getElementById(id+"_5").checked) {
+ 		 condition = document.getElementById(id+"_5").value;
+	}
+   
+	if (condition == previousConditionValue){
+		alert("The the selected condition is the same as the previous condition");
+		postString = postString + "&condition="+condition
+	}else{
+		alert("The the selected condition is NOT the same as the previous condition");
+		postString = postString + "&condition="+condition
+	}
+	processData(postString)    
+}
+ 
 
 function onMapClick(e) {
  let formHTML = basicFormHtml();
