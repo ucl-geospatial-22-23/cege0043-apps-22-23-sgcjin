@@ -104,71 +104,18 @@ htmlString = htmlString + "</div>";
 return htmlString;
 }
 
-function checkCondition(id){
-    let postString = "&asset_id="+id;
 
-	// The previous condition (from the hidden field)
-	let previousConditionValue = document.getElementById("previousCondition_"+id).innerHTML;
-	// The ID of the asset (from the hidden field)
-	let user_id = document.getElementById("user_"+id).innerHTML;
-    postString = postString + "&user_id="+user_id;
-	let condition = "";
-	
-	if (document.getElementById(id+"_1").checked) {
- 		 condition = document.getElementById(id+"_1").value;
-	}
-	if (document.getElementById(id+"_2").checked) {
- 		 condition = document.getElementById(id+"_2").value;
-	}
-	if (document.getElementById(id+"_3").checked) {
- 		 condition = document.getElementById(id+"_3").value;
-	}
-	if (document.getElementById(id+"_4").checked) {
- 		 condition = document.getElementById(id+"_4").value;
-	}
-	if (document.getElementById(id+"_5").checked) {
- 		 condition = document.getElementById(id+"_5").value;
-	}
-
-	if (condition == previousConditionValue){
-		alert("The selected condition is the same as the previous condition");
-		postString = postString + "&condition="+condition
-	}else{
-		alert("The selected condition is NOT the same as the previous condition");
-		postString = postString + "&condition="+condition
-	}
-	processData(postString)    
-}
- 
-function processData(postString) {
-	let serviceUrl= document.location.origin +"/api/testCRUD"
-	//serviceUrl = "https://cege0043-7.cs.ucl.ac.uk/api/testCRUD"
-	$.ajax({
-	url: serviceUrl,
-	crossDomain: true,
-	type: "POST",
-	success: function(data){console.log(data); dataUploaded(data);},
-	data: postString
-	});
-}
-
-// create the code to process the response from the data server
-function dataUploaded(data) {
-	// change the DIV to show the response
-	//document.getElementById("conditionResult").innerHTML = JSON.stringify(data);
-	// alert and consol log for prac4
-	alert(JSON.stringify(data));
-}
 
 function onMapClick(e) {
  let formHTML = basicFormHtml();
  //debug
  popup = L.popup();
- // change te latlon
- document.getElementById("longitude")=e.latlng.lng().toString();
- document.getElementById("latitude")=e.latlng.lat().toString();
+
  popup.setLatLng(e.latlng).setContent("You clicked the map at " + e.latlng.toString()+"<br>"+formHTML).openOn(mymap);
- }
+  // change te latlon
+ document.getElementById("longitude").innerHTML=e.latlng.lng.toString();
+ document.getElementById("latitude").innerHTML=e.latlng.lat.toString();
+}
 
 
 
@@ -177,8 +124,8 @@ function basicFormHtml() {
 var myvar = '<div>'+
 '<label for="asset_name">Asset Name: </label><input type="text" size="25" id="asset_name"/><br />'+
 '<label for="installation_date">Installation Date: </label><input type="text" size="25" id="installation_date"/><br />'+
-'<div id="longitude" style="display: none;"></div>'+
-' <div id="latitude" style="display: none;"></div>'+
+'<div id="longitude" style="display: none;">1</div>'+
+' <div id="latitude" style="display: none;">1</div>'+
 '<br />'+
 ' <button id="startUpload" onclick="saveNewAsset()">saveAsset</button>'+
 '</div>';
