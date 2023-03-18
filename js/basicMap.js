@@ -111,9 +111,7 @@ function onMapClick(e) {
  popup = L.popup();
 
  popup.setLatLng(e.latlng).setContent("You clicked the map at " + e.latlng.toString()+"<br>"+formHTML).openOn(mymap);
-  // change te latlon
- document.getElementById("longitude").innerHTML=e.latlng.lng.toString();
- document.getElementById("latitude").innerHTML=e.latlng.lat.toString();
+
 }
 
 

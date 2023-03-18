@@ -13,6 +13,7 @@ function saveNewAsset() {
 	 postString = postString + "&installation_date="+installation_date;
 	 postString = postString + "&latitude="+latitude;
 	 postString = postString + "&longitude="+longitude;
+     postString = postString + "&user_id="+user_id;
 	// call the AJAX code
 	processData(postString);
 }
