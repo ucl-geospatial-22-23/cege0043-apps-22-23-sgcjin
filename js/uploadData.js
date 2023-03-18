@@ -19,13 +19,20 @@ function saveNewAsset() {
 }
 
 function checkCondition(id){
-    let postString = "&asset_id="+id;
 
 	// The previous condition (from the hidden field)
 	let previousConditionValue = document.getElementById("previousCondition_"+id).innerHTML;
+    postString = "&old_condition="+previousConditionValue;
 	// The ID of the asset (from the hidden field)
 	let user_id = document.getElementById("user_"+id).innerHTML;
     postString = postString + "&user_id="+user_id;
+    // asset name
+    let asset_name = document.getElementById("asset_name_"+id).getAttribute("value");
+    postString = postString + "&asset_name="+asset_name;
+    // installation_date
+    let installation_date = document.getElementById("installation_date").getAttribute("value");
+    postString = postString + "&installation_date="+installation_date;
+    // new_condition
 	let condition = "";
 	
 	if (document.getElementById(id+"_1").checked) {
@@ -46,12 +53,14 @@ function checkCondition(id){
 
 	if (condition == previousConditionValue){
 		alert("The selected condition is the same as the previous condition");
-		postString = postString + "&condition="+condition
+		postString = postString + "&new_condition="+condition
 	}else{
 		alert("The selected condition is NOT the same as the previous condition");
-		postString = postString + "&condition="+condition
+		postString = postString + "&new_condition="+condition
         document.getElementById("previousCondition_"+id).innerHTML=condition
 	}
+    // asset id
+    let postString = "&asset_id="+id;
 	processData(postString)  
     
 }
