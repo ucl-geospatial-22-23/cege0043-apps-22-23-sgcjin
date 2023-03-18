@@ -4,7 +4,7 @@ let popup; // keep this as a global variable
 let mapPoint; // store the geoJSON feature so that we can remove it if the screen is resized
 let mymap;
 
-function loadLeafletMap() {
+function loadMap() {
     // CODE TO INITIALISE AND CREATE THE MAP GOES HERE 
     mymap = L.map('mapid').setView([51.505, -0.09], 13);
     L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
