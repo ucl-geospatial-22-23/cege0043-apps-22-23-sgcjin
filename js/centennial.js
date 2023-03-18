@@ -2,7 +2,7 @@
 let baseComputerAddress = document.location.origin;
 let dataAddress="/api/geojson/ucfscde/temperature_sensors/sensor_id/location";
 let layerURL = baseComputerAddress + dataAddress;
-let mymap;
+
 // create an empty array
 let  listOfThings = []
 
@@ -10,8 +10,8 @@ function loadThing(thingname) {
  // first check if the thing is loaded already
  for (var i=0;i<listOfThings.length ;i++){
  if (listOfThings[i][1] == thingname){
- alert("Layer already loaded")
 
+ alert("Layer already loaded");
  return;
  }
  }
