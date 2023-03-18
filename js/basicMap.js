@@ -99,10 +99,9 @@ return htmlString;
 
 function onMapClick(e) {
  let formHTML = basicFormHtml();
- popup
- .setLatLng(e.latlng)
- .setContent("You clicked the map at " + e.latlng.toString()+"<br>"+formHTML)
- .openOn(mymap);
+ //debug
+ popup = L.popup();
+ popup.setLatLng(e.latlng).setContent("You clicked the map at " + e.latlng.toString()+"<br>"+formHTML).openOn(mymap);
  }
 
 
@@ -157,5 +156,5 @@ let mylet = '<label for="name">Name</label><input type="text" size="25" id="name
 '<button id="startDelete" onclick="deleteRecord()">Delete Record</button>'+
 '<div id="dataDeleteResult">The result of the upload goes here</div>';
 
-return myvar;
+return mylet;
 }
