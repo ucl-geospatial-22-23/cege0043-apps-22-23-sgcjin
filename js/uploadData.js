@@ -50,8 +50,10 @@ function checkCondition(id){
 	}else{
 		alert("The selected condition is NOT the same as the previous condition");
 		postString = postString + "&condition="+condition
+        document.getElementById("previousCondition_"+id).innerHTML=condition
 	}
-	processData(postString)    
+	processData(postString)  
+    
 }
  
 function processData(postString) {
