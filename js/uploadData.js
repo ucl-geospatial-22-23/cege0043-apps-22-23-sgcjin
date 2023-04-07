@@ -4,8 +4,8 @@ function saveNewAsset() {
     // get asset_information values
 	let asset_name = document.getElementById("asset_name").value;
     let installation_date = document.getElementById("installation_date").value;
-    let latitude = document.getElementById("latitude").value;
-	let longitude = document.getElementById("longitude").value;
+    let latitude = document.getElementById("latitude").getAttribute("value");
+	let longitude = document.getElementById("longitude").getAttribute("value");
     let user_id = document.getElementById("user_id").innerHTML;
 
     // add to postString
@@ -15,7 +15,9 @@ function saveNewAsset() {
 	 postString = postString + "&longitude="+longitude;
      postString = postString + "&user_id="+user_id;
 	// call the AJAX code
+	console.log(postString);
 	insertAsset(postString);
+
 }
 
 function checkCondition(id){
@@ -67,7 +69,7 @@ function checkCondition(id){
  
 
 function insertAsset(postString) {
-	let serviceUrl= document.location.origin +"/api/insertAsset"
+	let serviceUrl= document.location.origin +"/api/insertAssetPoint"
 	//serviceUrl = "https://cege0043-7.cs.ucl.ac.uk/api/testCRUD"
 	$.ajax({
 	url: serviceUrl,

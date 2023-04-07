@@ -110,11 +110,12 @@ function onMapClick(e) {
  let formHTML = '<div>'+
 '<label for="asset_name">Asset Name </label><input type="text" size="25" id="asset_name"/><br />'+
 '<label for="installation_date">Installation Date </label><input type="text" size="25" id="installation_date"/><br />'+
-'<div id="latitude" value= '+e.latlng.lat.toString()+'>Latitude: '+e.latlng.lat.toString()+'</div><br />'+
-'<div id="longitude" value= '+e.latlng.lng.toString()+'>Longitude: '+e.latlng.lng.toString()+'</div><br />'+
+'<div id="latitude" value= "'+e.latlng.lat.toString()+'">Latitude: '+e.latlng.lat.toString()+'</div><br />'+
+'<div id="longitude" value= "'+e.latlng.lng.toString()+'">Longitude: '+e.latlng.lng.toString()+'</div><br />'+
 '<div id="user_id" style="display: none;">2</div>'+
 '<button id="startUpload" onclick="saveNewAsset()">saveAsset</button>'+
 '</div>';
+ console.log(formHTML);
  popup = L.popup();
  popup.setLatLng(e.latlng).setContent(formHTML).openOn(mymap);
 }
