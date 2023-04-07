@@ -2,10 +2,9 @@
 let width; // NB – keep this as a global variable
 let popup; // keep this as a global variable
 let mapPoint; // store the geoJSON feature so that we can remove it if the screen is resized
+let mymap;
 
-
-function loadLeafletMap() {
-
+function loadMap() {
     // CODE TO INITIALISE AND CREATE THE MAP GOES HERE 
     mymap = L.map('mapid').setView([51.505, -0.09], 13);
     L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -63,7 +62,6 @@ function setUpPointClick() {
      // and add it to the map and zoom to that location
      // the on click functionality of the POINT should pop up partially populated condition form so that the user can select the condition they require
      let popUpHTML = getPopupHTML();
-     console.log(popUpHTML);
     // use the mapPoint variable so that we can remove this point layer on
     mapPoint= L.geoJSON(geojsonFeature).addTo(mymap).bindPopup(popUpHTML);
     mymap.setView([51.522449,-0.13263], 12)
@@ -87,13 +85,13 @@ let con_5 = "Not working and needs immediate, urgent maintenance";
 let asset_id = "2";
 let previousCondition = con_1;
 let htmlString = "<DIV id='popup'"+ id+ ">";
-htmlString = htmlString+ "<div>" + "Asset Name: "+asset_name + "</div><br>";
+htmlString = htmlString+ "<div id=asset_name_" + id + " value='"+asset_name+"'>Asset Name: "+asset_name+"</div>";
 // now include a hidden element with the previous condition value
 htmlString = htmlString + "<div id=previousCondition_" + id + " style='display: none;'>"+previousCondition+"</div>";
 // and a hidden element with the ID of the asset so that we can insert the condition with the correct asset later
 htmlString = htmlString + "<div id=asset_" + id + " style='display: none;'>"+id+"</div>";
 htmlString = htmlString + "<div id=user_" + id +" style='display: none;'>"+user_id+"</div>";
-htmlString = htmlString + "<div>"+"Asset Installation Date: "+installation_date + "</div><br/>";
+htmlString = htmlString + "<div id=installation_date value='"+installation_date+"'>Asset Installation Date: "+installation_date+"</div>";
 htmlString = htmlString + "<input type='radio' name='answer' value='"+con_1+"' id ='"+id+"_1'/>"+con_1+"<br/>";
 htmlString = htmlString + "<input type='radio' name='answer' value='"+con_2+"' id ='"+id+"_2'/>"+con_2+"<br/>";
 htmlString = htmlString + "<input type='radio' name='answer' value='"+con_3+"' id ='"+id+"_3'/>"+con_3+"<br/>";
@@ -101,7 +99,9 @@ htmlString = htmlString + "<input type='radio' name='answer' value='"+con_4+"' i
 htmlString = htmlString + "<input type='radio' name='answer' value='"+con_5+"' id ='"+id+"_5'/>"+con_5+"<br/>";
 htmlString = htmlString + "<button onclick='checkCondition(" + id + ");return false;'>SAVE CONDITION BUTTON</button>";
 htmlString = htmlString + "</div>";
+
 return htmlString;
+
 }
 
 
@@ -112,9 +112,7 @@ function onMapClick(e) {
  popup = L.popup();
 
  popup.setLatLng(e.latlng).setContent("You clicked the map at " + e.latlng.toString()+"<br>"+formHTML).openOn(mymap);
-  // change te latlon
- document.getElementById("longitude").innerHTML=e.latlng.lng.toString();
- document.getElementById("latitude").innerHTML=e.latlng.lat.toString();
+
 }
 
 
@@ -124,10 +122,10 @@ function basicFormHtml() {
 var myvar = '<div>'+
 '<label for="asset_name">Asset Name: </label><input type="text" size="25" id="asset_name"/><br />'+
 '<label for="installation_date">Installation Date: </label><input type="text" size="25" id="installation_date"/><br />'+
-'<div id="longitude" style="display: none;">1</div>'+
-' <div id="latitude" style="display: none;">1</div>'+
-'<br />'+
-' <button id="startUpload" onclick="saveNewAsset()">saveAsset</button>'+
+'<label for="latitude">Latitude: </label><input type="text" size="25" id="latitude"/><br />'+
+'<label for="longitude">Longitude: </label><input type="text" size="25" id="longitude"/><br />'+
+'<div id="user_id" style="display: none;">2</div>'+
+'<button id="startUpload" onclick="saveNewAsset()">saveAsset</button>'+
 '</div>';
 return myvar;
 }

@@ -4,25 +4,35 @@ function saveNewAsset() {
     // get asset_information values
 	let asset_name = document.getElementById("asset_name").value;
     let installation_date = document.getElementById("installation_date").value;
-    let latitude = document.getElementById("latitude").innerHTML;
-	let longitude = document.getElementById("longitude").innerHTML;
+    let latitude = document.getElementById("latitude").value;
+	let longitude = document.getElementById("longitude").value;
+    let user_id = document.getElementById("user_id").innerHTML;
+
     // add to postString
 	let postString = "asset_name="+asset_name;
 	 postString = postString + "&installation_date="+installation_date;
 	 postString = postString + "&latitude="+latitude;
 	 postString = postString + "&longitude="+longitude;
+     postString = postString + "&user_id="+user_id;
 	// call the AJAX code
 	processData(postString);
 }
 
 function checkCondition(id){
-    let postString = "&asset_id="+id;
-
+    let postString = '';
 	// The previous condition (from the hidden field)
 	let previousConditionValue = document.getElementById("previousCondition_"+id).innerHTML;
+    postString = "&old_condition="+previousConditionValue;
 	// The ID of the asset (from the hidden field)
 	let user_id = document.getElementById("user_"+id).innerHTML;
     postString = postString + "&user_id="+user_id;
+    // asset name
+    let asset_name = document.getElementById("asset_name_" + id).getAttribute("value");
+    postString = postString + "&asset_name="+asset_name;
+    // installation_date
+    let installation_date = document.getElementById("installation_date").getAttribute("value");
+    postString = postString + "&installation_date="+installation_date;
+    // new_condition
 	let condition = "";
 	
 	if (document.getElementById(id+"_1").checked) {
@@ -43,12 +53,16 @@ function checkCondition(id){
 
 	if (condition == previousConditionValue){
 		alert("The selected condition is the same as the previous condition");
-		postString = postString + "&condition="+condition
+		postString = postString + "&new_condition="+condition
 	}else{
 		alert("The selected condition is NOT the same as the previous condition");
-		postString = postString + "&condition="+condition
+		postString = postString + "&new_condition="+condition
+        document.getElementById("previousCondition_"+id).innerHTML=condition
 	}
-	processData(postString)    
+    // asset id
+    postString = postString+"&asset_id="+id;
+	processData(postString)  
+    
 }
  
 function processData(postString) {
@@ -58,7 +72,7 @@ function processData(postString) {
 	url: serviceUrl,
 	crossDomain: true,
 	type: "POST",
-	success: function(data){console.log(data); dataUploaded(data);},
+	success: function(data){dataUploaded(data);},
 	data: postString
 	});
 }
