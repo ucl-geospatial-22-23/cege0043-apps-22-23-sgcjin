@@ -15,7 +15,7 @@ function saveNewAsset() {
 	 postString = postString + "&longitude="+longitude;
      postString = postString + "&user_id="+user_id;
 	// call the AJAX code
-	processData(postString);
+	insertAsset(postString);
 }
 
 function checkCondition(id){
@@ -61,12 +61,25 @@ function checkCondition(id){
 	}
     // asset id
     postString = postString+"&asset_id="+id;
-	processData(postString)  
+	insertCondition(postString)  
     
 }
  
-function processData(postString) {
-	let serviceUrl= document.location.origin +"/api/testCRUD"
+
+function insertAsset(postString) {
+	let serviceUrl= document.location.origin +"/api/insertAsset"
+	//serviceUrl = "https://cege0043-7.cs.ucl.ac.uk/api/testCRUD"
+	$.ajax({
+	url: serviceUrl,
+	crossDomain: true,
+	type: "POST",
+	success: function(data){dataUploaded(data);},
+	data: postString
+	});
+}
+
+function insertCondition(postString) {
+	let serviceUrl= document.location.origin +"/api/insertConditionInformation"
 	//serviceUrl = "https://cege0043-7.cs.ucl.ac.uk/api/testCRUD"
 	$.ajax({
 	url: serviceUrl,

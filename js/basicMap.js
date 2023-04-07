@@ -111,8 +111,11 @@ function onMapClick(e) {
  //debug
  popup = L.popup();
 
- popup.setLatLng(e.latlng).setContent("You clicked the map at " + e.latlng.toString()+"<br>"+formHTML).openOn(mymap);
-
+ popup.setLatLng(e.latlng).setContent(formHTML).openOn(mymap);
+ document.getElementById("longitude").innerHTML= "longitude: "+ e.latlng.lng.toString();
+ document.getElementById("latitude").innerHTML="Latitude: "+e.latlng.lat.toString();
+  document.getElementById("longitude").value=e.latlng.lng.toString();
+ document.getElementById("latitude").value=e.latlng.lat.toString();
 }
 
 
@@ -120,10 +123,10 @@ function onMapClick(e) {
 function basicFormHtml() {
 
 var myvar = '<div>'+
-'<label for="asset_name">Asset Name: </label><input type="text" size="25" id="asset_name"/><br />'+
-'<label for="installation_date">Installation Date: </label><input type="text" size="25" id="installation_date"/><br />'+
-'<label for="latitude">Latitude: </label><input type="text" size="25" id="latitude"/><br />'+
-'<label for="longitude">Longitude: </label><input type="text" size="25" id="longitude"/><br />'+
+'<label for="asset_name">Asset Name </label><input type="text" size="25" id="asset_name"/><br />'+
+'<label for="installation_date">Installation Date </label><input type="text" size="25" id="installation_date"/><br />'+
+'<div id="latitude" value="">Latitude: </div><br />'+
+'<div id="longitude" value="">Longitude: </div><br />'+
 '<div id="user_id" style="display: none;">2</div>'+
 '<button id="startUpload" onclick="saveNewAsset()">saveAsset</button>'+
 '</div>';
