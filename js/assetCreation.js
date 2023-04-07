@@ -20,8 +20,7 @@ function saveNewAsset(){
 }
 
 function processData(postString) {
-	let serviceUrl= document.location.origin +"/api/testCRUD"
-	//serviceUrl = "https://cege0043-7.cs.ucl.ac.uk/api/testCRUD"
+	let serviceUrl= document.location.origin +"/api/insertAssetPoint"
 	$.ajax({
 	url: serviceUrl,
 	crossDomain: true,
@@ -43,7 +42,7 @@ function deleteSingleAsset() {
 	let deleteID = document.getElementById("del_asset_id").value;
 	let deleteString = "id="+deleteID;
 	console.log(deleteString)
-	let serviceUrl= document.location.origin + "/api/testCRUD";
+	let serviceUrl= document.location.origin + "/api/deleteAsset";
 	$.ajax({
 	    url: serviceUrl,
 	    crossDomain: true,
