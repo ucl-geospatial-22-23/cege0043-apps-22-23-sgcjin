@@ -6,14 +6,14 @@ function saveNewAsset() {
     let installation_date = document.getElementById("installation_date").value;
     let latitude = document.getElementById("latitude").getAttribute("value");
 	let longitude = document.getElementById("longitude").getAttribute("value");
-    let user_id = document.getElementById("user_id").innerHTML;
+    //let user_id = document.getElementById("create_user_id").innerHTML;
 
     // add to postString
 	let postString = "asset_name="+asset_name;
 	 postString = postString + "&installation_date="+installation_date;
 	 postString = postString + "&latitude="+latitude;
 	 postString = postString + "&longitude="+longitude;
-     postString = postString + "&user_id="+user_id;
+     //postString = postString + "&user_id="+user_id;
 	// call the AJAX code
 	console.log(postString);
 	insertAsset(postString);
@@ -26,7 +26,7 @@ function checkCondition(id){
 	let previousConditionValue = document.getElementById("previousCondition_"+id).innerHTML;
     // postString = "&old_condition="+previousConditionValue;
 	// TODO: The ID of the asset (from the hidden field)
-	let user_id = document.getElementById("user_"+id).innerHTML;
+	// let user_id = document.getElementById("user_"+id).innerHTML;
     // postString = postString + "&user_id="+user_id;
     // asset name
     let asset_name = document.getElementById("asset_name_" + id).getAttribute("value");

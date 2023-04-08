@@ -3,6 +3,11 @@ let width; // NB – keep this as a global variable
 let popup; // keep this as a global variable
 let mapPoint; // store the geoJSON feature so that we can remove it if the screen is resized
 let mymap;
+var userID;
+//let baseURL = document.location.origin;
+let baseURL = "https://cege0043-7.cs.ucl.ac.uk";
+
+
 
 function loadMap() {
     // CODE TO INITIALISE AND CREATE THE MAP GOES HERE 
@@ -11,12 +16,31 @@ function loadMap() {
      maxZoom: 19,
      attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
     }).addTo(mymap);
+
+
    window.addEventListener('resize', setMapClickEvent);
-  setMapClickEvent();
-} //end code to add the leaflet map
+ // set up user id
+ let theURL =  baseURL+"/api/userID" 
+    var userID;
+    $.ajax({url:theURL,
+      // allow requests from other servers
+    	crossDomain: true,
+
+      // if the response is succesful then ..
+ 		success: function(result){
+        userID = JSON.parse(JSON.stringify(result))[0].user_id;
+        // update hidden user id, use it as a global variable
+        document.getElementById("hidden_user_id").innerHTML=userID;
+        setMapClickEvent();         
+         
+    }}); //end of the AJAX call
+}
+
+ //end code to add the leaflet map
 
 
 function setMapClickEvent() {
+
      // get the window width
      width = $(window).width();
      // we use the bootstrap Medium and Large options for the asset location capture
@@ -59,6 +83,11 @@ function setUpPointClick() {
      "coordinates": [-0.13263, 51.522449]
      }
      };
+     
+
+
+
+ 
      // and add it to the map and zoom to that location
      // the on click functionality of the POINT should pop up partially populated condition form so that the user can select the condition they require
      let popUpHTML = getPopupHTML();
@@ -70,12 +99,14 @@ function setUpPointClick() {
 
 
 function getPopupHTML(){
+
 // (in the final assignment, all the required values for the asset pop-up will be
 //derived from feature.properties.xxx – see the Earthquakes code for how this is done)
 let id = "2"; // this will be the asset ID
 let asset_name = "UCL";
 let installation_date = "2023";
-let user_id="user_id";
+let user_id=document.getElementById("hidden_user_id").innerHTML;
+
 // condition values
 let con_1 = "Element is in very good condition";
 let con_2 = "Some aesthetic defects, needs minor repair";
@@ -90,7 +121,7 @@ htmlString = htmlString+ "<div id=asset_name_" + id + " value='"+asset_name+"'>A
 htmlString = htmlString + "<div id=previousCondition_" + id + " style='display: none;'>"+previousCondition+"</div>";
 // and a hidden element with the ID of the asset so that we can insert the condition with the correct asset later
 htmlString = htmlString + "<div id=asset_" + id + " style='display: none;'>"+id+"</div>";
-htmlString = htmlString + "<div id=user_" + id +" style='display: none;'>"+user_id+"</div>";
+htmlString = htmlString + "<div id=user_id" +" style='display: none;'>"+user_id+"</div>";
 htmlString = htmlString + "<div id=installation_date value='"+installation_date+"'>Asset Installation Date: "+installation_date+"</div>";
 htmlString = htmlString + "<input type='radio' name='answer' value='"+con_1+"' id ='"+id+"_1'/>"+con_1+"<br/>";
 htmlString = htmlString + "<input type='radio' name='answer' value='"+con_2+"' id ='"+id+"_2'/>"+con_2+"<br/>";
@@ -112,12 +143,13 @@ function onMapClick(e) {
 '<label for="installation_date">Installation Date </label><input type="text" size="25" id="installation_date"/><br />'+
 '<div id="latitude" value= "'+e.latlng.lat.toString()+'">Latitude: '+e.latlng.lat.toString()+'</div><br />'+
 '<div id="longitude" value= "'+e.latlng.lng.toString()+'">Longitude: '+e.latlng.lng.toString()+'</div><br />'+
-'<div id="user_id" style="display: none;">2</div>'+
+'<div id="user_id" style="display: none;">'+ document.getElementById("hidden_user_id").innerHTML+'</div>'+
 '<button id="startUpload" onclick="saveNewAsset()">saveAsset</button>'+
 '</div>';
- console.log(formHTML);
+
  popup = L.popup();
  popup.setLatLng(e.latlng).setContent(formHTML).openOn(mymap);
+ console.log(formHTML);
 }
 
 
