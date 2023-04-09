@@ -18,9 +18,7 @@ function loadMap() {
 
    window.addEventListener('resize', setMapClickEvent);
  // set up user id
- let theURL =  baseURL+"/api/userID" 
-    ;
- console.log("get user id");
+ let theURL =  baseURL+"/api/userID";
     $.ajax({url:theURL,
       // allow requests from other servers
     	crossDomain: true,
@@ -46,18 +44,8 @@ function countlayers(){
     console.log(layerlist);
 }
 
-// due to the asychronous of load layers in setMapClickEvent, multiple mapPoint layers will be loaded
-// when the window is resized, hundreds of mapPoint layers will be loaded
-// therefore, simple mymap.removeLayer(mapPoint) is not enough 
-function removelayers(name){
-      for (var i=0;i<layerlist.length ;i++){
-     // use a loop to use layer name to delete layers
-     if (layerlist[i][0] == name){
-     mymap.removeLayer(layerlist[i][1]);
-     layerlist.splice(i,1);
-     }
-     }
-}// end of function
+
+
 
 function setMapClickEvent() {
 
@@ -74,8 +62,7 @@ function setMapClickEvent() {
          mymap.off('click',onMapClick);
       // remove the map point if it exists
          if(mapPoint){
-             removelayers("mapPoint");
-             removePositionPoints();
+             removeAllLayer();
              mymap.addLayer(mapPoint);
              trackLocation();
          }else{         
@@ -105,7 +92,7 @@ function setUpPointClick() {
     // get condition values first
     $.ajax({url:baseURL+"/api/geojson/conditionDetails",crossDomain: true, success: function(result){
      
-    let conditions = [];
+    let conditions = []; // variable to store conditions
      // loop and parse condition_descriptions 
      for (let i =0;i<JSON.parse(JSON.stringify(result)).length;i++){
       conditions.push(JSON.parse(JSON.stringify(result))[i].condition_description);
@@ -131,8 +118,6 @@ function setUpPointClick() {
      }, // end of point to layer          
      }).addTo(mymap);// end of mappoint
     layerlist.push(["mapPoint",mapPoint]);
-     // fit bounds
-    mymap.fitBounds(mapPoint.getBounds());  
     
     }}); //end of the AJAX call of userAssets
          
