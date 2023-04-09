@@ -15,7 +15,7 @@ function loadMap() {
      maxZoom: 19,
      attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
     }).addTo(mymap);
- countlayers();
+
 
 
    window.addEventListener('resize', setMapClickEvent);
@@ -32,7 +32,7 @@ function loadMap() {
         userID = JSON.parse(JSON.stringify(result))[0].user_id;
         // update hidden user id, use it as a global variable
         document.getElementById("hidden_user_id").innerHTML=userID;      
-         
+         setMapClickEvent()
     }}); //end of the AJAX call
 }
 //end code to add the leaflet map
@@ -75,6 +75,7 @@ function setMapClickEvent() {
          //anything smaller than 992px is defined as 'medium' by bootstrap
          
       // remove the map point if it exists
+      console.log("con");
          if(mapPoint){
              removelayers("mapPoint");
              removePositionPoints();
