@@ -1,4 +1,5 @@
 "use strict";
+let baseURL = "https://cege0043-7.cs.ucl.ac.uk";
 
 function saveNewAsset() {
     // get asset_information values
@@ -62,13 +63,18 @@ function checkCondition(id){
     // asset id
     //postString = postString+"&asset_id="+id;
 	postString = postString + "&condition_description="+condition
-	insertCondition(postString)  
-    
+	insertCondition(postString)
+
+	// changes colour when the report has been submitted
+	 if (mapPoint){
+		 mymap.removeLayer(mapPoint);
+	 }	
+    setUpPointClick();
 }
  
 
 function insertAsset(postString) {
-	let serviceUrl= document.location.origin +"/api/insertAssetPoint"
+	let serviceUrl= baseURL +"/api/insertAssetPoint"
 	//serviceUrl = "https://cege0043-7.cs.ucl.ac.uk/api/testCRUD"
 	$.ajax({
 	url: serviceUrl,
@@ -80,7 +86,7 @@ function insertAsset(postString) {
 }
 
 function insertCondition(postString) {
-	let serviceUrl= document.location.origin +"/api/insertConditionInformation"
+	let serviceUrl= baseURL +"/api/insertConditionInformation"
 	//serviceUrl = "https://cege0043-7.cs.ucl.ac.uk/api/testCRUD"
 	$.ajax({
 	url: serviceUrl,

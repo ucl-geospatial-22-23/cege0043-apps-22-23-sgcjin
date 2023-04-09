@@ -4,7 +4,7 @@ let popup; // keep this as a global variable
 let mapPoint; // store the geoJSON feature so that we can remove it if the screen is resized
 let mymap;
 //let baseURL = document.location.origin;
-let baseURL = "https://cege0043-7.cs.ucl.ac.uk";
+baseURL = "https://cege0043-7.cs.ucl.ac.uk";
 
 
 
@@ -57,7 +57,7 @@ function setMapClickEvent() {
          // set up a point with click functionality
          // so that anyone clicking will add asset condition information
          setUpPointClick();
-         // mymap.setView([51.522449,-0.13263], 12);
+
 
      }
      else { // the asset creation page
@@ -105,7 +105,6 @@ return L.marker(latlng,
 }}); //end of the AJAX call of userAssets
      
 }}); //end of the AJAX call of condition
-     
 
 }
 
@@ -152,7 +151,6 @@ let testMarkerPink = L.AwesomeMarkers.icon({
     default: // if unknown OR other values, return grey
       return testMarkerGray;
   }
-
    
 }
 
@@ -210,7 +208,7 @@ function onMapClick(e) {
 
  popup = L.popup();
  popup.setLatLng(e.latlng).setContent(formHTML).openOn(mymap);
- console.log(formHTML);
+
 }
 
 
