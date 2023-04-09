@@ -6,6 +6,8 @@ let geoLocationID;
 
 
 function trackLocation() {
+
+	
 if (navigator.geolocation) {
  // test to see if there is an active tracking and clear it if so
  // so that we don’t have multiple tracking going on
@@ -33,6 +35,7 @@ else {
 // document.getElementById('showLocation').innerHTML = "Geolocation is not supported by this browser.";
 alert("Geolocation is not supported by this browser.")
 }
+	
 }
 
 
@@ -48,7 +51,8 @@ function showPosition(position) {
 // add the new point into the array
 // the 'push' command
 trackLocationLayer.push(L.marker([position.coords.latitude,position.coords.longitude]).addTo(mymap));
-// mymap.flyTo([position.coords.latitude,position.coords.longitude],10)
+// fly to user location
+mymap.flyTo([position.coords.latitude,position.coords.longitude],10)
 
 mapPoint.eachLayer(function (layer) {
 	let coordinates = layer.getLatLng();
@@ -56,7 +60,6 @@ mapPoint.eachLayer(function (layer) {
 									 coordinates.lat,coordinates.lng, 'K');
 	console.log(distance);
 	if (distance<0.1){
-		console.log('alert!');
 		alert("Proximity alert: you are close to an asset you have created");
 		layer.openPopup();
 	}

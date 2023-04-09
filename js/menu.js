@@ -7,9 +7,17 @@ function loadedOrNot(name) {
  return true;
  }  
 return false
+}}
+
+// remove all layer except tile layer
+function removeAllLayer() {
+    mymap.eachLayer(function (layer) {
+  // Check if the layer is not a tile layer (base layer)
+  if (!(layer instanceof L.TileLayer)) {
+    mymap.removeLayer(layer);
+  }
+});
 }
-
-
 
 
 

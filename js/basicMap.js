@@ -6,7 +6,7 @@ let mymap;
 //let baseURL = document.location.origin;
 baseURL = "https://cege0043-7.cs.ucl.ac.uk";
 let layerlist = [];
-
+var userID;// store user id that loaded at set up
 
 function loadMap() {
     // CODE TO INITIALISE AND CREATE THE MAP GOES HERE 
@@ -16,12 +16,10 @@ function loadMap() {
      attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
     }).addTo(mymap);
 
-
-
    window.addEventListener('resize', setMapClickEvent);
  // set up user id
  let theURL =  baseURL+"/api/userID" 
-    var userID;
+    ;
  console.log("get user id");
     $.ajax({url:theURL,
       // allow requests from other servers
@@ -40,27 +38,25 @@ function loadMap() {
 
 // check current number of layers
 function countlayers(){
- let layerCount = 0;
-
-mymap.eachLayer(function (layer) {
-  layerCount++;
-});
-
-console.log("Number of layers:", layerCount);
- console.log(layerlist);
+     let layerCount = 0;
+    mymap.eachLayer(function (layer) {
+      layerCount++;
+    });
+    console.log("Number of layers:", layerCount);
+    console.log(layerlist);
 }
 
 // due to the asychronous of load layers in setMapClickEvent, multiple mapPoint layers will be loaded
 // when the window is resized, hundreds of mapPoint layers will be loaded
 // therefore, simple mymap.removeLayer(mapPoint) is not enough 
 function removelayers(name){
-  for (var i=0;i<layerlist.length ;i++){
- // use a loop to use layer name to delete layers
- if (layerlist[i][0] == name){
- mymap.removeLayer(layerlist[i][1]);
- layerlist.splice(i,1);
- }
- }
+      for (var i=0;i<layerlist.length ;i++){
+     // use a loop to use layer name to delete layers
+     if (layerlist[i][0] == name){
+     mymap.removeLayer(layerlist[i][1]);
+     layerlist.splice(i,1);
+     }
+     }
 }// end of function
 
 function setMapClickEvent() {
@@ -74,25 +70,30 @@ function setMapClickEvent() {
          //the condition capture –
          //anything smaller than 992px is defined as 'medium' by bootstrap
          
+      // cancel the map onclick event using off ..
+         mymap.off('click',onMapClick);
       // remove the map point if it exists
-      console.log("con");
          if(mapPoint){
              removelayers("mapPoint");
              removePositionPoints();
-         }
-         // cancel the map onclick event using off ..
-         mymap.off('click',onMapClick);
+             mymap.addLayer(mapPoint);
+             trackLocation();
+         }else{         
          // set up a point with click functionality
          // so that anyone clicking will add asset condition information
          setUpPointClick();
          trackLocation();
 
+         }
+
      }
      else { // the asset creation page
          // remove the map point if it exists
          if(mapPoint){
-             removelayers("mapPoint");
-             removePositionPoints();
+          // remove all layers
+        removeAllLayer();
+          // stop tracking
+        removePositionPoints();
      }
      // the on click functionality of the MAP should pop up a blank asset creation form
          mymap.on('click', onMapClick);
@@ -100,48 +101,48 @@ function setMapClickEvent() {
 } // end of setMapClickEvent
 
 function setUpPointClick() {
-
  
-// get condition values first
-$.ajax({url:baseURL+"/api/geojson/conditionDetails",crossDomain: true, success: function(result){
- 
-let conditions = [];
- // loop and parse condition_descriptions 
- for (let i =0;i<JSON.parse(JSON.stringify(result)).length;i++){
-  conditions.push(JSON.parse(JSON.stringify(result))[i].condition_description);
- }
- 
- // get pre loaded user_id
- let user_id=document.getElementById("hidden_user_id").innerHTML;
- // use an AJAX call to load the asset points on the map
-$.ajax({url:baseURL+"/api/geojson/userAssets/"+user_id,crossDomain: true, success: function(result){
-
-
-// use the mapPoint and add it to the map  
-mapPoint = L.geoJson(result,
- {
-  // use point to layer to create the points
- pointToLayer: function (feature, latlng){
- // pass geoJSON features and conditions to construct popUpHTML
-let popUpHTML = getPopupHTML(feature,conditions);
-// set all initial color using getIconByValue
-return L.marker(latlng,
-{icon:getIconByValue(feature,conditions)}).bindPopup(popUpHTML);
-  
- }, // end of point to layer          
- }).addTo(mymap);// end of mappoint
-layerlist.push(["mapPoint",mapPoint]);
- // fit bounds
-mymap.fitBounds(mapPoint.getBounds());  
-
-}}); //end of the AJAX call of userAssets
+    // get condition values first
+    $.ajax({url:baseURL+"/api/geojson/conditionDetails",crossDomain: true, success: function(result){
      
-}}); //end of the AJAX call of condition
+    let conditions = [];
+     // loop and parse condition_descriptions 
+     for (let i =0;i<JSON.parse(JSON.stringify(result)).length;i++){
+      conditions.push(JSON.parse(JSON.stringify(result))[i].condition_description);
+     }
+     
+     // get pre loaded user_id
+     let user_id=document.getElementById("hidden_user_id").innerHTML;
+     // use an AJAX call to load the asset points on the map
+    $.ajax({url:baseURL+"/api/geojson/userAssets/"+user_id,crossDomain: true, success: function(result){
+    
+    
+    // use the mapPoint and add it to the map  
+    mapPoint = L.geoJson(result,
+     {
+      // use point to layer to create the points
+     pointToLayer: function (feature, latlng){
+     // pass geoJSON features and conditions to construct popUpHTML
+    let popUpHTML = getPopupHTML(feature,conditions);
+    // set all initial color using getIconByValue
+    return L.marker(latlng,
+    {icon:getIconByValue(feature,conditions)}).bindPopup(popUpHTML);
+      
+     }, // end of point to layer          
+     }).addTo(mymap);// end of mappoint
+    layerlist.push(["mapPoint",mapPoint]);
+     // fit bounds
+    mymap.fitBounds(mapPoint.getBounds());  
+    
+    }}); //end of the AJAX call of userAssets
+         
+    }}); //end of the AJAX call of condition
 
 }
 
 
 function getIconByValue(feature,conditions) {
+ // create color icon
  let testMarkerBlue = L.AwesomeMarkers.icon({
  icon: 'play',
  markerColor: 'blue'
@@ -167,6 +168,7 @@ let testMarkerPink = L.AwesomeMarkers.icon({
  markerColor: 'purple'
  });
 
+ // assign color icon according to condition
   switch (feature.properties.condition_description) {
     case "Unknown": // if unknown OR other values, return grey
       return testMarkerGray;
