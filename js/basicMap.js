@@ -3,7 +3,6 @@ let width; // NB – keep this as a global variable
 let popup; // keep this as a global variable
 let mapPoint; // store the geoJSON feature so that we can remove it if the screen is resized
 let mymap;
-var userID;
 //let baseURL = document.location.origin;
 let baseURL = "https://cege0043-7.cs.ucl.ac.uk";
 
@@ -70,41 +69,48 @@ function setMapClickEvent() {
 } // end of setMapClickEvent
 
 function setUpPointClick() {
-     // create a geoJSON feature (in your assignment code this will be replaced
-     // by an AJAX call to load the asset points on the map
-     let geojsonFeature = {
-     "type": "Feature",
-     "properties": {
-     "name": "London",
-     "popupContent": "This is where UCL is based"
-     },
-     "geometry": {
-     "type": "Point",
-     "coordinates": [-0.13263, 51.522449]
-     }
-     };
+ let user_id=document.getElementById("hidden_user_id").innerHTML;
+     // use an AJAX call to load the asset points on the map
+$.ajax({url:baseURL+"/api/geojson/userAssets/"+user_id,crossDomain: true, success: function(result){
+
+
+let testMarkerBlue = L.AwesomeMarkers.icon({
+ icon: 'play',
+ markerColor: 'blue'
+ });
+
+      
+// use the mapPoint and add it to the map  
+mapPoint = L.geoJson(result,
+ {
+  // use point to layer to create the points
+ pointToLayer: function (feature, latlng){
+ // pass geoJSON features to construct popUpHTML
+let popUpHTML = getPopupHTML(feature);
+// set all initial color to blue
+return L.marker(latlng,
+{icon:testMarkerBlue}).bindPopup(popUpHTML);
+  
+ }, // end of point to layer  
+        
+ }).addTo(mymap);// end of mappoint       
+        
+        }}); //end of the AJAX call
      
 
-
-
- 
-     // and add it to the map and zoom to that location
-     // the on click functionality of the POINT should pop up partially populated condition form so that the user can select the condition they require
-     let popUpHTML = getPopupHTML();
-    // use the mapPoint variable so that we can remove this point layer on
-    mapPoint= L.geoJSON(geojsonFeature).addTo(mymap).bindPopup(popUpHTML);
-    mymap.setView([51.522449,-0.13263], 12)
+     
+// the on click functionality of the POINT should pop up partially populated condition form so that the user can select the condition they require
+mymap.setView([51.522449,-0.13263], 12)
 
 }
 
 
-function getPopupHTML(){
+function getPopupHTML(feature){
 
-// (in the final assignment, all the required values for the asset pop-up will be
-//derived from feature.properties.xxx – see the Earthquakes code for how this is done)
-let id = "2"; // this will be the asset ID
-let asset_name = "UCL";
-let installation_date = "2023";
+// get required values from geoJson feature
+let id = feature.properties.asset_id; // this will be the asset ID
+let asset_name = feature.properties.asset_name;
+let installation_date = feature.properties.installation_date;
 let user_id=document.getElementById("hidden_user_id").innerHTML;
 
 // condition values
