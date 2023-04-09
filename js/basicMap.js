@@ -57,6 +57,8 @@ function setMapClickEvent() {
          // set up a point with click functionality
          // so that anyone clicking will add asset condition information
          setUpPointClick();
+         // mymap.setView([51.522449,-0.13263], 12);
+
      }
      else { // the asset creation page
          // remove the map point if it exists
@@ -69,58 +71,111 @@ function setMapClickEvent() {
 } // end of setMapClickEvent
 
 function setUpPointClick() {
+
+// get condition values first
+$.ajax({url:baseURL+"/api/geojson/conditionDetails",crossDomain: true, success: function(result){
+
+let conditions = [];
+ // loop and parse condition_descriptions 
+ for (let i =0;i<JSON.parse(JSON.stringify(result)).length;i++){
+  conditions.push(JSON.parse(JSON.stringify(result))[i].condition_description);
+ }
+ 
+ // get pre loaded user_id
  let user_id=document.getElementById("hidden_user_id").innerHTML;
-     // use an AJAX call to load the asset points on the map
+ // use an AJAX call to load the asset points on the map
 $.ajax({url:baseURL+"/api/geojson/userAssets/"+user_id,crossDomain: true, success: function(result){
-
-
-let testMarkerBlue = L.AwesomeMarkers.icon({
- icon: 'play',
- markerColor: 'blue'
- });
-
-      
+     
 // use the mapPoint and add it to the map  
 mapPoint = L.geoJson(result,
  {
   // use point to layer to create the points
  pointToLayer: function (feature, latlng){
- // pass geoJSON features to construct popUpHTML
-let popUpHTML = getPopupHTML(feature);
-// set all initial color to blue
+ // pass geoJSON features and conditions to construct popUpHTML
+let popUpHTML = getPopupHTML(feature,conditions);
+// set all initial color using getIconByValue
 return L.marker(latlng,
-{icon:testMarkerBlue}).bindPopup(popUpHTML);
+{icon:getIconByValue(feature,conditions)}).bindPopup(popUpHTML);
   
  }, // end of point to layer  
         
- }).addTo(mymap);// end of mappoint       
-        
-        }}); //end of the AJAX call
+ }).addTo(mymap);// end of mappoint
+ // fit bounds
+  mymap.fitBounds(mapPoint.getBounds());      
+}}); //end of the AJAX call of userAssets
      
-
+}}); //end of the AJAX call of condition
      
-// the on click functionality of the POINT should pop up partially populated condition form so that the user can select the condition they require
-mymap.setView([51.522449,-0.13263], 12)
 
 }
 
 
-function getPopupHTML(feature){
+function getIconByValue(feature,conditions) {
+ let testMarkerBlue = L.AwesomeMarkers.icon({
+ icon: 'play',
+ markerColor: 'blue'
+ });
+ let testMarkerGreen = L.AwesomeMarkers.icon({
+ icon: 'play',
+ markerColor: 'green'
+ });
+let testMarkerPink = L.AwesomeMarkers.icon({
+ icon: 'play',
+ markerColor: 'pink'
+ });
+ let testMarkerRed = L.AwesomeMarkers.icon({
+ icon: 'play',
+ markerColor: 'red'
+ });
+ let testMarkerGray = L.AwesomeMarkers.icon({
+ icon: 'play',
+ markerColor: 'gray'
+ });
+  let testMarkerPurple = L.AwesomeMarkers.icon({
+ icon: 'play',
+ markerColor: 'purple'
+ });
+
+  switch (feature.properties.condition_description) {
+    case "Unknown": // if unknown OR other values, return grey
+      return testMarkerGray;
+    case conditions[0]:
+      return testMarkerBlue;
+    case conditions[1]:
+      return testMarkerGreen;
+    case conditions[2]:
+      return testMarkerPink;
+    case conditions[3]:
+      return testMarkerRed;
+    case conditions[4]:
+      return testMarkerPurple;
+    default: // if unknown OR other values, return grey
+      return testMarkerGray;
+  }
+
+   
+}
+
+
+
+
+
+
+function getPopupHTML(feature,conditions){
 
 // get required values from geoJson feature
 let id = feature.properties.asset_id; // this will be the asset ID
 let asset_name = feature.properties.asset_name;
 let installation_date = feature.properties.installation_date;
-let user_id=document.getElementById("hidden_user_id").innerHTML;
-
+let user_id = document.getElementById("hidden_user_id").innerHTML;
+let previousCondition = feature.properties.condition_description;
 // condition values
-let con_1 = "Element is in very good condition";
-let con_2 = "Some aesthetic defects, needs minor repair";
-let con_3 = "Functional degradation of some parts, needs maintenance";
-let con_4 = "Not working and maintenance must be done as soon as reasonably possible";
-let con_5 = "Not working and needs immediate, urgent maintenance";
-let asset_id = "2";
-let previousCondition = con_1;
+let con_1 = conditions[0];
+let con_2 = conditions[1];
+let con_3 = conditions[2];
+let con_4 = conditions[3];
+let con_5 = conditions[4];
+
 let htmlString = "<DIV id='popup'"+ id+ ">";
 htmlString = htmlString+ "<div id=asset_name_" + id + " value='"+asset_name+"'>Asset Name: "+asset_name+"</div>";
 // now include a hidden element with the previous condition value
