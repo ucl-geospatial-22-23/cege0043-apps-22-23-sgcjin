@@ -5,7 +5,7 @@ let mapPoint; // store the geoJSON feature so that we can remove it if the scree
 let mymap;
 //let baseURL = document.location.origin;
 baseURL = "https://cege0043-7.cs.ucl.ac.uk";
-
+let layerlist = [];
 
 
 function loadMap() {
@@ -15,12 +15,14 @@ function loadMap() {
      maxZoom: 19,
      attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
     }).addTo(mymap);
+ countlayers();
 
 
    window.addEventListener('resize', setMapClickEvent);
  // set up user id
  let theURL =  baseURL+"/api/userID" 
     var userID;
+ console.log("get user id");
     $.ajax({url:theURL,
       // allow requests from other servers
     	crossDomain: true,
@@ -29,14 +31,37 @@ function loadMap() {
  		success: function(result){
         userID = JSON.parse(JSON.stringify(result))[0].user_id;
         // update hidden user id, use it as a global variable
-        document.getElementById("hidden_user_id").innerHTML=userID;
-        setMapClickEvent();         
+        document.getElementById("hidden_user_id").innerHTML=userID;      
          
     }}); //end of the AJAX call
 }
+//end code to add the leaflet map
 
- //end code to add the leaflet map
 
+// check current number of layers
+function countlayers(){
+ let layerCount = 0;
+
+mymap.eachLayer(function (layer) {
+  layerCount++;
+});
+
+console.log("Number of layers:", layerCount);
+ console.log(layerlist);
+}
+
+// due to the asychronous of load layers in setMapClickEvent, multiple mapPoint layers will be loaded
+// when the window is resized, hundreds of mapPoint layers will be loaded
+// therefore, simple mymap.removeLayer(mapPoint) is not enough 
+function removelayers(name){
+  for (var i=0;i<layerlist.length ;i++){
+ // use a loop to use layer name to delete layers
+ if (layerlist[i][0] == name){
+ mymap.removeLayer(layerlist[i][1]);
+ layerlist.splice(i,1);
+ }
+ }
+}// end of function
 
 function setMapClickEvent() {
 
@@ -48,22 +73,25 @@ function setMapClickEvent() {
      if (width < 992) {
          //the condition capture –
          //anything smaller than 992px is defined as 'medium' by bootstrap
-         // remove the map point if it exists
-         if (mapPoint){
-             mymap.removeLayer(mapPoint);
+         
+      // remove the map point if it exists
+         if(mapPoint){
+             removelayers("mapPoint");
+             removePositionPoints();
          }
          // cancel the map onclick event using off ..
-         mymap.off('click',onMapClick)
+         mymap.off('click',onMapClick);
          // set up a point with click functionality
          // so that anyone clicking will add asset condition information
          setUpPointClick();
-
+         trackLocation();
 
      }
      else { // the asset creation page
          // remove the map point if it exists
-         if (mapPoint){
-             mymap.removeLayer(mapPoint);
+         if(mapPoint){
+             removelayers("mapPoint");
+             removePositionPoints();
      }
      // the on click functionality of the MAP should pop up a blank asset creation form
          mymap.on('click', onMapClick);
@@ -72,9 +100,10 @@ function setMapClickEvent() {
 
 function setUpPointClick() {
 
+ 
 // get condition values first
 $.ajax({url:baseURL+"/api/geojson/conditionDetails",crossDomain: true, success: function(result){
-
+ 
 let conditions = [];
  // loop and parse condition_descriptions 
  for (let i =0;i<JSON.parse(JSON.stringify(result)).length;i++){
@@ -85,7 +114,8 @@ let conditions = [];
  let user_id=document.getElementById("hidden_user_id").innerHTML;
  // use an AJAX call to load the asset points on the map
 $.ajax({url:baseURL+"/api/geojson/userAssets/"+user_id,crossDomain: true, success: function(result){
-     
+
+
 // use the mapPoint and add it to the map  
 mapPoint = L.geoJson(result,
  {
@@ -97,11 +127,12 @@ let popUpHTML = getPopupHTML(feature,conditions);
 return L.marker(latlng,
 {icon:getIconByValue(feature,conditions)}).bindPopup(popUpHTML);
   
- }, // end of point to layer  
-        
+ }, // end of point to layer          
  }).addTo(mymap);// end of mappoint
+layerlist.push(["mapPoint",mapPoint]);
  // fit bounds
-  mymap.fitBounds(mapPoint.getBounds());      
+mymap.fitBounds(mapPoint.getBounds());  
+
 }}); //end of the AJAX call of userAssets
      
 }}); //end of the AJAX call of condition

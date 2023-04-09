@@ -3,7 +3,6 @@
 let trackLocationLayer = [];
 // store the ID of the location tracker so that it can be used to switch the location tracking off
 let geoLocationID;
-let mymap;
 
 
 function trackLocation() {
@@ -48,6 +47,7 @@ function showPosition(position) {
 // the 'push' command
 trackLocationLayer.push(L.marker([position.coords.latitude,position.coords.longitude]).addTo(mymap));
 // mymap.flyTo([position.coords.latitude,position.coords.longitude],10)
+
 }
 
 function removePositionPoints() {
