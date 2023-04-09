@@ -40,6 +40,8 @@ function errorPosition(error){
  alert(error);
 }
 
+
+
 function showPosition(position) {
 	//document.getElementById('showLocation').innerHTML = "Latitude: " + position.coords.latitude + "<br>Longitude: " + position.coords.longitude; 
 // alert("Latitude: " + position.coords.latitude + "Longitude: " + position.coords.longitude)
@@ -48,7 +50,47 @@ function showPosition(position) {
 trackLocationLayer.push(L.marker([position.coords.latitude,position.coords.longitude]).addTo(mymap));
 // mymap.flyTo([position.coords.latitude,position.coords.longitude],10)
 
+mapPoint.eachLayer(function (layer) {
+	let coordinates = layer.getLatLng();
+	let distance = calculateDistance(position.coords.latitude, position.coords.longitude,
+									 coordinates.lat,coordinates.lng, 'K');
+	console.log(distance);
+	if (distance<0.1){
+		console.log('alert!');
+		alert("Proximity alert: you are close to an asset you have created");
+		layer.openPopup();
+	}
+	
+  });
+
+	
+	
 }
+
+// code adapted from https://www.htmlgoodies.com/beyond/javascript/calculate-the-distance-between-two-points-inyour-web-apps.html
+function calculateDistance(lat1, lon1, lat2, lon2, unit) {
+ let radlat1 = Math.PI * lat1/180;
+ let radlat2 = Math.PI * lat2/180;
+ let radlon1 = Math.PI * lon1/180;
+ let radlon2 = Math.PI * lon2/180;
+ let theta = lon1-lon2;
+ let radtheta = Math.PI * theta/180;
+ let subAngle = Math.sin(radlat1) * Math.sin(radlat2) + Math.cos(radlat1) * Math.cos(radlat2) * Math.cos(radtheta);
+ let dist;
+ subAngle = Math.acos(subAngle);
+ subAngle = subAngle * 180/Math.PI; // convert the degree value returned by acos back to degrees from radians
+ dist = (subAngle/360) * 2 * Math.PI * 3956; // ((subtended angle in degrees)/360) * 2 * pi * radius )
+// where radius of the earth is 3956 miles
+ if (unit=="K") { dist = dist * 1.609344 ;} // convert miles to km
+ if (unit=="N") { dist = dist * 0.8684 ;} // convert miles to nautical miles
+ return dist;
+}
+
+
+
+
+
+
 
 function removePositionPoints() {
 // disable the location tracking so that a new point won't be added while you are removing the old points
