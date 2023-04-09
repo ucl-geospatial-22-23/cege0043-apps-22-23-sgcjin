@@ -1,6 +1,21 @@
 "use strict";
-function listOfAssets(){
 
+// check if layer is already loaded
+function loadedOrNot(name) {
+  for (var i=0;i<listOfThings.length ;i++){
+ if (layerlist[i][0] == name){
+ return true;
+ }  
+return false
+}
+
+
+
+
+
+
+
+function listOfAssets(){
 let re = /([^(]+)@|at ([^(]+) \(/g;
 let aRegexResult = re.exec(new Error().stack);
 let sCallerName = aRegexResult[1] || aRegexResult[2];
@@ -18,6 +33,7 @@ let re = /([^(]+)@|at ([^(]+) \(/g;
 let aRegexResult = re.exec(new Error().stack);
 let sCallerName = aRegexResult[1] || aRegexResult[2];
 alert("function name is help and menu is called by: "+ sCallerName);
+    mymap.removeLayer(mapPoint);
 }
 // menu 5
 function userRanking(){
