@@ -81,8 +81,9 @@ function setMapClickEvent() {
      else { // the asset creation page
          // remove the map point if it exists
          if(mapPoint){
-          // remove all layers
-        removeAllLayer();
+          // remove mapPoint layers
+        //removeAllLayer();
+          removelayers("mapPoint"); // remove mapPOint layer
           // stop tracking
         removePositionPoints();
      }
