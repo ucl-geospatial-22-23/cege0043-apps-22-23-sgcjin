@@ -2,7 +2,8 @@
 let width; // NB – keep this as a global variable
 let conditionWidth = 992; // This is the width to determine whether to load condition APP
 let popup; // keep this as a global variable
-let mapPoint; // store the geoJSON feature so that we can remove it if the screen is resized
+let mapPoint; // layer for base condition APP
+let assetPoint; // layer for asset creation APP
 let mymap;
 //let baseURL = document.location.origin;
 baseURL = "https://cege0043-7.cs.ucl.ac.uk";
@@ -32,7 +33,9 @@ function loadMap() {
         // update hidden user id, use it as a global variable
         document.getElementById("hidden_user_id").innerHTML=userID;      
          setMapClickEvent()
+         
     }}); //end of the AJAX call
+
 }
 //end code to add the leaflet map
 
@@ -74,107 +77,119 @@ function setMapClickEvent() {
              trackLocation();
          // if map point haven't initalized and there are no other asset points layer, load mapPoint layer and track
          }else if ((!mapPoint)&&loadDefaultConditionFlag){         
-         // set up a mapPoint layer with click functionality for add asset condition information
-         setUpPointClick();
-         trackLocation();
+             // set up a mapPoint layer with click functionality for add asset condition information
+             setUpConditionBaseLayer();
+             trackLocation();
          }
 
      }
      else { // the asset creation page
+      console.log(layerlist);
+      countlayers();
          // remove the map point if it exists
-         if(mapPoint){
-          // remove mapPoint layers
-        //removeAllLayer();
-          removelayers("mapPoint"); // remove mapPOint layer
-          // stop tracking
-        removePositionPoints();
-     }
+          if(mapPoint){
+               removelayers("mapPoint"); // remove mapPoint layer
+               // stop tracking
+               removePositionPoints();
+            }
+            // remove asset points if it exists
+          if (assetPoint){
+               removelayers("assetPoint");
+               mymap.addLayer(assetPoint); // add assetPoint layer back
+               layerlist.push(["assetPoint",assetPoint]);
+          }else{// if assetPoint haven't been initialized, set up assetPoint layer
+               setUpAssetCreationLayer();
+           
+          }
+      console.log(layerlist);
+      countlayers();
+          
      // the on click functionality of the MAP should pop up a blank asset creation form
          mymap.on('click', onMapClick);
      }
 } // end of setMapClickEvent
 
-function setUpPointClick() {
- 
+
+// set up base condition app layer 
+function setUpConditionBaseLayer() {
     // get condition values first
     $.ajax({url:baseURL+"/api/geojson/conditionDetails",crossDomain: true, success: function(result){
-     
-    let conditions = []; // variable to store conditions
-     // loop and parse condition_descriptions 
-     for (let i =0;i<JSON.parse(JSON.stringify(result)).length;i++){
-      conditions.push(JSON.parse(JSON.stringify(result))[i].condition_description);
-     }
-     
-     // get pre loaded user_id
-     let user_id=document.getElementById("hidden_user_id").innerHTML;
-     // use an AJAX call to load the asset points on the map
-    $.ajax({url:baseURL+"/api/geojson/userAssets/"+user_id,crossDomain: true, success: function(result){
-    
-    
-    // use the mapPoint and add it to the map  
-    mapPoint = L.geoJson(result,
-     {
-      // use point to layer to create the points
-     pointToLayer: function (feature, latlng){
-     // pass geoJSON features and conditions to construct popUpHTML
-    let popUpHTML = getPopupHTML(feature,conditions);
-    // set all initial color using getIconByValue
-    return L.marker(latlng,
-    {icon:getIconByValue(feature,conditions)}).bindPopup(popUpHTML);
-      
-     }, // end of point to layer          
-     }).addTo(mymap);// end of mappoint
-    layerlist.push(["mapPoint",mapPoint]);
-    
-    }}); //end of the AJAX call of userAssets         
-    }}); //end of the AJAX call of condition
+         
+         let conditions = []; // variable to store conditions
+         // loop and parse condition_descriptions 
+         for (let i =0;i<JSON.parse(JSON.stringify(result)).length;i++){
+              conditions.push(JSON.parse(JSON.stringify(result))[i].condition_description);
+         }
+         
+         // get pre loaded user_id
+         let user_id=document.getElementById("hidden_user_id").innerHTML;
+         // use an AJAX call to load the asset points on the map
+        $.ajax({url:baseURL+"/api/geojson/userAssets/"+user_id,crossDomain: true, success: function(result){
+            
+            // use the mapPoint and add it to the map  
+            mapPoint = L.geoJson(result,
+             {
+                  // use point to layer to create the points
+                pointToLayer: function (feature, latlng){
+                     // pass geoJSON features and conditions to construct popUpHTML
+                    let popUpHTML = getReportPopupHTML(feature,conditions);
+                    // set all initial color using getIconByValue
+                    return L.marker(latlng,
+                        {icon:getIconByValue(feature,conditions)}).bindPopup(popUpHTML);
+              
+                }, // end of point to layer          
+             }).addTo(mymap);// end of mappoint
+            layerlist.push(["mapPoint",mapPoint]);
+        }}); //end of the AJAX call of userAssets         
+   }}); //end of the AJAX call of condition
 }
 
 
+// set marker color by its condition value
 function getIconByValue(feature,conditions) {
- // create color icon
- let testMarkerBlue = L.AwesomeMarkers.icon({
- icon: 'play',
- markerColor: 'blue'
- });
- let testMarkerGreen = L.AwesomeMarkers.icon({
- icon: 'play',
- markerColor: 'green'
- });
-let testMarkerPink = L.AwesomeMarkers.icon({
- icon: 'play',
- markerColor: 'pink'
- });
- let testMarkerRed = L.AwesomeMarkers.icon({
- icon: 'play',
- markerColor: 'red'
- });
- let testMarkerGray = L.AwesomeMarkers.icon({
- icon: 'play',
- markerColor: 'gray'
- });
-  let testMarkerPurple = L.AwesomeMarkers.icon({
- icon: 'play',
- markerColor: 'purple'
- });
-
- // assign color icon according to condition
-  switch (feature.properties.condition_description) {
-    case "Unknown": // if unknown OR other values, return grey
-      return testMarkerGray;
-    case conditions[0]:
-      return testMarkerBlue;
-    case conditions[1]:
-      return testMarkerGreen;
-    case conditions[2]:
-      return testMarkerPink;
-    case conditions[3]:
-      return testMarkerRed;
-    case conditions[4]:
-      return testMarkerPurple;
-    default: // if unknown OR other values, return grey
-      return testMarkerGray;
-  }
+     // create color icon
+     let testMarkerBlue = L.AwesomeMarkers.icon({
+     icon: 'play',
+     markerColor: 'blue'
+     });
+     let testMarkerGreen = L.AwesomeMarkers.icon({
+     icon: 'play',
+     markerColor: 'green'
+     });
+    let testMarkerPink = L.AwesomeMarkers.icon({
+     icon: 'play',
+     markerColor: 'pink'
+     });
+     let testMarkerRed = L.AwesomeMarkers.icon({
+     icon: 'play',
+     markerColor: 'red'
+     });
+     let testMarkerGray = L.AwesomeMarkers.icon({
+     icon: 'play',
+     markerColor: 'gray'
+     });
+      let testMarkerPurple = L.AwesomeMarkers.icon({
+     icon: 'play',
+     markerColor: 'purple'
+     });
+    
+     // assign color icon according to condition
+      switch (feature.properties.condition_description) {
+           case "Unknown": // if unknown OR other values, return grey
+             return testMarkerGray;
+           case conditions[0]:
+             return testMarkerBlue;
+           case conditions[1]:
+             return testMarkerGreen;
+           case conditions[2]:
+             return testMarkerPink;
+           case conditions[3]:
+             return testMarkerRed;
+           case conditions[4]:
+             return testMarkerPurple;
+           default: // if unknown OR other values, return grey
+             return testMarkerGray;
+         }
    
 }
 
@@ -182,8 +197,8 @@ let testMarkerPink = L.AwesomeMarkers.icon({
 
 
 
-
-function getPopupHTML(feature,conditions){
+// set up pop up html for condition app
+function getReportPopupHTML(feature,conditions){
 
 // get required values from geoJson feature
 let id = feature.properties.asset_id; // this will be the asset ID
@@ -219,7 +234,7 @@ return htmlString;
 }
 
 
-
+// set up map click pop ups for asset creation app
 function onMapClick(e) {
  let formHTML = '<div>'+
 '<label for="asset_name">Asset Name </label><input type="text" size="25" id="asset_name"/><br />'+
@@ -229,11 +244,58 @@ function onMapClick(e) {
 '<div id="user_id" style="display: none;">'+ document.getElementById("hidden_user_id").innerHTML+'</div>'+
 '<button id="startUpload" onclick="saveNewAsset()">saveAsset</button>'+
 '</div>';
-
  popup = L.popup();
  popup.setLatLng(e.latlng).setContent(formHTML).openOn(mymap);
+}
+
+// set up base asset creation app layer 
+function setUpAssetCreationLayer() {
+
+     // get pre loaded user_id
+     let user_id=document.getElementById("hidden_user_id").innerHTML;
+     
+    // use an AJAX call to load the asset points on the map
+    $.ajax({url:baseURL+"/api/geojson/userAssets/"+user_id,crossDomain: true, success: function(result){
+     // create color icon
+     let testMarkerBlue = L.AwesomeMarkers.icon({
+     icon: 'play',
+     markerColor: 'blue'
+     });
+    
+    // use the mapPoint and add it to the map  
+    assetPoint = L.geoJson(result,
+     {
+      // use point to layer to create the points
+     pointToLayer: function (feature, latlng){
+     // pass geoJSON features and conditions to construct popUpHTML
+    let popUpHTML = getCreationPopupHTML(feature);
+    
+     // set all initial color as blue
+    return L.marker(latlng,
+    {icon:testMarkerBlue}).bindPopup(popUpHTML);
+      
+     }, // end of point to layer          
+     }).addTo(mymap);// end of mappoint
+    layerlist.push(["assetPoint",assetPoint]);
+    mymap.fitBounds(assetPoint.getBounds());
+
+    }}); //end of the AJAX call of userAssets         
 
 }
 
-
-
+// pop up HTML for existing assets points in  asset creation APP
+function getCreationPopupHTML(feature) {
+    // get required values from geoJson feature
+    let asset_name = feature.properties.asset_name;    
+    let asset_id = feature.properties.asset_id;
+    let previousCondition = feature.properties.condition_description;
+    // change div content if previousCondition is unknown
+    if (previousCondition=="Unknown"){
+        previousCondition = "no condition captured";
+    } 
+    let htmlString = "<DIV>";
+    htmlString = htmlString+ "<div>Asset Name: "+asset_name+"</div>";
+    htmlString = htmlString + "<div>Latest Condition: "+previousCondition+"</div>";
+    htmlString = htmlString + "</div>";
+ return htmlString;
+}

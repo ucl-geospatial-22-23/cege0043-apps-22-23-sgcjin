@@ -58,24 +58,21 @@ function checkCondition(id){
 		alert("The selected condition is the same as the previous condition");
 	}else{
 		alert("The selected condition is NOT the same as the previous condition");
-        document.getElementById("previousCondition_"+id).innerHTML=condition
+        //document.getElementById("previousCondition_"+id).innerHTML=condition
 	}
     // asset id
     //postString = postString+"&asset_id="+id;
 	postString = postString + "&condition_description="+condition
 	insertCondition(postString)
-
-	// changes colour when the report has been submitted
 	 if (mapPoint){
-		 mymap.removeLayer(mapPoint);
-	 }	
-    setUpPointClick();
+		removelayers("mapPoint");
+	 }
+    setUpConditionBaseLayer(); // reload all assets after upload report
 }
  
-
+// process ajax POST for insert Asset
 function insertAsset(postString) {
 	let serviceUrl= baseURL +"/api/insertAssetPoint"
-	//serviceUrl = "https://cege0043-7.cs.ucl.ac.uk/api/testCRUD"
 	$.ajax({
 	url: serviceUrl,
 	crossDomain: true,
@@ -85,22 +82,37 @@ function insertAsset(postString) {
 	});
 }
 
+// process ajax POST for insert Condition
 function insertCondition(postString) {
 	let serviceUrl= baseURL +"/api/insertConditionInformation"
-	//serviceUrl = "https://cege0043-7.cs.ucl.ac.uk/api/testCRUD"
 	$.ajax({
 	url: serviceUrl,
 	crossDomain: true,
 	type: "POST",
-	success: function(data){dataUploaded(data);},
+	success: function(data){reportUploaded(data);},// alert response and report counts
 	data: postString
 	});
 }
 
 // create the code to process the response from the data server
 function dataUploaded(data) {
-	// change the DIV to show the response
-	//document.getElementById("conditionResult").innerHTML = JSON.stringify(data);
-	// alert and consol log for prac4
-	alert(JSON.stringify(data));
+	// show the response without double quote
+	alert(JSON.stringify(data).replace(/"/g, ''));
 }
+
+// create the code to process the insert condition response from the data server
+function reportUploaded(data) {
+
+	let user_id = document.getElementById("hidden_user_id").innerHTML; // get user id
+
+	$.ajax({url:baseURL+"/api/geojson/userConditionReports/"+user_id,
+		crossDomain: true,
+		success: function(result){
+		// alert server response and report count
+		alert(JSON.stringify(data).replace(/"/g, '')+"\n You have created "+result[0].array_to_json[0].num_reports+" reports.");
+		// .replace(/"/g, '') is to replace double quote
+		
+}}); //end of the AJAX call
+}
+
+

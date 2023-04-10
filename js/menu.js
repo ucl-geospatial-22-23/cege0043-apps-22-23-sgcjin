@@ -109,7 +109,7 @@ navigator.geolocation.getCurrentPosition(function(position) {
 function remove5ClosestAssets(){
 removelayers("closestAssets"); // remove 5ClosestAssets layer
 loadDefaultConditionFlag = true; // allow  condition asst points to load when resized and < conditionWidth
-setUpPointClick();// start loading condition asst points
+setUpConditionBaseLayer();// start loading condition asst points
 trackLocation(); // start tracking
 
 }
@@ -157,7 +157,7 @@ function add5LastReports(){
 function remove5LastReports(){
 removelayers("lastReports"); // remove 5ClosestAssets layer
 loadDefaultConditionFlag = true; // allow  condition asst points to load when resized and < conditionWidth
-setUpPointClick();// start loading condition asst points
+setUpConditionBaseLayer();// start loading condition asst points
 trackLocation(); // start tracking
 
 }
@@ -207,6 +207,6 @@ function addNotRated(){
 function removeNotRated(){
 removelayers("notRated"); // remove 5ClosestAssets layer
 loadDefaultConditionFlag = true; // allow  condition asst points to load when resized and < conditionWidth
-setUpPointClick();// start loading condition asst points
+setUpConditionBaseLayer();// start loading condition asst points
 trackLocation(); // start tracking
 }
