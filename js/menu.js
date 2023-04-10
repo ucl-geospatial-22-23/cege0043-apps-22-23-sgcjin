@@ -44,11 +44,6 @@ let sCallerName = aRegexResult[1] || aRegexResult[2];
 alert("function name is dailyReportingRates and menu is called by: "+ sCallerName);
 }
 function help(){
-let re = /([^(]+)@|at ([^(]+) \(/g;
-let aRegexResult = re.exec(new Error().stack);
-let sCallerName = aRegexResult[1] || aRegexResult[2];
-alert("function name is help and menu is called by: "+ sCallerName);
-    mymap.removeLayer(mapPoint);
 }
 
 // alert user ranking

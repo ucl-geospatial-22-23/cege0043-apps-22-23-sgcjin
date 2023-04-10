@@ -105,6 +105,7 @@ function setMapClickEvent() {
           
      // the on click functionality of the MAP will pop up a blank asset creation form
          mymap.on('click', onMapClick);
+
      }
 } // end of setMapClickEvent
 
