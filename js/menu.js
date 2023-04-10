@@ -157,16 +157,51 @@ setUpPointClick();// start loading condition asst points
 trackLocation(); // start tracking
 
 }
+
 function addNotRated(){
-let re = /([^(]+)@|at ([^(]+) \(/g;
-let aRegexResult = re.exec(new Error().stack);
-let sCallerName = aRegexResult[1] || aRegexResult[2];
-alert("function name is addNotRated and menu is called by: "+ sCallerName);
+    loadDefaultConditionFlag = false; // stop loading condition asst points
+    removeAllLayer(); // remove all other point layers
+    removePositionPoints(); // stop tracking
+     // create color icon
+     let testMarkerBlue = L.AwesomeMarkers.icon({
+     icon: 'play',
+     markerColor: 'blue'
+     });
+    let user_id = document.getElementById("hidden_user_id").innerHTML; // get user id
+    
+    $.ajax({url:baseURL+"/api/geojson/conditionReportMissing/"+user_id,
+    	crossDomain: true,
+ 		success: function(result){
+    if (!result.feature){
+        alert("There are NO assets that you haven't rated in last 3 days.")
+        return;
+    }
+    // use the mapPoint and add it to the map  
+    let notRated = L.geoJson(result,
+     {
+
+      // use point to layer to create the points
+     pointToLayer: function (feature, latlng){
+    console.log(result);
+     // pass geoJSON features and conditions to construct popUpHTML
+    let popUpHTML = "<div>Asset Name:"+feature.properties.asset_name +
+"</div>";
+    // set all initial color using getIconByValue
+    return L.marker(latlng,{icon:testMarkerBlue}).bindPopup(popUpHTML);    
+     }, // end of point to layer          
+     }).addTo(mymap);// end of mappoint            
+    layerlist.push(["notRated",notRated]);
+     
+    // fit bounds
+    mymap.fitBounds(notRated.getBounds());  
+    
+    }
+           }); //end of the AJAX call of userAssets
 }
 // menu 14
 function removeNotRated(){
-let re = /([^(]+)@|at ([^(]+) \(/g;
-let aRegexResult = re.exec(new Error().stack);
-let sCallerName = aRegexResult[1] || aRegexResult[2];
-alert("function name is removeNotRated and menu is called by: "+ sCallerName);
+removelayers("notRated"); // remove 5ClosestAssets layer
+loadDefaultConditionFlag = true; // allow  condition asst points to load when resized and < conditionWidth
+setUpPointClick();// start loading condition asst points
+trackLocation(); // start tracking
 }
