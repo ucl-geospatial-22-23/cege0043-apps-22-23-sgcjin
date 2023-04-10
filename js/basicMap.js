@@ -7,6 +7,7 @@ let mymap;
 baseURL = "https://cege0043-7.cs.ucl.ac.uk";
 let layerlist = [];
 var userID;// store user id that loaded at set up
+var loadDefaultConditionFlag = true;// this variable is used for determine whether base condition map will be loaded when resized
 
 function loadMap() {
     // CODE TO INITIALISE AND CREATE THE MAP GOES HERE 
@@ -60,17 +61,18 @@ function setMapClickEvent() {
          
       // cancel the map onclick event using off ..
          mymap.off('click',onMapClick);
+      
       // remove the map point if it exists
-         if(mapPoint){
+         if(mapPoint&&loadDefaultConditionFlag){
              removeAllLayer();
+          // load map point if there are no other asset points layer, load mapPoint layer and track
              mymap.addLayer(mapPoint);
              trackLocation();
-         }else{         
-         // set up a point with click functionality
-         // so that anyone clicking will add asset condition information
+         // if map point haven't initalized and there are no other asset points layer, load mapPoint layer and track
+         }else if ((!mapPoint)&&loadDefaultConditionFlag){         
+         // set up a mapPoint layer with click functionality for add asset condition information
          setUpPointClick();
          trackLocation();
-
          }
 
      }
@@ -122,7 +124,6 @@ function setUpPointClick() {
     }}); //end of the AJAX call of userAssets
          
     }}); //end of the AJAX call of condition
-
 }
 
 

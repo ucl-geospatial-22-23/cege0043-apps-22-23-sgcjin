@@ -1,5 +1,4 @@
 "use strict";
-
 // check if layer is already loaded
 function loadedOrNot(name) {
   for (var i=0;i<listOfThings.length ;i++){
@@ -60,6 +59,7 @@ alert("function name is userRanking and menu is called by: "+ sCallerName);
 
 // S2: showing the 5 assets closest to the user’s current location, added by any user    
 function add5ClosestAssets(){
+loadDefaultConditionFlag = false;
 removeAllLayer();
 removePositionPoints();
 
