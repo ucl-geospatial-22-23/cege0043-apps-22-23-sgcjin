@@ -1,5 +1,6 @@
 "use strict";
 let width; // NB – keep this as a global variable
+let conditionWidth = 992; // This is the width to determine whether to load condition APP
 let popup; // keep this as a global variable
 let mapPoint; // store the geoJSON feature so that we can remove it if the screen is resized
 let mymap;
@@ -8,6 +9,7 @@ baseURL = "https://cege0043-7.cs.ucl.ac.uk";
 let layerlist = [];
 var userID;// store user id that loaded at set up
 var loadDefaultConditionFlag = true;// this variable is used for determine whether base condition map will be loaded when resized
+
 
 function loadMap() {
     // CODE TO INITIALISE AND CREATE THE MAP GOES HERE 
@@ -55,7 +57,7 @@ function setMapClickEvent() {
      // we use the bootstrap Medium and Large options for the asset location capture
      // and the small and XS options for the condition option
      // see here: https://www.w3schools.com/bootstrap/bootstrap_grid_system.asp
-     if (width < 992) {
+     if (width < conditionWidth) {
          //the condition capture –
          //anything smaller than 992px is defined as 'medium' by bootstrap
          
@@ -124,8 +126,7 @@ function setUpPointClick() {
      }).addTo(mymap);// end of mappoint
     layerlist.push(["mapPoint",mapPoint]);
     
-    }}); //end of the AJAX call of userAssets
-         
+    }}); //end of the AJAX call of userAssets         
     }}); //end of the AJAX call of condition
 }
 

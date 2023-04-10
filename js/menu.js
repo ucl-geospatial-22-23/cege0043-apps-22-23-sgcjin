@@ -104,8 +104,8 @@ navigator.geolocation.getCurrentPosition(function(position) {
 // remove 5 Closest Assets layer
 function remove5ClosestAssets(){
 removelayers("closestAssets"); // remove 5ClosestAssets layer
+loadDefaultConditionFlag = true; // allow  condition asst points to load when resized and < conditionWidth
 setUpPointClick();// start loading condition asst points
-loadDefaultConditionFlag = true; // start loading condition asst points when resized
 trackLocation(); // start tracking
 
 }
@@ -146,15 +146,16 @@ function add5LastReports(){
     mymap.fitBounds(lastReports.getBounds());  
     
     }}); //end of the AJAX call of userAssets
-     }}); //end of the AJAX call of condition details
-    
+     }}); //end of the AJAX call of condition details    
 }
+
 // menu 11
 function remove5LastReports(){
-let re = /([^(]+)@|at ([^(]+) \(/g;
-let aRegexResult = re.exec(new Error().stack);
-let sCallerName = aRegexResult[1] || aRegexResult[2];
-alert("function name is remove5LastReports and menu is called by: "+ sCallerName);
+removelayers("lastReports"); // remove 5ClosestAssets layer
+loadDefaultConditionFlag = true; // allow  condition asst points to load when resized and < conditionWidth
+setUpPointClick();// start loading condition asst points
+trackLocation(); // start tracking
+
 }
 function addNotRated(){
 let re = /([^(]+)@|at ([^(]+) \(/g;
