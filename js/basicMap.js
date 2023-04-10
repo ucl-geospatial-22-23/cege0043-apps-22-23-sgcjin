@@ -84,27 +84,26 @@ function setMapClickEvent() {
 
      }
      else { // the asset creation page
-      console.log(layerlist);
-      countlayers();
-         // remove the map point if it exists
-          if(mapPoint){
-               removelayers("mapPoint"); // remove mapPoint layer
-               // stop tracking
-               removePositionPoints();
-            }
-            // remove asset points if it exists
+     
+           removeAllLayer(); // remove all layer
+           // since all other layer is removed
+           // base condition layer is allowed to be load when size is small
+           loadDefaultConditionFlag = true;// set flag for base condition layer
+           
+            // stop tracking if exists
+           removePositionPoints();
+
+            // add asset points if it already exists
           if (assetPoint){
-               removelayers("assetPoint");
                mymap.addLayer(assetPoint); // add assetPoint layer back
+               mymap.fitBounds(assetPoint.getBounds()); // zoom to assetPoint layer
                layerlist.push(["assetPoint",assetPoint]);
           }else{// if assetPoint haven't been initialized, set up assetPoint layer
                setUpAssetCreationLayer();
            
           }
-      console.log(layerlist);
-      countlayers();
           
-     // the on click functionality of the MAP should pop up a blank asset creation form
+     // the on click functionality of the MAP will pop up a blank asset creation form
          mymap.on('click', onMapClick);
      }
 } // end of setMapClickEvent
