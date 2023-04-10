@@ -24,7 +24,7 @@ function removelayers(name){
      // use a loop to use layer name to delete layers
      if (layerlist[i][0] == name){
      mymap.removeLayer(layerlist[i][1]);
-     layerlist.splice(i,1);
+     layerlist.splice(i,1);// remove from layer list
      }
 }}
 
@@ -50,6 +50,7 @@ let sCallerName = aRegexResult[1] || aRegexResult[2];
 alert("function name is help and menu is called by: "+ sCallerName);
     mymap.removeLayer(mapPoint);
 }
+
 // alert user ranking
 function userRanking(){
 let user_id = document.getElementById("hidden_user_id").innerHTML; // get user id
@@ -57,7 +58,7 @@ let user_id = document.getElementById("hidden_user_id").innerHTML; // get user i
     $.ajax({url:baseURL+"/api/geojson/userRanking/"+user_id,
     	crossDomain: true,
  		success: function(result){
-            alert("Your ranking is: "result[0].array_to_json[0].rank);
+            alert("Your ranking is: "+result[0].array_to_json[0].rank);
 }}); //end of the AJAX call        
 }
 
