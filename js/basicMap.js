@@ -138,8 +138,12 @@ function setUpConditionBaseLayer() {
                         {icon:getIconByValue(feature,conditions)}).bindPopup(popUpHTML);
               
                 }, // end of point to layer          
-             }).addTo(mymap);// end of mappoint
+             });// end of mappoint
+         // add layer only if width is condition APP size   
+         if (width<conditionWidth){
+            mapPoint.addTo(mymap);
             layerlist.push(["mapPoint",mapPoint]);
+         }// end of if condition
         }}); //end of the AJAX call of userAssets         
    }}); //end of the AJAX call of condition
 }
@@ -275,10 +279,14 @@ function setUpAssetCreationLayer() {
     {icon:testMarkerBlue}).bindPopup(popUpHTML);
       
      }, // end of point to layer          
-     }).addTo(mymap);// end of mappoint
-    layerlist.push(["assetPoint",assetPoint]);
-    mymap.fitBounds(assetPoint.getBounds());
-
+     });// end of mappoint
+    
+             // add layer only if width is asset creation APP size   
+         if (width>=conditionWidth){
+            assetPoint.addTo(mymap);
+            layerlist.push(["assetPoint",mapPoint]);
+            mymap.fitBounds(assetPoint.getBounds());
+         }// end of if condition
     }}); //end of the AJAX call of userAssets         
 
 }
