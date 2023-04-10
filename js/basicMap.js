@@ -67,6 +67,8 @@ function setMapClickEvent() {
              removeAllLayer();
           // load map point if there are no other asset points layer, load mapPoint layer and track
              mymap.addLayer(mapPoint);
+             layerlist.push(["mapPoint",mapPoint]);// push this layer into layer list
+          
              trackLocation();
          // if map point haven't initalized and there are no other asset points layer, load mapPoint layer and track
          }else if ((!mapPoint)&&loadDefaultConditionFlag){         
