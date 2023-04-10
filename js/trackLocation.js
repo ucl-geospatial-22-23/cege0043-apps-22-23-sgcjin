@@ -16,7 +16,7 @@ if (navigator.geolocation) {
  //console.log(trackLocationLayer)
  }
  catch (e){
- console.log(e);
+ // console.log(e);
  }
 // clear any existing data from the map
 removeTracks();
@@ -52,13 +52,12 @@ function showPosition(position) {
 // the 'push' command
 trackLocationLayer.push(L.marker([position.coords.latitude,position.coords.longitude]).addTo(mymap));
 // fly to user location
-mymap.flyTo([position.coords.latitude,position.coords.longitude],10)
+mymap.flyTo([position.coords.latitude,position.coords.longitude],15)
 
 mapPoint.eachLayer(function (layer) {
 	let coordinates = layer.getLatLng();
 	let distance = calculateDistance(position.coords.latitude, position.coords.longitude,
 									 coordinates.lat,coordinates.lng, 'K');
-	console.log(distance);
 	if (distance<0.1){
 		alert("Proximity alert: you are close to an asset you have created");
 		layer.openPopup();
