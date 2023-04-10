@@ -63,7 +63,11 @@ function add5ClosestAssets(){
 loadDefaultConditionFlag = false; // stop loading condition asst points
 removeAllLayer(); // remove all other point layers
 removePositionPoints(); // stop tracking
-
+// set default color to blue
+ let testMarkerBlue = L.AwesomeMarkers.icon({
+ icon: 'play',
+ markerColor: 'blue'
+ });
 navigator.geolocation.getCurrentPosition(function(position) {
     let latitude = position.coords.latitude;
     let longitude = position.coords.longitude;
@@ -81,7 +85,8 @@ navigator.geolocation.getCurrentPosition(function(position) {
     let popUpHTML = "<div>Asset Name:"+feature.properties.asset_name +
 "</div><br /><div>Installation Date:"+feature.properties.installation_date+" </div>";
     // set all initial color using getIconByValue
-    return L.marker(latlng).bindPopup(popUpHTML);
+    return L.marker(latlng,
+    {icon:testMarkerBlue}).bindPopup(popUpHTML);
       
      }, // end of point to layer          
      }).addTo(mymap);// end of mappoint            
