@@ -50,12 +50,15 @@ let sCallerName = aRegexResult[1] || aRegexResult[2];
 alert("function name is help and menu is called by: "+ sCallerName);
     mymap.removeLayer(mapPoint);
 }
-// menu 5
+// alert user ranking
 function userRanking(){
-let re = /([^(]+)@|at ([^(]+) \(/g;
-let aRegexResult = re.exec(new Error().stack);
-let sCallerName = aRegexResult[1] || aRegexResult[2];
-alert("function name is userRanking and menu is called by: "+ sCallerName);
+let user_id = document.getElementById("hidden_user_id").innerHTML; // get user id
+    
+    $.ajax({url:baseURL+"/api/geojson/userRanking/"+user_id,
+    	crossDomain: true,
+ 		success: function(result){
+            alert("Your ranking is: "result[0].array_to_json[0].rank);
+}}); //end of the AJAX call        
 }
 
 // S2: showing the 5 assets closest to the user’s current location, added by any user    
@@ -198,6 +201,7 @@ function addNotRated(){
     }
            }); //end of the AJAX call of userAssets
 }
+
 // menu 14
 function removeNotRated(){
 removelayers("notRated"); // remove 5ClosestAssets layer
