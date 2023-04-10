@@ -7,7 +7,8 @@ function saveNewAsset() {
     let installation_date = document.getElementById("installation_date").value;
     let latitude = document.getElementById("latitude").getAttribute("value");
 	let longitude = document.getElementById("longitude").getAttribute("value");
-    //let user_id = document.getElementById("create_user_id").innerHTML;
+	
+	// check if asset_name or installation_date is null
 	if (!asset_name){
 		alert("Please insert asset name!");
 		return;
@@ -16,17 +17,38 @@ function saveNewAsset() {
 		alert("Please insert installation date!");
 		return;
 	}
-    // add to postString
+	// check if asset_name is unique
+	// if it's not unique, alert the message and stop insertion
+	    // use an AJAX call to get all the asset of all users
+    $.ajax({url:baseURL+"/api/geojson/allUserAssets",
+		crossDomain: true,
+		success: function(result){
+			
+		// loop through all asset name and find if its unique
+		 for (var i=0;i<result.features.length ;i++){
+			 // if asset name is not unique, end saveNewAsset()
+			 if(asset_name==result.features[i].properties.asset_name){			 
+				 alert("The asset name is not unique, please insert another one!")
+				 return;
+			 }
+		 } // end of loop
+	// if it's unique, continue insertion
+	// add to postString
 	let postString = "asset_name="+asset_name;
 	 postString = postString + "&installation_date="+installation_date;
 	 postString = postString + "&latitude="+latitude;
 	 postString = postString + "&longitude="+longitude;
-     //postString = postString + "&user_id="+user_id;
-	// call the AJAX code
-	console.log(postString);
+	
+	// call the AJAX post func
+	// if success, it will update data of all layers
 	insertAsset(postString);
+	
+    }}); //end of the AJAX call 
+	
 
 }
+
+
 
 function checkCondition(id){
     let postString = '';
@@ -74,11 +96,9 @@ function checkCondition(id){
 	}
 
 	postString = postString + "&condition_description="+condition
-	insertCondition(postString)
-	 if (mapPoint){
-		removelayers("mapPoint");
-	 }
-    setUpConditionBaseLayer(); // reload all assets after upload report
+	insertCondition(postString);
+	
+
 }
  
 // process ajax POST for insert Asset
@@ -88,7 +108,7 @@ function insertAsset(postString) {
 	url: serviceUrl,
 	crossDomain: true,
 	type: "POST",
-	success: function(data){dataUploaded(data);},
+	success: function(data){assetInserted(data);},
 	data: postString
 	});
 }
@@ -106,9 +126,13 @@ function insertCondition(postString) {
 }
 
 // create the code to process the response from the data server
-function dataUploaded(data) {
+async function assetInserted(data) {
 	// show the response without double quote
 	alert(JSON.stringify(data).replace(/"/g, ''));
+	// refresh asset points after asset insertion
+	setUpConditionBaseLayer(); // refresh condition layer first (+ new condition layer)
+	removeAllLayer(); // remove all (- old asset creation layer, - new condition layer)
+	setUpAssetCreationLayer(); // reload asset creation layer (+ new asset creation layer)
 }
 
 // create the code to process the insert condition response from the data server
@@ -123,6 +147,10 @@ function reportUploaded(data) {
 		alert(JSON.stringify(data).replace(/"/g, '')+"\n You have created "+result[0].array_to_json[0].num_reports+" reports.");
 		// .replace(/"/g, '') is to replace double quote
 		
+		// refresh all assets after upload report
+		setUpConditionBaseLayer(); // refresh asset creation layer first (+ new asset creation layer)
+		removeAllLayer(); // then remove all (- old condition layer, - new asset creation layer)
+	    setUpConditionBaseLayer(); // reload again (+ new condition layer)
 }}); //end of the AJAX call
 }
 
