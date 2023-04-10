@@ -8,7 +8,14 @@ function saveNewAsset() {
     let latitude = document.getElementById("latitude").getAttribute("value");
 	let longitude = document.getElementById("longitude").getAttribute("value");
     //let user_id = document.getElementById("create_user_id").innerHTML;
-
+	if (!asset_name){
+		alert("Please insert asset name!");
+		return;
+	}
+	if (!installation_date){
+		alert("Please insert installation date!");
+		return;
+	}
     // add to postString
 	let postString = "asset_name="+asset_name;
 	 postString = postString + "&installation_date="+installation_date;
@@ -26,7 +33,6 @@ function checkCondition(id){
 	// TODO: check The previous condition (from the hidden field)
 	let previousConditionValue = document.getElementById("previousCondition_"+id).innerHTML;
     // postString = "&old_condition="+previousConditionValue;
-	// TODO: The ID of the asset (from the hidden field)
 	// let user_id = document.getElementById("user_"+id).innerHTML;
     // postString = postString + "&user_id="+user_id;
     // asset name
@@ -66,8 +72,7 @@ function checkCondition(id){
 		alert("The selected condition is NOT the same as the previous condition");
         //document.getElementById("previousCondition_"+id).innerHTML=condition
 	}
-    // asset id
-    //postString = postString+"&asset_id="+id;
+
 	postString = postString + "&condition_description="+condition
 	insertCondition(postString)
 	 if (mapPoint){
