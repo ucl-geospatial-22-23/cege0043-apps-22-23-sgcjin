@@ -40,20 +40,26 @@ function checkCondition(id){
 	
 	if (document.getElementById(id+"_1").checked) {
  		 condition = document.getElementById(id+"_1").value;
-	}
-	if (document.getElementById(id+"_2").checked) {
+	} 
+	else if (document.getElementById(id+"_2").checked) {
  		 condition = document.getElementById(id+"_2").value;
 	}
-	if (document.getElementById(id+"_3").checked) {
+	else if (document.getElementById(id+"_3").checked) {
  		 condition = document.getElementById(id+"_3").value;
 	}
-	if (document.getElementById(id+"_4").checked) {
+	else if (document.getElementById(id+"_4").checked) {
  		 condition = document.getElementById(id+"_4").value;
 	}
-	if (document.getElementById(id+"_5").checked) {
+	else if (document.getElementById(id+"_5").checked) {
  		 condition = document.getElementById(id+"_5").value;
 	}
+	// if no condition is checked, return an alert and stop
+	else{
+		alert("Please select a condition value!")
+		return;
+	}
 
+	
 	if (condition == previousConditionValue){
 		alert("The selected condition is the same as the previous condition");
 	}else{
