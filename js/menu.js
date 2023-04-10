@@ -15,6 +15,7 @@ function removeAllLayer() {
     mymap.removeLayer(layer);
   }
 });
+    layerlist=[]; // clear all layers in layer list
 }
 
 // remove a layer by name
@@ -59,9 +60,9 @@ alert("function name is userRanking and menu is called by: "+ sCallerName);
 
 // S2: showing the 5 assets closest to the user’s current location, added by any user    
 function add5ClosestAssets(){
-loadDefaultConditionFlag = false;
-removeAllLayer();
-removePositionPoints();
+loadDefaultConditionFlag = false; // stop loading condition asst points
+removeAllLayer(); // remove all other point layers
+removePositionPoints(); // stop tracking
 
 navigator.geolocation.getCurrentPosition(function(position) {
     let latitude = position.coords.latitude;
@@ -94,12 +95,13 @@ navigator.geolocation.getCurrentPosition(function(position) {
 }
 
     
-// menu 8
+// remove 5 Closest Assets layer
 function remove5ClosestAssets(){
-let re = /([^(]+)@|at ([^(]+) \(/g;
-let aRegexResult = re.exec(new Error().stack);
-let sCallerName = aRegexResult[1] || aRegexResult[2];
-alert("function name is remove5ClosestAssets and menu is called by: "+ sCallerName);
+removelayers("closestAssets"); // remove 5ClosestAssets layer
+setUpPointClick();// start loading condition asst points
+loadDefaultConditionFlag = true; // start loading condition asst points when resized
+trackLocation(); // start tracking
+
 }
 function add5LastReports(){
 let re = /([^(]+)@|at ([^(]+) \(/g;
