@@ -38,11 +38,10 @@ alert("function name is listOfAssets and menu is called by: "+ sCallerName);
 }
 // menu 2
 function dailyReportingRates(){
-let re = /([^(]+)@|at ([^(]+) \(/g;
-let aRegexResult = re.exec(new Error().stack);
-let sCallerName = aRegexResult[1] || aRegexResult[2];
-alert("function name is dailyReportingRates and menu is called by: "+ sCallerName);
+loadGraph();
 }
+
+
 function help(){
 }
 
