@@ -1,4 +1,5 @@
 "use strict";
+
 function closeAssetData(){
  let mapCollapse = document.getElementById('mapWrapper');
  let bsMapCollapse = new bootstrap.Collapse(mapCollapse, {
@@ -11,6 +12,8 @@ function closeAssetData(){
  });
  bsAdwCollapse.hide();
 }
+
+
 function loadGraph(){
  let mapCollapse = document.getElementById('mapWrapper');
  let bsMapCollapse = new bootstrap.Collapse(mapCollapse, {
@@ -25,7 +28,7 @@ function loadGraph(){
  
 // code to create the graph goes here – see below
 let widtha = document.getElementById("assetDataWrapper").clientWidth*2;
- let heighta = document.getElementById("assetDataWrapper").offsetHeight;
+let heighta = document.getElementById("assetDataWrapper").offsetHeight;
 
  
  // Add the close button and an SVG element for the graph
@@ -45,33 +48,40 @@ function createGraph() {
      let marginBottom = 60;
      let marginLeft = 50;
      let marginRight=20;
-
-let dataURL = "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_hour.geojson";
-
-// download the data and create the graph
+     let dataURL = baseURL+"/api/geojson/dailyParticipationRates";
+     
+ 
+ 
+ // download the data and create the graph
 d3.json(dataURL).then(data => {
-  data = data.features;
-
-
-  // loop through the data and get the length of the x axis titles
+  data = data[0].array_to_json;
+  
+  
+ // set groups labels
+ let subgroups = ["reports_submitted","reports_not_working"];
+ let groups = ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"];
+ 
+ // loop through the data and get the length of the x axis titles
   let xLen = 0;
   data.forEach(feature =>{
-      if (xLen < feature.properties.title.length) {
-        xLen = feature.properties.title.length;
+      let xstring = feature.day
+      if (xLen < xstring.length) {
+        xLen = xstring.length;
       }
 
-        });
+  });
 
   // adjust the space available for the x-axis titles, depending on the length of the text
   if (xLen > 100) {
     marginBottom = Math.round(xLen/3,0);
   }
   else {
-    marginBottom = xLen + 20;  // the 20 allows for the close button 
+    marginBottom = xLen + 50;  // the 20 allows for the close button 
   } //rough approximation for now
 
- let svg     = d3.select("#svg1"),
-      margin  = {top: marginTop, right: marginRight, bottom: marginBottom, left: marginLeft},
+ 
+ let svg     = d3.select("#svg1");
+ let  margin  = {top: marginTop, right: marginRight, bottom: marginBottom, left: marginLeft},
       width   = svg.attr("width") - marginLeft - marginRight,
       height  = svg.attr("height") - marginTop - marginBottom,
       x       = d3.scaleBand().rangeRound([0, width]).padding(0.2),
@@ -79,10 +89,9 @@ d3.json(dataURL).then(data => {
       g       = svg.append("g")
                    .attr("transform", `translate(${margin.left},${margin.top})`);
 
-
-
- x.domain(data.map(d => d.properties.title));
- y.domain([0, d3.max(data, d => d.properties.mag)]);
+ // change the structure for x.domain and y.domain 
+ x.domain(groups);
+ y.domain([0, d3.max(data, d => Math.max(d.reports_submitted,d.reports_not_working))]);
 
 
 
@@ -100,13 +109,13 @@ d3.json(dataURL).then(data => {
       .call(d3.axisLeft(y).ticks(10).tickSize(8));
 
   g.selectAll(".bar")
-    .data(data)
+    .data(newData)
     .enter().append("rect")
       .attr("class", "bar")
-      .attr("x", d => x(d.properties.title))
-      .attr("y", d => y(d.properties.mag))
+      .attr("x", d => x(d.day+": "+d.type))
+      .attr("y", d => y(d.count))
       .attr("width", x.bandwidth())
-      .attr("height", d => height - y(d.properties.mag));
+      .attr("height", d => height - y(d.count));
 
 })
 .catch(err => {
@@ -119,6 +128,8 @@ d3.json(dataURL).then(data => {
 });
 
 }
+
+
 // separate function to wrap the legend entries
 // in particular if the place name where the earthquake happened is long
 function wrap(text, width) {
