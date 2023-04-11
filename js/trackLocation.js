@@ -46,21 +46,23 @@ function errorPosition(error){
 
 
 function showPosition(position) {
-	//document.getElementById('showLocation').innerHTML = "Latitude: " + position.coords.latitude + "<br>Longitude: " + position.coords.longitude; 
-// alert("Latitude: " + position.coords.latitude + "Longitude: " + position.coords.longitude)
-// add the new point into the array
-// the 'push' command
-trackLocationLayer.push(L.marker([position.coords.latitude,position.coords.longitude]).addTo(mymap));
-// fly to user location
-mymap.flyTo([position.coords.latitude,position.coords.longitude],15)
 
+mymap.flyTo([position.coords.latitude,position.coords.longitude],15) // fly to user location
+// loop through markers and find markers that near the user
 mapPoint.eachLayer(function (layer) {
 	let coordinates = layer.getLatLng();
 	let distance = calculateDistance(position.coords.latitude, position.coords.longitude,
 									 coordinates.lat,coordinates.lng, 'K');
 	if (distance<0.1){
-		alert("Proximity alert: you are close to an asset you have created");
-		layer.openPopup();
+		// alert("Proximity alert: you are close to an asset you have created");
+		// add a message in popup
+		let popupHTML = layer.getPopup().getContent(); // get pop up
+		// if the popup html doesn't have the alert message, add alert message
+		if (!popupHTML.includes("<p><b>Proximity Alert! You are close to:</b> </p>")){
+			popupHTML = "<p><b>Proximity Alert! You are close to:</b> </p>" + popupHTML // modify popup
+		}
+		layer.setPopupContent(popupHTML); // set pop up
+		layer.openPopup(); // make the marker pops up automatically
 	}
 	
   });
