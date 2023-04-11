@@ -56,10 +56,10 @@ function createGraph() {
 d3.json(dataURL).then(data => {
   data = data[0].array_to_json;
   
-  
+  // adapted grouped chart from: https://d3-graph-gallery.com/graph/barplot_grouped_basicWide.html
  // set groups labels
- let subgroups = ["reports_submitted","reports_not_working"];
- let groups = ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"];
+ let subgroups = ["reports_submitted","reports_not_working"]; // two types of counts
+ let groups = []; // days: from monday to Sunday
  
  // loop through the data and get the length of the x axis titles
   let xLen = 0;
@@ -68,7 +68,7 @@ d3.json(dataURL).then(data => {
       if (xLen < xstring.length) {
         xLen = xstring.length;
       }
-
+      groups.push(feature.day); // add days
   });
 
   // adjust the space available for the x-axis titles, depending on the length of the text
@@ -107,15 +107,31 @@ d3.json(dataURL).then(data => {
   g.append("g")
       .attr("class", "axis axis-y")
       .call(d3.axisLeft(y).ticks(10).tickSize(8));
+ 
+ // Another scale for subgroup position?
+  var xSubgroup = d3.scaleBand()
+    .domain(subgroups)
+    .range([0, x.bandwidth()])
+    .padding([0.05])
 
+  // color palette = one color per subgroup
+  var color = d3.scaleOrdinal()
+    .domain(subgroups)
+    .range(['#e41a1c','#377eb8']) // color
+ 
   g.selectAll(".bar")
-    .data(newData)
+    .data(data)// Enter in data = loop group per group
+    .enter().append("g")// d.group : large group names
+      .attr("transform", function(d) { return "translate(" + x(d.day) + ",0)"; })
+    .selectAll("rect")
+    .data(function(d) { return subgroups.map(function(key) { console.log({key: key, value: d[key]});
+                                                            return {key: key, value: d[key]}; }); })
     .enter().append("rect")
-      .attr("class", "bar")
-      .attr("x", d => x(d.day+": "+d.type))
-      .attr("y", d => y(d.count))
-      .attr("width", x.bandwidth())
-      .attr("height", d => height - y(d.count));
+      .attr("x", function(d) { return xSubgroup(d.key); })
+      .attr("y", function(d) { return y(d.value); })
+      .attr("width", xSubgroup.bandwidth())
+      .attr("height", function(d) { return height - y(d.value); })
+      .attr("fill", function(d) { return color(d.key); });
 
 })
 .catch(err => {
