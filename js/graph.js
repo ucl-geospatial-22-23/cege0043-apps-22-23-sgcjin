@@ -60,7 +60,7 @@ d3.json(dataURL).then(data => {
  // set groups labels
  let subgroups = ["reports_submitted","reports_not_working"]; // two types of counts
  let groups = []; // days: from monday to Sunday
- 
+ let LABELS = ["Submitted Reports","Reports with 'Not Working' Condition"]; // labels for legends
  // loop through the data and get the length of the x axis titles
   let xLen = 0;
   data.forEach(feature =>{
@@ -117,15 +117,49 @@ d3.json(dataURL).then(data => {
   // color palette = one color per subgroup
   var color = d3.scaleOrdinal()
     .domain(subgroups)
-    .range(['#e41a1c','#377eb8']) // color
+    .range(['#377eb8','#e41a1c']) // color
+ 
+ // draw the legend
+ // adapted from https://gist.github.com/hrecht/13ad131fd8a95b0838151c178f7ace00
+ var legspacing = 25;
+
+ var legend = g.selectAll(".legend")
+     .data(subgroups)
+     .enter()
+     .append("g")
+
+ // legend color bar
+ legend.append("rect")
+     .attr("fill", color)
+     .attr("width", 20)
+     .attr("height", 20)
+     .attr("y", function (d, i) {
+
+         return i * legspacing;
+     })
+     .attr("x", 0);
+ 
+// legend text
+ legend.append("text")
+     .attr("class", "label")
+     .attr("y", function (d, i) {
+
+         return i * legspacing +14; // offset of 14 to align text with color bar
+     })
+     .attr("x", 30)
+     .attr("text-anchor", "start")
+     .text(function (d, i) {
+         return LABELS[i];
+     });
+
+
  
   g.selectAll(".bar")
     .data(data)// Enter in data = loop group per group
-    .enter().append("g")// d.group : large group names
+    .enter().append("g")
       .attr("transform", function(d) { return "translate(" + x(d.day) + ",0)"; })
     .selectAll("rect")
-    .data(function(d) { return subgroups.map(function(key) { console.log({key: key, value: d[key]});
-                                                            return {key: key, value: d[key]}; }); })
+    .data(function(d) { return subgroups.map(function(key) { return {key: key, value: d[key]}; }); })
     .enter().append("rect")
       .attr("x", function(d) { return xSubgroup(d.key); })
       .attr("y", function(d) { return y(d.value); })
