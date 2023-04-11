@@ -1,5 +1,4 @@
 "use strict";
-
 function closeAssetData(){
  let mapCollapse = document.getElementById('mapWrapper');
  let bsMapCollapse = new bootstrap.Collapse(mapCollapse, {
@@ -12,8 +11,6 @@ function closeAssetData(){
  });
  bsAdwCollapse.hide();
 }
-
-
 function loadGraph(){
  let mapCollapse = document.getElementById('mapWrapper');
  let bsMapCollapse = new bootstrap.Collapse(mapCollapse, {
@@ -28,7 +25,7 @@ function loadGraph(){
  
 // code to create the graph goes here – see below
 let widtha = document.getElementById("assetDataWrapper").clientWidth*2;
-let heighta = document.getElementById("assetDataWrapper").offsetHeight;
+ let heighta = document.getElementById("assetDataWrapper").offsetHeight;
 
  
  // Add the close button and an SVG element for the graph
@@ -122,8 +119,6 @@ d3.json(dataURL).then(data => {
 });
 
 }
-
-
 // separate function to wrap the legend entries
 // in particular if the place name where the earthquake happened is long
 function wrap(text, width) {
