@@ -20,7 +20,7 @@ var loadDefaultConditionFlag = true;
 let conditions = [];
 // store condition details
 
-function loadMap() {
+async function loadMap() {
     // CODE TO INITIALISE AND CREATE THE MAP GOES HERE 
     mymap = L.map('mapid').setView([51.505, -0.09], 13);
     L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -29,36 +29,48 @@ function loadMap() {
     }).addTo(mymap);
 
     window.addEventListener('resize', setMapClickEvent);
-    // set up user id first
-    $.ajax({
-        url: baseURL + "/api/userID",
-        crossDomain: true,
-        success: function(result) {
-            userID = JSON.parse(JSON.stringify(result))[0].user_id;
-            // after get user id, get conditions
-            $.ajax({
-                url: baseURL + "/api/geojson/conditionDetails",
-                crossDomain: true,
-                success: function(result) {
 
-                    conditions = [];
-                    // variable to store conditions
-                    // loop and parse condition_descriptions 
-                    for (let i = 0; i < JSON.parse(JSON.stringify(result)).length; i++) {
-                        conditions.push(JSON.parse(JSON.stringify(result))[i].condition_description);
-                    }
-
-                    // after get user id and conditions, start other functions
-                    setMapClickEvent();
-
-                }
-            });
-            // end of AJAX get conditions
-        }
-    });
-    //end of the AJAX call of user id
+    // waiting for get conditions and user id
+    await setUpConditionAndUserID();
+    // after get user id and conditions, start other functions
+    setMapClickEvent();
 }
 //end code to add the leaflet map
+
+// initialise condition and user id at set up
+function setUpConditionAndUserID() {
+    const promise = new Promise((resolve)=>{
+        // set up user id first
+        $.ajax({
+            url: baseURL + "/api/userID",
+            crossDomain: true,
+            success: function(result) {
+                userID = JSON.parse(JSON.stringify(result))[0].user_id;
+                // after get user id, get conditions
+                $.ajax({
+                    url: baseURL + "/api/geojson/conditionDetails",
+                    crossDomain: true,
+                    success: function(result) {
+
+                        conditions = [];
+                        // variable to store conditions
+                        // loop and parse condition_descriptions 
+                        for (let i = 0; i < JSON.parse(JSON.stringify(result)).length; i++) {
+                            conditions.push(JSON.parse(JSON.stringify(result))[i].condition_description);
+                        }
+                        // after load user id and condition, allow loadMap to continue
+                        resolve(conditions);
+
+                    }
+                });
+                // end of AJAX get conditions
+            }
+        });
+    }
+    );
+    // end of promise
+    return promise;
+}
 
 // check current number of layers
 function countlayers() {
