@@ -23,7 +23,6 @@ let conditions = [];
 // this variable is used for determine whether base condition map will be loaded when resized
 var loadDefaultConditionFlag = true;
 
-
 async function loadMap() {
     // CODE TO INITIALISE AND CREATE THE MAP GOES HERE 
     mymap = L.map('mapid').setView([51.505, -0.09], 13);
@@ -65,6 +64,7 @@ function setUpConditionAndUserID() {
                         }
                         // after load user id and condition, allow loadMap to continue
                         resolve(conditions);
+                        console.log(conditions);
 
                     }
                 });
@@ -111,7 +111,7 @@ function setMapClickEvent() {
             layerlist.push(["mapPoint", mapPoint]);
             // start tracking
             trackLocation();
-            
+
             // if map point haven't initalized and there are no other asset points layer, load mapPoint layer and track
         } else if ((!mapPoint) && loadDefaultConditionFlag) {
             // set up a mapPoint layer with click functionality for add asset condition information
@@ -120,16 +120,16 @@ function setMapClickEvent() {
             trackLocation();
         }
 
-    } else{
+    } else {
         // the asset creation page
         // remove all layer
-        removeAllLayer();    
-        
+        removeAllLayer();
+
         // since all other layer is removed
         // base condition layer is allowed to be load when size is small
         // set flag for base condition layer
         loadDefaultConditionFlag = true;
-        
+
         // stop tracking if exists
         removePositionPoints();
 
@@ -139,8 +139,8 @@ function setMapClickEvent() {
             mymap.addLayer(assetPoint);
             layerlist.push(["assetPoint", assetPoint]);
             // zoom to assetPoint layer
-            mymap.fitBounds(assetPoint.getBounds());           
-            
+            mymap.fitBounds(assetPoint.getBounds());
+
         } else {
             // if assetPoint haven't been initialized, set up assetPoint layer
             setUpAssetCreationLayer();
@@ -152,7 +152,6 @@ function setMapClickEvent() {
     }
 }
 // end of setMapClickEvent
-
 
 // set up base condition app layer 
 function setUpConditionBaseLayer() {
@@ -180,7 +179,7 @@ function setUpConditionBaseLayer() {
                 // end of point to layer          
             });
             // end of mappoint
-            
+
             // add layer only if width is condition APP size   
             if (width < conditionWidth) {
                 mapPoint.addTo(mymap);
@@ -195,50 +194,51 @@ function setUpConditionBaseLayer() {
 
 // set marker color by its condition value
 function getIconByValue(feature, conditions) {
-    // create color icon
-    let testMarkerBlue = L.AwesomeMarkers.icon({
+    // create color icons
+    let testMarkerLightGreen = L.AwesomeMarkers.icon({
         icon: 'play',
-        markerColor: 'blue'
+        markerColor: 'lightgreen'
     });
-    let testMarkerGreen = L.AwesomeMarkers.icon({
+    let testMarkerBeige = L.AwesomeMarkers.icon({
         icon: 'play',
-        markerColor: 'green'
-    });
-    let testMarkerPink = L.AwesomeMarkers.icon({
-        icon: 'play',
-        markerColor: 'pink'
+        markerColor: 'beige'
     });
     let testMarkerRed = L.AwesomeMarkers.icon({
         icon: 'play',
         markerColor: 'red'
     });
-    let testMarkerGray = L.AwesomeMarkers.icon({
+    let testMarkerDarkRed = L.AwesomeMarkers.icon({
         icon: 'play',
-        markerColor: 'gray'
+        markerColor: 'darkred'
     });
-    let testMarkerPurple = L.AwesomeMarkers.icon({
+    let testMarkerOrange = L.AwesomeMarkers.icon({
         icon: 'play',
-        markerColor: 'purple'
+        markerColor: 'orange'
     });
+    let testMarkerLightGray = L.AwesomeMarkers.icon({
+        icon: 'play',
+        markerColor: 'lightgray'
+    });
+
 
     // assign color icon according to condition
     switch (feature.properties.condition_description) {
     case "Unknown":
         // if unknown OR other values, return grey
-        return testMarkerGray;
+        return testMarkerLightGray;
     case conditions[0]:
-        return testMarkerBlue;
+        return testMarkerLightGreen;
     case conditions[1]:
-        return testMarkerGreen;
+        return testMarkerBeige;
     case conditions[2]:
-        return testMarkerPink;
+        return testMarkerOrange;
     case conditions[3]:
         return testMarkerRed;
     case conditions[4]:
-        return testMarkerPurple;
+        return testMarkerDarkRed;
     default:
         // if unknown OR other values, return grey
-        return testMarkerGray;
+        return testMarkerLightGray;
     }
 
 }
@@ -329,15 +329,7 @@ function setUpAssetCreationLayer() {
 
 // set up map click pop ups for asset creation app
 function onMapClick(e) {
-    let formHTML = '<div>' +
-        '<label for="asset_name">Asset Name </label><input type="text" size="25" id="asset_name"/><br />' +
-        '<label for="installation_date">Installation Date </label><input type="text" size="25" id="installation_date"/><br />' +
-        '<div id="latitude" value= "' + e.latlng.lat.toString() + '">Latitude: ' + e.latlng.lat.toString() +
-        '</div><br />' + '<div id="longitude" value= "' + e.latlng.lng.toString() +
-        '">Longitude: ' + e.latlng.lng.toString() + '</div><br />' +
-        '<div id="user_id" style="display: none;">' + userID + '</div>' +
-        '<button id="startUpload" onclick="saveNewAsset()">saveAsset</button>' +
-        '</div>';
+    let formHTML = '<div>' + '<label for="asset_name">Asset Name </label><input type="text" size="25" id="asset_name"/><br />' + '<label for="installation_date">Installation Date </label><input type="text" size="25" id="installation_date"/><br />' + '<div id="latitude" value= "' + e.latlng.lat.toString() + '">Latitude: ' + e.latlng.lat.toString() + '</div><br />' + '<div id="longitude" value= "' + e.latlng.lng.toString() + '">Longitude: ' + e.latlng.lng.toString() + '</div><br />' + '<div id="user_id" style="display: none;">' + userID + '</div>' + '<button id="startUpload" onclick="saveNewAsset()">saveAsset</button>' + '</div>';
     popup = L.popup();
     popup.setLatLng(e.latlng).setContent(formHTML).openOn(mymap);
 }
