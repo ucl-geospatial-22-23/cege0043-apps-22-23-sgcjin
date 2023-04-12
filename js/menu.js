@@ -224,7 +224,7 @@ function addNotRated() {
     //end of the AJAX call of userAssets
 }
 
-// menu 14
+// remove NotRated layer 
 function removeNotRated() {
     // remove 5ClosestAssets layer
     removelayers("notRated");

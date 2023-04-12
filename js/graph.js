@@ -57,14 +57,14 @@ function createGraph() {
 
         // adapted grouped chart from: https://d3-graph-gallery.com/graph/barplot_grouped_basicWide.html
         // The code is combined with earthquake graph in practicals
-        
+
         // groups:  days: from monday to Sunday
         let groups = [];
         // set sub group keys: submitted reports, not working reports
         let subgroups = ["reports_submitted", "reports_not_working"];
         // labels for legends
         let LABELS = ["Submitted Reports", "Reports with 'Not Working' Condition"];
-        
+
         // loop through the data and get the length of the x axis titles
         let xLen = 0;
         data.forEach(feature=>{
@@ -96,30 +96,23 @@ function createGraph() {
           , width = svg.attr("width") - marginLeft - marginRight
           , height = svg.attr("height") - marginTop - marginBottom
           , x = d3.scaleBand().rangeRound([0, width]).padding(0.2)
-          , y = d3.scaleLinear().rangeRound([height, 0])
-            // g is a grouping element
+          , y = d3.scaleLinear().rangeRound([height, 0])// g is a grouping element
           , g = svg.append("g").attr("transform", `translate(${margin.left},${margin.top})`);
-            
+
         // change the structure for x.domain and y.domain 
         x.domain(groups);
         y.domain([0, d3.max(data, d=>Math.max(d.reports_submitted, d.reports_not_working))]);
 
         // adapted from: https://bl.ocks.org/mbostock/7555321 10th March 2021/
-        g.append("g").attr("class", "axis axis-x")
-            .attr("transform", `translate(0,${height})`)
-            .call(d3.axisBottom(x)).selectAll(".tick text")
-            .call(wrap, x.bandwidth());
+        g.append("g").attr("class", "axis axis-x").attr("transform", `translate(0,${height})`).call(d3.axisBottom(x)).selectAll(".tick text").call(wrap, x.bandwidth());
 
-        g.append("g")
-            .attr("class", "axis axis-y")
-            .call(d3.axisLeft(y).ticks(10).tickSize(8));
+        g.append("g").attr("class", "axis axis-y").call(d3.axisLeft(y).ticks(10).tickSize(8));
 
         // Another scale for subgroup position?
         var xSubgroup = d3.scaleBand().domain(subgroups).range([0, x.bandwidth()]).padding([0.05])
 
         // color palette = one color per subgroup
         var color = d3.scaleOrdinal().domain(subgroups).range(['#377eb8', '#e41a1c'])
-        
 
         // draw the legend
         // adapted from https://gist.github.com/hrecht/13ad131fd8a95b0838151c178f7ace00
@@ -128,26 +121,20 @@ function createGraph() {
         var legend = g.selectAll(".legend").data(subgroups).enter().append("g")
 
         // legend color bar
-        legend.append("rect")
-            .attr("fill", color)
-            .attr("width", 20)
-            .attr("height", 20)
-            .attr("y", function(d, i) { return i * legspacing;})
-            .attr("x", 0);
+        legend.append("rect").attr("fill", color).attr("width", 20).attr("height", 20).attr("y", function(d, i) {
+            return i * legspacing;
+        }).attr("x", 0);
 
         // set legend text
         legend.append("text").attr("class", "label").attr("y", function(d, i) {
             return i * legspacing + 14;
             // offset of 14 to align text with color bar
-        }).attr("x", 30)
-            .attr("text-anchor", "start")
-            .text(function(d, i) {
+        }).attr("x", 30).attr("text-anchor", "start").text(function(d, i) {
             return LABELS[i];
         });
 
         // Enter in data 
-        g.selectAll(".bar").data(data)
-        .enter().append("g").attr("transform", function(d) {
+        g.selectAll(".bar").data(data).enter().append("g").attr("transform", function(d) {
             return "translate(" + x(d.day) + ",0)";
         }).selectAll("rect").data(function(d) {
             return subgroups.map(function(key) {

@@ -1,24 +1,27 @@
 "use strict";
-let width;
 // wdith of the window
-let conditionWidth = 992;
+let width;
 // width to determine whether to load condition APP
-let popup;
+let conditionWidth = 992;
 // keep this as a global variable
-let mapPoint;
+let popup;
 // layer for base condition APP
-let assetPoint;
+let mapPoint;
 // layer for asset creation APP
+let assetPoint;
+// leaflet base map
 let mymap;
 // let baseURL = document.location.origin;
 baseURL = "https://cege0043-7.cs.ucl.ac.uk";
+// list of loaded layers
 let layerlist = [];
-var userID;
 // store user id that loaded at set up
-var loadDefaultConditionFlag = true;
-// this variable is used for determine whether base condition map will be loaded when resized
-let conditions = [];
+var userID;
 // store condition details
+let conditions = [];
+// this variable is used for determine whether base condition map will be loaded when resized
+var loadDefaultConditionFlag = true;
+
 
 async function loadMap() {
     // CODE TO INITIALISE AND CREATE THE MAP GOES HERE 
@@ -30,7 +33,7 @@ async function loadMap() {
 
     window.addEventListener('resize', setMapClickEvent);
 
-    // waiting for get conditions and user id
+    // waiting for getting conditions and user id 
     await setUpConditionAndUserID();
     // after get user id and conditions, start other functions
     setMapClickEvent();
@@ -38,6 +41,7 @@ async function loadMap() {
 //end code to add the leaflet map
 
 // initialise condition and user id at set up
+// return a promise when these are done
 function setUpConditionAndUserID() {
     const promise = new Promise((resolve)=>{
         // set up user id first
@@ -98,46 +102,48 @@ function setMapClickEvent() {
 
         // remove the map point if it exists
         if (mapPoint && loadDefaultConditionFlag) {
+            // remove all layer
             removeAllLayer();
             // load map point if there are no other asset points layer, load mapPoint layer and track
             mymap.addLayer(mapPoint);
-            layerlist.push(["mapPoint", mapPoint]);
             // push this layer into layer list
+            layerlist.push(["mapPoint", mapPoint]);
 
             trackLocation();
             // if map point haven't initalized and there are no other asset points layer, load mapPoint layer and track
         } else if ((!mapPoint) && loadDefaultConditionFlag) {
             // set up a mapPoint layer with click functionality for add asset condition information
             setUpConditionBaseLayer();
+            // start tracking
             trackLocation();
         }
 
     } else {
         // the asset creation page
-
-        removeAllLayer();
         // remove all layer
+        removeAllLayer();    
+        
         // since all other layer is removed
         // base condition layer is allowed to be load when size is small
-        loadDefaultConditionFlag = true;
         // set flag for base condition layer
-
+        loadDefaultConditionFlag = true;
+        
         // stop tracking if exists
         removePositionPoints();
 
         // add asset points if it already exists
         if (assetPoint) {
-            mymap.addLayer(assetPoint);
             // add assetPoint layer back
-            mymap.fitBounds(assetPoint.getBounds());
-            // zoom to assetPoint layer
+            mymap.addLayer(assetPoint);
             layerlist.push(["assetPoint", assetPoint]);
+            // zoom to assetPoint layer
+            mymap.fitBounds(assetPoint.getBounds());           
+            
         } else {
             // if assetPoint haven't been initialized, set up assetPoint layer
             setUpAssetCreationLayer();
 
         }
-
         // the on click functionality of the MAP will pop up a blank asset creation form
         mymap.on('click', onMapClick);
 
@@ -171,6 +177,7 @@ function setUpConditionBaseLayer() {
                 // end of point to layer          
             });
             // end of mappoint
+            
             // add layer only if width is condition APP size   
             if (width < conditionWidth) {
                 mapPoint.addTo(mymap);
@@ -319,7 +326,15 @@ function setUpAssetCreationLayer() {
 
 // set up map click pop ups for asset creation app
 function onMapClick(e) {
-    let formHTML = '<div>' + '<label for="asset_name">Asset Name </label><input type="text" size="25" id="asset_name"/><br />' + '<label for="installation_date">Installation Date </label><input type="text" size="25" id="installation_date"/><br />' + '<div id="latitude" value= "' + e.latlng.lat.toString() + '">Latitude: ' + e.latlng.lat.toString() + '</div><br />' + '<div id="longitude" value= "' + e.latlng.lng.toString() + '">Longitude: ' + e.latlng.lng.toString() + '</div><br />' + '<div id="user_id" style="display: none;">' + userID + '</div>' + '<button id="startUpload" onclick="saveNewAsset()">saveAsset</button>' + '</div>';
+    let formHTML = '<div>' +
+        '<label for="asset_name">Asset Name </label><input type="text" size="25" id="asset_name"/><br />' +
+        '<label for="installation_date">Installation Date </label><input type="text" size="25" id="installation_date"/><br />' +
+        '<div id="latitude" value= "' + e.latlng.lat.toString() + '">Latitude: ' + e.latlng.lat.toString() +
+        '</div><br />' + '<div id="longitude" value= "' + e.latlng.lng.toString() +
+        '">Longitude: ' + e.latlng.lng.toString() + '</div><br />' +
+        '<div id="user_id" style="display: none;">' + userID + '</div>' +
+        '<button id="startUpload" onclick="saveNewAsset()">saveAsset</button>' +
+        '</div>';
     popup = L.popup();
     popup.setLatLng(e.latlng).setContent(formHTML).openOn(mymap);
 }

@@ -13,7 +13,6 @@ function loadTable() {
     });
     bsAdwCollapse.show();
 
-
     // Add the close button and an SVG element for the graph
     document.getElementById("assetDataWrapper").innerHTML = `<div class="h-100 w-100">
  <button type="button" class="btn-close float-end" arialabel="Close" onclick="closeAssetData()"></button>
@@ -36,9 +35,9 @@ function createTable() {
             // generate a string for the table
             var tableHTML = "<h2>List of Assets in Best Condition</h2>";
             tableHTML += "<table class=table style='background-color:#FFFFFF'>";
-           // add the column titles
+            // add the column titles
             tableHTML += "<thead align><tr><td><h3>Asset Name</h3></td><td><h3>Installation Date</h3> </td></tr></thead>";
-            tableHTML +="<tbody>";
+            tableHTML += "<tbody>";
 
             for (let i = 0; i < features.length; i++) {
                 // add a new row
