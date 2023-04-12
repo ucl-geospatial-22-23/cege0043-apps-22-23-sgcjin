@@ -3,6 +3,7 @@
 let width;
 // width to determine whether to load condition APP
 let conditionWidth = 992;
+
 // keep this as a global variable
 let popup;
 // layer for base condition APP
@@ -93,7 +94,7 @@ function setMapClickEvent() {
     // we use the bootstrap Medium and Large options for the asset location capture
     // and the small and XS options for the condition option
     // see here: https://www.w3schools.com/bootstrap/bootstrap_grid_system.asp
-    if (width < conditionWidth) {
+    if (width <= conditionWidth) {
         //the condition capture –
         //anything smaller than 992px is defined as 'medium' by bootstrap
 
@@ -104,12 +105,13 @@ function setMapClickEvent() {
         if (mapPoint && loadDefaultConditionFlag) {
             // remove all layer
             removeAllLayer();
-            // load map point if there are no other asset points layer, load mapPoint layer and track
+            // load map point 
             mymap.addLayer(mapPoint);
             // push this layer into layer list
             layerlist.push(["mapPoint", mapPoint]);
-
+            // start tracking
             trackLocation();
+            
             // if map point haven't initalized and there are no other asset points layer, load mapPoint layer and track
         } else if ((!mapPoint) && loadDefaultConditionFlag) {
             // set up a mapPoint layer with click functionality for add asset condition information
@@ -118,7 +120,7 @@ function setMapClickEvent() {
             trackLocation();
         }
 
-    } else {
+    } else{
         // the asset creation page
         // remove all layer
         removeAllLayer();    
@@ -150,6 +152,7 @@ function setMapClickEvent() {
     }
 }
 // end of setMapClickEvent
+
 
 // set up base condition app layer 
 function setUpConditionBaseLayer() {
@@ -303,7 +306,7 @@ function setUpAssetCreationLayer() {
 
                     // set all initial color as blue
                     return L.marker(latlng, {
-                        icon: testMarkerBlue
+                        icon: getIconByValue(feature, conditions)
                     }).bindPopup(popUpHTML);
 
                 },
