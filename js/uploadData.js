@@ -138,7 +138,7 @@ async function assetInserted(data) {
 // create the code to process the insert condition response from the data server
 function reportUploaded(data) {
 
-	let user_id = document.getElementById("hidden_user_id").innerHTML; // get user id
+	let user_id = userID; // get user id
 
 	$.ajax({url:baseURL+"/api/geojson/userConditionReports/"+user_id,
 		crossDomain: true,

@@ -27,7 +27,7 @@ function loadMap() {
     }).addTo(mymap);
 
     window.addEventListener('resize', setMapClickEvent);
-    // set up user id
+    // set up user id first
     let theURL = baseURL + "/api/userID";
     $.ajax({
         url: theURL,
@@ -37,8 +37,7 @@ function loadMap() {
         // if the response is succesful then ..
         success: function(result) {
             userID = JSON.parse(JSON.stringify(result))[0].user_id;
-            // update hidden user id, use it as a global variable
-            document.getElementById("hidden_user_id").innerHTML = userID;
+
             setMapClickEvent()
 
         }
@@ -137,7 +136,7 @@ function setUpConditionBaseLayer() {
             }
 
             // get pre loaded user_id
-            let user_id = document.getElementById("hidden_user_id").innerHTML;
+            let user_id = userID;
             // use an AJAX call to load the asset points on the map
             $.ajax({
                 url: baseURL + "/api/geojson/userAssets/" + user_id,
@@ -232,7 +231,7 @@ function getReportPopupHTML(feature, conditions) {
     // this will be the asset ID
     let asset_name = feature.properties.asset_name;
     let installation_date = feature.properties.installation_date;
-    let user_id = document.getElementById("hidden_user_id").innerHTML;
+    let user_id = userID;
     let previousCondition = feature.properties.condition_description;
     // condition values
     let con_1 = conditions[0];
@@ -265,7 +264,7 @@ function getReportPopupHTML(feature, conditions) {
 function setUpAssetCreationLayer() {
 
     // get pre loaded user_id
-    let user_id = document.getElementById("hidden_user_id").innerHTML;
+    let user_id = userID;
 
     // use an AJAX call to load the asset points on the map
     $.ajax({
@@ -310,7 +309,7 @@ function setUpAssetCreationLayer() {
 
 // set up map click pop ups for asset creation app
 function onMapClick(e) {
-    let formHTML = '<div>' + '<label for="asset_name">Asset Name </label><input type="text" size="25" id="asset_name"/><br />' + '<label for="installation_date">Installation Date </label><input type="text" size="25" id="installation_date"/><br />' + '<div id="latitude" value= "' + e.latlng.lat.toString() + '">Latitude: ' + e.latlng.lat.toString() + '</div><br />' + '<div id="longitude" value= "' + e.latlng.lng.toString() + '">Longitude: ' + e.latlng.lng.toString() + '</div><br />' + '<div id="user_id" style="display: none;">' + document.getElementById("hidden_user_id").innerHTML + '</div>' + '<button id="startUpload" onclick="saveNewAsset()">saveAsset</button>' + '</div>';
+    let formHTML = '<div>' + '<label for="asset_name">Asset Name </label><input type="text" size="25" id="asset_name"/><br />' + '<label for="installation_date">Installation Date </label><input type="text" size="25" id="installation_date"/><br />' + '<div id="latitude" value= "' + e.latlng.lat.toString() + '">Latitude: ' + e.latlng.lat.toString() + '</div><br />' + '<div id="longitude" value= "' + e.latlng.lng.toString() + '">Longitude: ' + e.latlng.lng.toString() + '</div><br />' + '<div id="user_id" style="display: none;">' + userID + '</div>' + '<button id="startUpload" onclick="saveNewAsset()">saveAsset</button>' + '</div>';
     popup = L.popup();
     popup.setLatLng(e.latlng).setContent(formHTML).openOn(mymap);
 }

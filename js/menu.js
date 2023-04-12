@@ -46,7 +46,7 @@ function help() {}
 // alert user ranking
 function userRanking() {
     // get user id
-    let user_id = document.getElementById("hidden_user_id").innerHTML;
+    let user_id = userID;
 
     $.ajax({
         url: baseURL + "/api/geojson/userRanking/" + user_id,
@@ -142,7 +142,7 @@ function add5LastReports() {
                 conditions.push(JSON.parse(JSON.stringify(result))[i].condition_description);
             }
             // get user id
-            let user_id = document.getElementById("hidden_user_id").innerHTML;
+            let user_id = userID;
 
             $.ajax({
                 url: baseURL + "/api/geojson/lastFiveConditionReports/" + user_id,
@@ -203,7 +203,7 @@ function addNotRated() {
         markerColor: 'blue'
     });
     // get user id
-    let user_id = document.getElementById("hidden_user_id").innerHTML;
+    let user_id = userID;
     
 
     $.ajax({
