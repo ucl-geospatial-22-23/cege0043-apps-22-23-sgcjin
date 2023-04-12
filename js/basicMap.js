@@ -17,6 +17,8 @@ var userID;
 // store user id that loaded at set up
 var loadDefaultConditionFlag = true;
 // this variable is used for determine whether base condition map will be loaded when resized
+let conditions = [];
+// store condition details
 
 function loadMap() {
     // CODE TO INITIALISE AND CREATE THE MAP GOES HERE 
@@ -28,22 +30,33 @@ function loadMap() {
 
     window.addEventListener('resize', setMapClickEvent);
     // set up user id first
-    let theURL = baseURL + "/api/userID";
     $.ajax({
-        url: theURL,
-        // allow requests from other servers
+        url: baseURL + "/api/userID",
         crossDomain: true,
-
-        // if the response is succesful then ..
         success: function(result) {
             userID = JSON.parse(JSON.stringify(result))[0].user_id;
+            // after get user id, get conditions
+            $.ajax({
+                url: baseURL + "/api/geojson/conditionDetails",
+                crossDomain: true,
+                success: function(result) {
 
-            setMapClickEvent()
+                    conditions = [];
+                    // variable to store conditions
+                    // loop and parse condition_descriptions 
+                    for (let i = 0; i < JSON.parse(JSON.stringify(result)).length; i++) {
+                        conditions.push(JSON.parse(JSON.stringify(result))[i].condition_description);
+                    }
 
+                    // after get user id and conditions, start other functions
+                    setMapClickEvent();
+
+                }
+            });
+            // end of AJAX get conditions
         }
     });
-    //end of the AJAX call
-
+    //end of the AJAX call of user id
 }
 //end code to add the leaflet map
 
@@ -122,54 +135,39 @@ function setMapClickEvent() {
 
 // set up base condition app layer 
 function setUpConditionBaseLayer() {
-    // get condition values first
+
+    // get pre loaded user_id
+    let user_id = userID;
+    // use an AJAX call to load the asset points on the map
     $.ajax({
-        url: baseURL + "/api/geojson/conditionDetails",
+        url: baseURL + "/api/geojson/userAssets/" + user_id,
         crossDomain: true,
         success: function(result) {
 
-            let conditions = [];
-            // variable to store conditions
-            // loop and parse condition_descriptions 
-            for (let i = 0; i < JSON.parse(JSON.stringify(result)).length; i++) {
-                conditions.push(JSON.parse(JSON.stringify(result))[i].condition_description);
-            }
+            // use the mapPoint and add it to the map  
+            mapPoint = L.geoJson(result, {
+                // use point to layer to create the points
+                pointToLayer: function(feature, latlng) {
+                    // pass geoJSON features and conditions to construct popUpHTML
+                    let popUpHTML = getReportPopupHTML(feature, conditions);
+                    // set all initial color using getIconByValue
+                    return L.marker(latlng, {
+                        icon: getIconByValue(feature, conditions)
+                    }).bindPopup(popUpHTML);
 
-            // get pre loaded user_id
-            let user_id = userID;
-            // use an AJAX call to load the asset points on the map
-            $.ajax({
-                url: baseURL + "/api/geojson/userAssets/" + user_id,
-                crossDomain: true,
-                success: function(result) {
-
-                    // use the mapPoint and add it to the map  
-                    mapPoint = L.geoJson(result, {
-                        // use point to layer to create the points
-                        pointToLayer: function(feature, latlng) {
-                            // pass geoJSON features and conditions to construct popUpHTML
-                            let popUpHTML = getReportPopupHTML(feature, conditions);
-                            // set all initial color using getIconByValue
-                            return L.marker(latlng, {
-                                icon: getIconByValue(feature, conditions)
-                            }).bindPopup(popUpHTML);
-
-                        },
-                        // end of point to layer          
-                    });
-                    // end of mappoint
-                    // add layer only if width is condition APP size   
-                    if (width < conditionWidth) {
-                        mapPoint.addTo(mymap);
-                        layerlist.push(["mapPoint", mapPoint]);
-                    }
-                    // end of if condition
-                }
+                },
+                // end of point to layer          
             });
-            //end of the AJAX call of userAssets         
+            // end of mappoint
+            // add layer only if width is condition APP size   
+            if (width < conditionWidth) {
+                mapPoint.addTo(mymap);
+                layerlist.push(["mapPoint", mapPoint]);
+            }
+            // end of if condition
         }
     });
-    //end of the AJAX call of condition
+    //end of the AJAX call of userAssets         
 }
 // end of function
 

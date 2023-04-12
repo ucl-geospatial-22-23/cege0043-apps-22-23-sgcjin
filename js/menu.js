@@ -129,51 +129,37 @@ function add5LastReports() {
     removeAllLayer();
     // stop tracking
     removePositionPoints();
-    // get condition values first
+    // get user id
+    let user_id = userID;
+
     $.ajax({
-        url: baseURL + "/api/geojson/conditionDetails",
+        url: baseURL + "/api/geojson/lastFiveConditionReports/" + user_id,
         crossDomain: true,
         success: function(result) {
+            // use the mapPoint and add it to the map  
+            let lastReports = L.geoJson(result, {
 
-            let conditions = [];
-            // variable to store conditions
-            // loop and parse condition_descriptions 
-            for (let i = 0; i < JSON.parse(JSON.stringify(result)).length; i++) {
-                conditions.push(JSON.parse(JSON.stringify(result))[i].condition_description);
-            }
-            // get user id
-            let user_id = userID;
+                // use point to layer to create the points
+                pointToLayer: function(feature, latlng) {
+                    // pass geoJSON features and conditions to construct popUpHTML
+                    let popUpHTML = "<div>Asset Name:" + feature.properties.asset_name + "</div><br /><div>Condition Description:" + feature.properties.condition_description + "</div>";
+                    // set all initial color using getIconByValue
+                    return L.marker(latlng, {
+                        icon: getIconByValue(feature, conditions)
+                    }).bindPopup(popUpHTML);
+                },
+                // end of point to layer          
+            }).addTo(mymap);
+            // end of mappoint            
+            layerlist.push(["lastReports", lastReports]);
 
-            $.ajax({
-                url: baseURL + "/api/geojson/lastFiveConditionReports/" + user_id,
-                crossDomain: true,
-                success: function(result) {
-                    // use the mapPoint and add it to the map  
-                    let lastReports = L.geoJson(result, {
+            // fit bounds
+            mymap.fitBounds(lastReports.getBounds());
 
-                        // use point to layer to create the points
-                        pointToLayer: function(feature, latlng) {
-                            // pass geoJSON features and conditions to construct popUpHTML
-                            let popUpHTML = "<div>Asset Name:" + feature.properties.asset_name + "</div><br /><div>Condition Description:" + feature.properties.condition_description + "</div>";
-                            // set all initial color using getIconByValue
-                            return L.marker(latlng, {
-                                icon: getIconByValue(feature, conditions)
-                            }).bindPopup(popUpHTML);
-                        },
-                        // end of point to layer          
-                    }).addTo(mymap);
-                    // end of mappoint            
-                    layerlist.push(["lastReports", lastReports]);
-
-                    // fit bounds
-                    mymap.fitBounds(lastReports.getBounds());
-
-                }
-            });
-            //end of the AJAX call of userAssets
         }
     });
-    //end of the AJAX call of condition details    
+    //end of the AJAX call of userAssets
+
 }
 
 // menu 11
@@ -204,7 +190,6 @@ function addNotRated() {
     });
     // get user id
     let user_id = userID;
-    
 
     $.ajax({
         url: baseURL + "/api/geojson/conditionReportMissing/" + user_id,
@@ -241,13 +226,13 @@ function addNotRated() {
 
 // menu 14
 function removeNotRated() {
-     // remove 5ClosestAssets layer
-    removelayers("notRated");   
+    // remove 5ClosestAssets layer
+    removelayers("notRated");
     // allow  condition asst points to load when resized and < conditionWidth
-    loadDefaultConditionFlag = true;   
+    loadDefaultConditionFlag = true;
     // start loading condition asst points
-    setUpConditionBaseLayer();    
-     // start tracking
+    setUpConditionBaseLayer();
+    // start tracking
     trackLocation();
-   
+
 }
