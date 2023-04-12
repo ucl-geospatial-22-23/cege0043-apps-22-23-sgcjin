@@ -26,6 +26,40 @@ function loadTable() {
  </div>`;
     createTable();
 }
+
+// create table
+// adapted from https://github.com/ucl-geospatial/cege0043-app-examples/blob/week9-datatables/dataTables.html
 function createTable() {
- 
+    $.ajax({
+        url: baseURL + "/api/geojson/assetsInGreatCondition",
+        crossDomain: true,
+        success: function(result) {
+            let features = result[0].array_to_json;
+            // generate a string for the table
+            var tableHTML = "<table id='data3' class='display' style='width:100%'>";
+            // add the column titles
+            tableHTML += "<thead align><tr><td><h2>Asset Name</h2></td><td><h3>Installation Date</h3> </td></tr></thead>";
+            tableHTML +="<tbody>";
+
+            for (let i = 0; i < features.length; i++) {
+                // add a new row
+                tableHTML += "<tr>";
+                // add asset name
+                tableHTML += "<td>" + features[i].asset_name + "</td>";
+                // add Date
+                tableHTML += "<td>" + features[i].installation_date + "<td>";
+                //close the row
+                tableHTML += "</tr>";
+            }
+            // end of loop
+            // close the table
+            tableHTML += "<tbody></table>";
+            // update the DIV
+            document.getElementById("tablediv").innerHTML = tableHTML
+        }
+
+    });
+    // end of ajax
+
 }
+//end of func
