@@ -36,7 +36,7 @@ function removelayers(name) {
 function listOfAssets() {
     loadTable();
 }
-// menu 2
+
 function dailyReportingRates() {
     loadGraph();
 }
@@ -67,11 +67,7 @@ function add5ClosestAssets() {
     // stop tracking
     removePositionPoints();
 
-    // set default color to blue
-    let testMarkerBlue = L.AwesomeMarkers.icon({
-        icon: 'play',
-        markerColor: 'blue'
-    });
+
     navigator.geolocation.getCurrentPosition(function(position) {
         let latitude = position.coords.latitude;
         let longitude = position.coords.longitude;
@@ -89,7 +85,7 @@ function add5ClosestAssets() {
                         let popUpHTML = "<div>Asset Name:" + feature.properties.asset_name + "</div><br /><div>Installation Date:" + feature.properties.installation_date + " </div>";
                         // set all initial color using getIconByValue
                         return L.marker(latlng, {
-                            icon: testMarkerBlue
+                            icon: getIconByValue(feature, conditions)
                         }).bindPopup(popUpHTML);
 
                     },
