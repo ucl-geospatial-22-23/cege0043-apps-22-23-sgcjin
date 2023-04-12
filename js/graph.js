@@ -15,6 +15,10 @@ function closeAssetData() {
     bsAdwCollapse.hide();
 }
 
+function processWindowResize() {
+ closeAssetData();
+}
+
 function loadGraph() {
     let mapCollapse = document.getElementById('mapWrapper');
     let bsMapCollapse = new bootstrap.Collapse(mapCollapse,{
