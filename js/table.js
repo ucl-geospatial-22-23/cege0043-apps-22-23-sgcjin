@@ -20,9 +20,12 @@ function loadTable() {
     // Add the close button and an SVG element for the graph
     document.getElementById("assetDataWrapper").innerHTML = `<div class="h-100 w-100">
  <button type="button" class="btn-close float-end" arialabel="Close" onclick="closeAssetData()"></button>
- <svg fill="blue" width="` + widtha + `" height="` + heighta + `" id="svg1">
- </svg>
+ <div fill="blue" width="` + widtha + `" height="` + heighta + `" id="tablediv">
+ </div>
+ 
  </div>`;
     createTable();
 }
-function createTable() {}
+function createTable() {
+ 
+}
