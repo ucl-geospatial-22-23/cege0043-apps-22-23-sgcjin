@@ -61,12 +61,12 @@ function getAssets() {
 
 // get condition id from condition_description
 function getConditionValue(condition_description) {
-    
-     for (let i = 0; i < conditions.length; i++) {
-         // return id if matched
-         if (condition_description===conditions[i].condition_description){
-             return conditions[i].id;
-         }
-     }
+
+    for (let i = 0; i < conditions.length; i++) {
+        // return id if matched
+        if (condition_description === conditions[i].condition_description) {
+            return conditions[i].id;
+        }
+    }
     return 0;
 }
