@@ -39,6 +39,7 @@ var myBarChart = new Chart(ctx, {
       hoverBackgroundColor: "#2e59d9",
       borderColor: "#4e73df",
       data: [4215, 5312, 6251, 7841, 9821, 14984],
+      maxBarThickness: 25
     }],
   },
   options: {
@@ -63,7 +64,6 @@ var myBarChart = new Chart(ctx, {
         ticks: {
           maxTicksLimit: 6
         },
-        maxBarThickness: 25,
       }],
       yAxes: [{
         ticks: {
