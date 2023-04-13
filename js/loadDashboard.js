@@ -2,6 +2,7 @@
 let Assetfeatures;
 // set base url
 let baseURL = "https://cege0043-7.cs.ucl.ac.uk";
+let conditions = [];
 
 async function setUpDashboard() {
     // waiting to get data
@@ -10,7 +11,6 @@ async function setUpDashboard() {
     // add charts
     addBarChart();
 }
-
 
 // get asset features
 function getAssets() {
@@ -21,17 +21,34 @@ function getAssets() {
             crossDomain: true,
             success: function(result) {
                 let userID = JSON.parse(JSON.stringify(result))[0].user_id;
-                // after get user id, get userAssets
+                // get condition values
+                // after get user id, get conditions
                 $.ajax({
-                    url: baseURL + "/api/geojson/userAssets/" + userID,
+                    url: baseURL + "/api/geojson/conditionDetails",
                     crossDomain: true,
                     success: function(result) {
-                        // get features
-                        Assetfeatures = result.features;
-                        resolve(Assetfeatures);
+                        // variable to store conditions
+                        conditions = [];
+                        
+                        // loop and parse condition_descriptions 
+                        for (let i = 0; i < JSON.parse(JSON.stringify(result)).length; i++) {
+                            conditions.push(JSON.parse(JSON.stringify(result))[i].condition_description);
+                        }
+
+                        // get userAssets
+                        $.ajax({
+                            url: baseURL + "/api/geojson/userAssets/" + userID,
+                            crossDomain: true,
+                            success: function(result) {
+                                // get features
+                                Assetfeatures = result.features;
+                                resolve(Assetfeatures);
+                            }
+                        });
+                        // end of AJAX userAssets
                     }
                 });
-                // end of AJAX userAssets
+                // end of AJAX get conditions
             }
         });
         // end  of AJAX user ID
