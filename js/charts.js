@@ -129,6 +129,8 @@ document.getElementById("myBarChart").onclick = function(evt) {
 function addPieChart() {
     // Pie Chart Example
     var ctx = document.getElementById("myPieChart");
+    ctx.height = 700;
+    console.log(ctx.height+": "+document.getElementById("myBarChart").height)
     // get condition_description for labels
     let labels = conditions.map(function(item){
         return item.condition_description;
@@ -170,7 +172,9 @@ function addPieChart() {
                 caretPadding: 10,
             },
             legend: {
-                display: false
+                display: true,
+                position: 'bottom',
+                maxHeight: 50               
             },
             cutoutPercentage: 80,
         },

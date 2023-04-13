@@ -7,7 +7,6 @@ let conditions = [];
 async function setUpDashboard() {
     // waiting to get data
     await getAssets();
-    console.log(Assetfeatures);
     // add charts
     addBarChart();
     addPieChart();
@@ -38,7 +37,6 @@ function getAssets() {
                                 "condition_description": result[i].condition_description
                             });
                         }
-                        console.log(conditions);
                         // get userAssets
                         $.ajax({
                             url: baseURL + "/api/geojson/userAssets/" + userID,
