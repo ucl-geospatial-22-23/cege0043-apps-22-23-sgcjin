@@ -1,5 +1,6 @@
 "use strict";
-
+// store bar chart for click event
+let myBarChart;
 // Set new default font family and font color to mimic Bootstrap's default styling
 Chart.defaults.global.defaultFontFamily = 'Nunito',
 '-apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif';
@@ -7,7 +8,6 @@ Chart.defaults.global.defaultFontColor = '#858796';
 
 
 // add barchart from given labels and data
-// code adapted from template examples
 function addBarChart() {
     // get barchart canvas
     var ctx = document.getElementById("myBarChart");
@@ -24,17 +24,13 @@ function addBarChart() {
         // add condition id in y-axis
         data.push(getConditionValue(condition_description));
     }
-
-
-
-
-    
-    var myBarChart = new Chart(ctx,{
+    // start create bar code adapted from SB-admin template examples
+    myBarChart = new Chart(ctx,{
         type: 'bar',
         data: {
             labels: labels,
             datasets: [{
-                label: "Condition id",
+                label: "Condition ID",
                 backgroundColor: "#4e73df",
                 hoverBackgroundColor: "#2e59d9",
                 borderColor: "#4e73df",
@@ -73,7 +69,7 @@ function addBarChart() {
                         padding: 10,
                         // add condition id 
                         callback: function(value, index, values) {
-                            return "Condition id "+value;
+                            return "Condition ID "+value;
                         }
                     },
                     gridLines: {
@@ -110,6 +106,14 @@ function addBarChart() {
         }
     });// end of chart
 
-    
-
 }
+
+// handle click event from bar chart
+// adapted from http://www.java2s.com/example/javascript/chart.js/handle-chart-click-event.html
+document.getElementById("myBarChart").onclick = function (evt) {
+        var activePoints = myBarChart.getElementsAtEventForMode(evt, 'point', myBarChart.options);
+        var firstPoint = activePoints[0];
+        var label = myBarChart.data.labels[firstPoint._index];
+        var value = myBarChart.data.datasets[firstPoint._datasetIndex].data[firstPoint._index];
+        console.log(label + ": " + value);
+    };
