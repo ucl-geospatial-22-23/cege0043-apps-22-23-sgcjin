@@ -29,12 +29,15 @@ function getAssets() {
                     success: function(result) {
                         // variable to store conditions
                         conditions = [];
-                        
-                        // loop and parse condition_descriptions 
-                        for (let i = 0; i < JSON.parse(JSON.stringify(result)).length; i++) {
-                            conditions.push(JSON.parse(JSON.stringify(result))[i].condition_description);
-                        }
 
+                        // loop and parse condition_descriptions with id 
+                        for (let i = 0; i < result.length; i++) {
+                            conditions.push({
+                                "id": result[i].id,
+                                "condition_description": result[i].condition_description
+                            });
+                        }
+                        console.log(conditions);
                         // get userAssets
                         $.ajax({
                             url: baseURL + "/api/geojson/userAssets/" + userID,
@@ -56,3 +59,15 @@ function getAssets() {
     );
 }
 // end of function
+
+// get condition id from condition_description
+function getConditionValue(condition_description) {
+    
+     for (let i = 0; i < conditions.length; i++) {
+         // return id if matched
+         if (condition_description===conditions[i].condition_description){
+             return conditions[i].id;
+         }
+     }
+    return 0;
+}
