@@ -1,9 +1,11 @@
 "use strict";
+
 // Set new default font family and font color to mimic Bootstrap's default styling
 Chart.defaults.global.defaultFontFamily = 'Nunito',
 '-apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif';
 Chart.defaults.global.defaultFontColor = '#858796';
 
+// set number format
 function number_format(number, decimals, dec_point, thousands_sep) {
     // *     example: number_format(1234.56, 2, ',', ' ');
     // *     return: '1 234,56'
@@ -29,21 +31,42 @@ function number_format(number, decimals, dec_point, thousands_sep) {
     return s.join(dec);
 }
 
-// add barchart code adapted from template examples
+
+// add barchart from given labels and data
+// code adapted from template examples
 function addBarChart() {
     // get barchart canvas
     var ctx = document.getElementById("myBarChart");
+    // lables for bar
+    let labels=[];
+    // data array for bar
+    let data=[];
 
+    for (let i = 0; i < Assetfeatures.length; i++) {
+        let asset_name = Assetfeatures[i].properties.asset_name;
+        // add asset name in x-axis
+        labels.push(asset_name);
+        let condition_description = Assetfeatures[i].properties.condition_description;
+        // add condition id in y-axis
+        data.push(getConditionValue(condition_description));
+    }
+    console.log(labels);
+    console.log(data);
+    
+
+
+
+    
     var myBarChart = new Chart(ctx,{
         type: 'bar',
         data: {
-            labels: ["January", "February", "March", "April", "May", "June"],
+            labels: labels,
             datasets: [{
-                label: "Bar chart",
+                label: "Condition id",
                 backgroundColor: "#4e73df",
                 hoverBackgroundColor: "#2e59d9",
                 borderColor: "#4e73df",
-                data: [4215, 5312, 6251, 7841, 9821, 14984],
+                data: data,
                 maxBarThickness: 25
             }],
         },
@@ -60,25 +83,25 @@ function addBarChart() {
             scales: {
                 xAxes: [{
                     time: {
-                        unit: 'month'
+                        unit: 'asset'
                     },
                     gridLines: {
                         display: false,
                         drawBorder: false
                     },
                     ticks: {
-                        maxTicksLimit: 6
+                        maxTicksLimit: data.length
                     },
                 }],
                 yAxes: [{
                     ticks: {
                         min: 0,
-                        max: 15000,
-                        maxTicksLimit: 5,
+                        max: 5,
+                        maxTicksLimit: conditions.length,
                         padding: 10,
                         // Include a dollar sign in the ticks
                         callback: function(value, index, values) {
-                            return '$' + number_format(value);
+                            return "Condition id "+value;
                         }
                     },
                     gridLines: {
@@ -108,7 +131,7 @@ function addBarChart() {
                 callbacks: {
                     label: function(tooltipItem, chart) {
                         var datasetLabel = chart.datasets[tooltipItem.datasetIndex].label || '';
-                        return datasetLabel + ': $' + number_format(tooltipItem.yLabel);
+                        return datasetLabel + ': ' + tooltipItem.yLabel;
                     }
                 }
             },
