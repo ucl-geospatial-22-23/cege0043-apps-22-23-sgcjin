@@ -6,15 +6,14 @@ Chart.defaults.global.defaultFontFamily = 'Nunito',
 '-apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif';
 Chart.defaults.global.defaultFontColor = '#858796';
 
-
 // add barchart from given labels and data
 function addBarChart() {
     // get barchart canvas
     var ctx = document.getElementById("myBarChart");
     // lables for bar
-    let labels=[];
+    let labels = [];
     // data array for bar
-    let data=[];
+    let data = [];
 
     for (let i = 0; i < Assetfeatures.length; i++) {
         let asset_name = Assetfeatures[i].properties.asset_name;
@@ -64,12 +63,12 @@ function addBarChart() {
                 yAxes: [{
                     ticks: {
                         min: 0,
-                        max: conditions.length-1,
+                        max: conditions.length - 1,
                         maxTicksLimit: conditions.length,
                         padding: 10,
                         // add condition id 
                         callback: function(value, index, values) {
-                            return "Condition ID "+value;
+                            return "Condition ID " + value;
                         }
                     },
                     gridLines: {
@@ -104,16 +103,52 @@ function addBarChart() {
                 }
             },
         }
-    });// end of chart
+    });
+    // end of chart
 
 }
 
 // handle click event from bar chart
 // adapted from http://www.java2s.com/example/javascript/chart.js/handle-chart-click-event.html
-document.getElementById("myBarChart").onclick = function (evt) {
-        var activePoints = myBarChart.getElementsAtEventForMode(evt, 'point', myBarChart.options);
-        var firstPoint = activePoints[0];
-        var label = myBarChart.data.labels[firstPoint._index];
-        var value = myBarChart.data.datasets[firstPoint._datasetIndex].data[firstPoint._index];
-        console.log(label + ": " + value);
-    };
+document.getElementById("myBarChart").onclick = function(evt) {
+    var activePoints = myBarChart.getElementsAtEventForMode(evt, 'point', myBarChart.options);
+    var firstPoint = activePoints[0];
+    var label = myBarChart.data.labels[firstPoint._index];
+    var value = myBarChart.data.datasets[firstPoint._datasetIndex].data[firstPoint._index];
+    console.log(label + ": " + value);
+}
+;
+
+function addPieChart() {
+    // Pie Chart Example
+    var ctx = document.getElementById("myPieChart");
+    var myPieChart = new Chart(ctx,{
+        type: 'doughnut',
+        data: {
+            labels: ["Direct", "Referral", "Social"],
+            datasets: [{
+                data: [55, 30, 15],
+                backgroundColor: ['#4e73df', '#1cc88a', '#36b9cc'],
+                hoverBackgroundColor: ['#2e59d9', '#17a673', '#2c9faf'],
+                hoverBorderColor: "rgba(234, 236, 244, 1)",
+            }],
+        },
+        options: {
+            maintainAspectRatio: false,
+            tooltips: {
+                backgroundColor: "rgb(255,255,255)",
+                bodyFontColor: "#858796",
+                borderColor: '#dddfeb',
+                borderWidth: 1,
+                xPadding: 15,
+                yPadding: 15,
+                displayColors: false,
+                caretPadding: 10,
+            },
+            legend: {
+                display: false
+            },
+            cutoutPercentage: 80,
+        },
+    });
+}

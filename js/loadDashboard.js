@@ -10,6 +10,7 @@ async function setUpDashboard() {
     console.log(Assetfeatures);
     // add charts
     addBarChart();
+    addPieChart();
 }
 
 // get asset features
