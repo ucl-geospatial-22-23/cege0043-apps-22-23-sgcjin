@@ -110,26 +110,30 @@ function addBarChart() {
 
 // handle click event from bar chart
 // adapted from http://www.java2s.com/example/javascript/chart.js/handle-chart-click-event.html
+// https://www.chartjs.org/docs/latest/developers/api.html#getelementsateventformode-e-mode-options-usefinalposition
 document.getElementById("myBarChart").onclick = function(evt) {
     var activePoints = myBarChart.getElementsAtEventForMode(evt, 'point', myBarChart.options);
+    if (activePoints.length) {
     var firstPoint = activePoints[0];
     var label = myBarChart.data.labels[firstPoint._index];
     var value = myBarChart.data.datasets[firstPoint._datasetIndex].data[firstPoint._index];
     console.log(label + ": " + value);
-}
+}}
 ;
 
 function addPieChart() {
     // Pie Chart Example
     var ctx = document.getElementById("myPieChart");
+    let lables = [];
+    let data = [];
     var myPieChart = new Chart(ctx,{
         type: 'doughnut',
         data: {
-            labels: ["Direct", "Referral", "Social"],
+            labels: ["Direct", "Referral", "Social","?"],
             datasets: [{
-                data: [55, 30, 15],
-                backgroundColor: ['#4e73df', '#1cc88a', '#36b9cc'],
-                hoverBackgroundColor: ['#2e59d9', '#17a673', '#2c9faf'],
+                data: [55, 30, 15,29],
+                backgroundColor: ['#22f194', '#e0f122', '#f19722','#f13022','#c90d0d','#858585'],
+                hoverBackgroundColor: ['#5eb58e', '#adb45f', '#b58f5e','#ba605a','#8d4949','#666666'],
                 hoverBorderColor: "rgba(234, 236, 244, 1)",
             }],
         },
@@ -152,3 +156,7 @@ function addPieChart() {
         },
     });
 }
+
+
+// change color
+// adapted from https://wpdatatables.com/faqmd/change-color-pie-chartchart-js/
