@@ -4,9 +4,11 @@ let Assetfeatures;
 let baseURL = "https://cege0043-7.cs.ucl.ac.uk";
 
 async function setUpDashboard() {
+    // waiting to get data
     await getAssets();
     console.log(Assetfeatures);
-    
+    // add charts
+    addBarChart();
 }
 
 
@@ -35,6 +37,5 @@ function getAssets() {
         // end  of AJAX user ID
     }
     );
-
 }
 // end of function
