@@ -8,6 +8,7 @@ async function setUpDashboard() {
     // waiting to get data
     await getAssets();
     // add charts
+    addTable();
     addBarChart();
     addPieChart();
     loadVectorLayer();
