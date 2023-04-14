@@ -10,6 +10,7 @@ async function setUpDashboard() {
     // add charts
     addBarChart();
     addPieChart();
+    loadVectorLayer();
 }
 
 // get asset features
