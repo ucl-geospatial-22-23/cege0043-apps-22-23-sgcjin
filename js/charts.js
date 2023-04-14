@@ -3,10 +3,7 @@
 let myBarChart;
 // store pie chart for click event
 let myPieChart;
-// Set new default font family and font color to mimic Bootstrap's default styling
-Chart.defaults.global.defaultFontFamily = 'Nunito',
-'-apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif';
-Chart.defaults.global.defaultFontColor = '#858796';
+
 
 // add barchart from given labels and data
 function addBarChart() {
@@ -33,7 +30,7 @@ function addBarChart() {
             datasets: [{
                 label: "Condition ID",
                 backgroundColor: "#4e73df",
-                hoverBackgroundColor: "#2e59d9",
+                hoverBackgroundColor: "#22f194",
                 borderColor: "#4e73df",
                 data: data,
                 maxBarThickness: 25
@@ -119,9 +116,9 @@ document.getElementById("myBarChart").onclick = function(evt) {
     if (activePoints.length) {
         var firstPoint = activePoints[0];
         // label
-        var label = myBarChart.data.labels[firstPoint._index];
+        var label = myBarChart.data.labels[firstPoint.index];
         // value
-        var value = myBarChart.data.datasets[firstPoint._datasetIndex].data[firstPoint._index];
+        var value = myBarChart.data.datasets[firstPoint.datasetIndex].data[firstPoint.index];
         console.log(label + ": " + value);
     }
 }
@@ -189,9 +186,9 @@ document.getElementById("myPieChart").onclick = function(evt) {
     if (activePoints.length) {
         var firstPoint = activePoints[0];
         // label
-        var label = myPieChart.data.labels[firstPoint._index];
+        var label = myPieChart.data.labels[firstPoint.index];;
         // value
-        var value = myPieChart.data.datasets[firstPoint._datasetIndex].data[firstPoint._index];
+        var value = myPieChart.data.datasets[firstPoint.datasetIndex].data[firstPoint.index];
         console.log(label + ": " + value);
 
         // now highlight related bars 
@@ -201,6 +198,7 @@ document.getElementById("myPieChart").onclick = function(evt) {
                 return item.properties.asset_name;
             }
         }).filter(function(item){return item !== undefined;});
+        console.log(relatedAssets);
         // highlight bars of these assets
         highlightBar(relatedAssets);
     }
@@ -224,4 +222,5 @@ function highlightBar(relatedAssets) {
         index: 1
     }]);
     myBarChart.update();
+    console.log('highlighted');
 }
