@@ -122,3 +122,9 @@ function zoomToAssets(asset_names) {
         destination: rectangle
     });
 }
+
+// on click function for reset button
+// reset map zoom
+function resetView() {
+    viewer.flyTo(myDataSource);
+}
