@@ -82,7 +82,9 @@ viewer.selectedEntityChanged.addEventListener(function(selectedEntity) {
 });
 
 // zoom to assets using assets name array
-
+// code adapted from https://stackoverflow.com/questions/29644062/how-to-zoom-move-camera-to-display-a-polygon-in-cesium-js-fit-viewport-to-polyg
+// and https://sandcastle.cesium.com/index.html?src=Camera.html
+// and https://cesium.com/learn/cesiumjs/ref-doc/PositionProperty.html
 function zoomToAssets(asset_names) {
     var entities = myDataSource.entities.values;
     var boundingSphere = new Cesium.BoundingSphere();

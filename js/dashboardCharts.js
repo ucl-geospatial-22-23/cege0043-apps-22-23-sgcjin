@@ -82,14 +82,16 @@ document.getElementById("myBarChart").onclick = function(evt) {
     if (activePoints.length) {
         var firstPoint = activePoints[0];
         // asset_name
-        var label = myBarChart.data.labels[firstPoint.index];
+        var asset_name = myBarChart.data.labels[firstPoint.index];
         // condotion id
-        var value = myBarChart.data.datasets[firstPoint.datasetIndex].data[firstPoint.index];
-        console.log(label + ": " + value);
+        var condition_id = myBarChart.data.datasets[firstPoint.datasetIndex].data[firstPoint.index];
+        console.log(asset_name + ": " + condition_id);
+        
         // highlight pie chart 
-        highlightPie(value);
-        // zoom to the asset
-        zoomToAssets([label]);
+        highlightPie(condition_id);
+        
+        // zoom to the asset names
+        zoomToAssets([asset_name]);
     }
 }
 
@@ -164,10 +166,11 @@ function addPieChart() {
 // adapted from http://www.java2s.com/example/javascript/chart.js/handle-chart-click-event.html
 // https://www.chartjs.org/docs/latest/developers/api.html#getelementsateventformode-e-mode-options-usefinalposition
 document.getElementById("myPieChart").onclick = function(evt) {
-
     // get clicked element
     var activePoints = myPieChart.getElementsAtEventForMode(evt, 'point', myBarChart.options);
+    
     if (activePoints.length) {
+       
         var firstPoint = activePoints[0];
         // condition_description
         var label = myPieChart.data.labels[firstPoint.index];
@@ -187,6 +190,9 @@ document.getElementById("myPieChart").onclick = function(evt) {
 
         // highlight bars according to the asset names
         highlightBar(relatedAssets);
+        
+        // zoom to assets in map using asset names
+        zoomToAssets(relatedAssets);
     }
 }
 
