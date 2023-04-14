@@ -52,7 +52,7 @@ function setColorByCondition(dataSource) {
         if (condition === conditions[0].condition_description) {
             entity.billboard.color = Cesium.Color.GREEN;
         } else if (condition === conditions[1].condition_description) {
-            entity.billboard.color = Cesium.Color.YELLOWGREEN;
+            entity.billboard.color = Cesium.Color.LAWNGREEN;
         } else if (condition === conditions[2].condition_description) {
             entity.billboard.color = Cesium.Color.YELLOW;
         } else if (condition === conditions[3].condition_description) {
