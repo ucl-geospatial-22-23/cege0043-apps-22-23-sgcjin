@@ -125,7 +125,6 @@ document.getElementById("myBarChart").onclick = function(evt) {
         console.log(label + ": " + value);
     }
 }
-;
 
 function addPieChart() {
     // Pie Chart Example
@@ -136,8 +135,7 @@ function addPieChart() {
     });
     // fill data with zeros
     let data = new Array(labels.length).fill(0);
-    ;
-    // count assets of different conditions
+    ;// count assets of different conditions
     for (let i = 0; i < Assetfeatures.length; i++) {
         // add count in data[i] when the condition matched
         for (let j = 0; j < labels.length; j++) {
@@ -181,9 +179,49 @@ function addPieChart() {
 }
 
 // add pie chart click event listener
+// handle click event from bar chart
+// adapted from http://www.java2s.com/example/javascript/chart.js/handle-chart-click-event.html
+// https://www.chartjs.org/docs/latest/developers/api.html#getelementsateventformode-e-mode-options-usefinalposition
+document.getElementById("myPieChart").onclick = function(evt) {
 
+    // get clicked element
+    var activePoints = myPieChart.getElementsAtEventForMode(evt, 'point', myBarChart.options);
+    if (activePoints.length) {
+        var firstPoint = activePoints[0];
+        // label
+        var label = myPieChart.data.labels[firstPoint._index];
+        // value
+        var value = myPieChart.data.datasets[firstPoint._datasetIndex].data[firstPoint._index];
+        console.log(label + ": " + value);
 
+        // now highlight related bars 
+        // first get assets that has clicked condition
+        let relatedAssets = Assetfeatures.map(function(item) {
+            if (item.properties.condition_description === label) {
+                return item.properties.asset_name;
+            }
+        }).filter(function(item){return item !== undefined;});
+        // highlight bars of these assets
+        highlightBar(relatedAssets);
+    }
+}
 
-
-// change color
-// adapted from https://wpdatatables.com/faqmd/change-color-pie-chartchart-js/
+// change color of barChart based on the x index (label)
+// adapted from tutorial in https://www.youtube.com/watch?v=IatLn8Od5W4
+function highlightBar(relatedAssets) {
+    // convert asset_name array to setActiveElements readable highlight points
+    let highlightPoints = relatedAssets.map(function(item){
+        return {
+        datasetIndex: 0,
+        index: item
+    };
+    });
+    console.log(highlightPoints);
+    
+    // highlight bars with given indexs
+    myBarChart.setActiveElements([{
+        datasetIndex: 0,
+        index: 1
+    }]);
+    myBarChart.update();
+}
