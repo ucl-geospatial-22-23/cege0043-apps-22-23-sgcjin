@@ -81,13 +81,15 @@ document.getElementById("myBarChart").onclick = function(evt) {
     var activePoints = myBarChart.getElementsAtEventForMode(evt, 'point', myBarChart.options);
     if (activePoints.length) {
         var firstPoint = activePoints[0];
-        // condition_description
+        // asset_name
         var label = myBarChart.data.labels[firstPoint.index];
         // condotion id
         var value = myBarChart.data.datasets[firstPoint.datasetIndex].data[firstPoint.index];
         console.log(label + ": " + value);
-
+        // highlight pie chart 
         highlightPie(value);
+        // zoom to the asset
+        zoomToAssets([label]);
     }
 }
 

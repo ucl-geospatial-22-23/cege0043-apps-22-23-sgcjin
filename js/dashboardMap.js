@@ -5,6 +5,7 @@ Cesium.Ion.defaultAccessToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOi
 
 let imageryProviders = Cesium.createDefaultImageryProviderViewModels();
 let selectedImageryProviderIndex = 7;
+let myDataSource;
 // MapBox Street is 5th in the list.
 
 let viewer = new Cesium.Viewer('cesiumContainer',{
@@ -31,6 +32,7 @@ function loadVectorLayer() {
     viewer.dataSources.add(dataSource);
 
     dataSource.load(layerURL, geoJSONOptions).then(function(dataSource) {
+        myDataSource = dataSource;
         viewer.flyTo(dataSource);
         console.log(dataSource);
         // change color by condition
@@ -78,3 +80,34 @@ viewer.selectedEntityChanged.addEventListener(function(selectedEntity) {
         }
     }
 });
+
+// zoom to assets using assets name array
+
+function zoomToAssets(asset_names) {
+    var entities = myDataSource.entities.values;
+    var boundingSphere = new Cesium.BoundingSphere();
+
+    console.log(asset_names);
+    // get an array of entities that relate to the asset_names array
+    let selectedEntities = [];
+    for (let i = 0; i < entities.length; i++) {
+        let entity = entities[i];
+        console.log(entity.name);
+        console.log(entity);
+        // if the entity is one of the asset_name array
+        // add to selectedEntities array
+        if (asset_names.includes(entity.name)) {
+            selectedEntities.push(entity);
+        }
+    }
+
+    // get bounding box of these entities
+    let rectangle = Cesium.Rectangle.fromCartesianArray(selectedEntities.map(function(entity) {
+        // return Cartesian3 object to create CartesianArray
+        return entity.position.getValue(viewer.clock.currentTime);
+    }));
+
+    viewer.camera.flyTo({
+        destination: rectangle
+    });
+}
