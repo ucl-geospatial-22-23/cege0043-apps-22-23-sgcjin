@@ -81,18 +81,21 @@ document.getElementById("myBarChart").onclick = function(evt) {
     var activePoints = myBarChart.getElementsAtEventForMode(evt, 'point', myBarChart.options);
     if (activePoints.length) {
         var firstPoint = activePoints[0];
-        // label
+        // condition_description
         var label = myBarChart.data.labels[firstPoint.index];
         // condotion id
-        var condition_id = myBarChart.data.datasets[firstPoint.datasetIndex].data[firstPoint.index];
-        console.log(label + ": " + condition_id);
+        var value = myBarChart.data.datasets[firstPoint.datasetIndex].data[firstPoint.index];
+        console.log(label + ": " + value);
 
-        highlightPie(condition_id)
+        highlightPie(value);
     }
 }
 
-// highlight Pie chart according to condition id
-function highlightPie(condition_id) {
+// highlight Pie chart according to condition_id
+function highlightPie(value) {
+
+    // get data index of the label
+    let datasetIndex = value - 1;
     // clear all highlight bar if exists
     if (myPieChart.getActiveElements().length > 0) {
         myPieChart.setActiveElements([]);
@@ -101,13 +104,10 @@ function highlightPie(condition_id) {
     myPieChart.setActiveElements([{
         datasetIndex: 0,
         // index of condition pie chart is condition_id -1
-        index: condition_id - 1
+        index: datasetIndex
     }]);
-    myPieChart.update();    
+    myPieChart.update();
 }
-
-
-
 
 function addPieChart() {
     // Pie Chart Example
@@ -167,30 +167,31 @@ document.getElementById("myPieChart").onclick = function(evt) {
     var activePoints = myPieChart.getElementsAtEventForMode(evt, 'point', myBarChart.options);
     if (activePoints.length) {
         var firstPoint = activePoints[0];
-        // label
+        // condition_description
         var label = myPieChart.data.labels[firstPoint.index];
-        ;// value
+        // asset count
         var value = myPieChart.data.datasets[firstPoint.datasetIndex].data[firstPoint.index];
         console.log(label + ": " + value);
 
-        // highlight bars according to the clicked label
-        highlightBar(label);
+        // to highlight bars, first get asset names that have the condition_description
+        let relatedAssets = Assetfeatures.map(function(item) {
+            if (item.properties.condition_description === label) {
+                return item.properties.asset_name;
+            }
+        }).filter(function(item) {
+            // filter out null values
+            return item !== undefined;
+        });
+
+        // highlight bars according to the asset names
+        highlightBar(relatedAssets);
 
     }
 }
 
-// change color of barChart based on the x index (label)
+// change color of barChart based on the assets
 // adapted from tutorial in https://www.youtube.com/watch?v=IatLn8Od5W4
-function highlightBar(label) {
-
-    // first get assets lables array that has clicked condition
-    let relatedAssets = Assetfeatures.map(function(item) {
-        if (item.properties.condition_description === label) {
-            return item.properties.asset_name;
-        }
-    }).filter(function(item) {
-        return item !== undefined;
-    });
+function highlightBar(relatedAssets) {
 
     // then use the labels to find data index in bar chart
     let datasetIndex = relatedAssets.map(function(asset_name) {

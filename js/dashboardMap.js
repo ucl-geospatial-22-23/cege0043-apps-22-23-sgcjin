@@ -71,11 +71,11 @@ viewer.selectedEntityChanged.addEventListener(function(selectedEntity) {
   
     if (Cesium.defined(selectedEntity)) {
       if (Cesium.defined(selectedEntity.name)) {
+        console.log(selectedEntity);
         console.log('Selected ' + selectedEntity.name);
-      } else {
-        console.log('Unknown entity selected.');
-      }
-  } else {
-    console.log('Deselected.');
-  }
+        // highlight bar chart
+        highlightBar([selectedEntity.name]);
+        
+      } 
+  } 
 });
