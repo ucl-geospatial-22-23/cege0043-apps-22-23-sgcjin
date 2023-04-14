@@ -85,12 +85,16 @@ document.getElementById("myBarChart").onclick = function(evt) {
         var asset_name = myBarChart.data.labels[firstPoint.index];
         // condotion id
         var condition_id = myBarChart.data.datasets[firstPoint.datasetIndex].data[firstPoint.index];
-        
+
         // highlight pie chart 
         highlightPie(condition_id);
         
+        // filter dataTable according to asset name
+        filterTableByAssetName(asset_name);
+        
         // zoom to the asset names
         zoomToAssets([asset_name]);
+
     }
 }
 
@@ -167,9 +171,9 @@ function addPieChart() {
 document.getElementById("myPieChart").onclick = function(evt) {
     // get clicked element
     var activePoints = myPieChart.getElementsAtEventForMode(evt, 'point', myBarChart.options);
-    
+
     if (activePoints.length) {
-       
+
         var firstPoint = activePoints[0];
         // condition_description
         var label = myPieChart.data.labels[firstPoint.index];
@@ -188,7 +192,7 @@ document.getElementById("myPieChart").onclick = function(evt) {
 
         // highlight bars according to the asset names
         highlightBar(relatedAssets);
-        
+
         // zoom to assets in map using asset names
         zoomToAssets(relatedAssets);
     }
