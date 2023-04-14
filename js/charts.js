@@ -190,24 +190,46 @@ document.getElementById("myPieChart").onclick = function(evt) {
         var value = myPieChart.data.datasets[firstPoint.datasetIndex].data[firstPoint.index];
         console.log(label + ": " + value);
 
-        // now highlight related bars 
-        // first get assets lables that has clicked condition
-        let relatedAssets = Assetfeatures.map(function(item) {
-            if (item.properties.condition_description === label) {
-                return item.properties.asset_name;
-            }
-        }).filter(function(item) {
-            return item !== undefined;
-        });
+        // highlight bars according to the clicked label
+        highlightBar(label);
 
-        // then use the labels to find data index in bar chart
-        let datasetIndex = relatedAssets.map(function(asset_name){
-            return findDatasetIndex(myBarChart,asset_name);
-        })
-        
-        // highlight bars of these assets index
-        highlightBar(datasetIndex);
     }
+}
+
+// change color of barChart based on the x index (label)
+// adapted from tutorial in https://www.youtube.com/watch?v=IatLn8Od5W4
+function highlightBar(label) {
+
+    // first get assets lables that has clicked condition
+    let relatedAssets = Assetfeatures.map(function(item) {
+        if (item.properties.condition_description === label) {
+            return item.properties.asset_name;
+        }
+    }).filter(function(item) {
+        return item !== undefined;
+    });
+
+    // then use the labels to find data index in bar chart
+    let datasetIndex = relatedAssets.map(function(asset_name) {
+        return findDatasetIndex(myBarChart, asset_name);
+    })
+
+    // clear all highlight bar
+    if (myBarChart.getActiveElements().length > 0) {
+        myBarChart.setActiveElements([]);
+    }
+
+    // convert asset_name index array to setActiveElements readable highlight points
+    let highlightPoints = datasetIndex.map(function(item) {
+        return {
+            datasetIndex: 0,
+            index: item
+        };
+    });
+
+    // highlight bars with given indexs
+    myBarChart.setActiveElements(highlightPoints);
+    myBarChart.update();
 }
 
 // find the dataset index according to a given label
@@ -217,23 +239,4 @@ function findDatasetIndex(chart, label) {
             return i;
         }
     }
-}
-
-// change color of barChart based on the x index (label)
-// adapted from tutorial in https://www.youtube.com/watch?v=IatLn8Od5W4
-function highlightBar(datasetIndex) {
-    // clear all highlight bar
-    if (myBarChart.getActiveElements().length > 0) {
-        myBarChart.setActiveElements([]);
-    }
-    // convert asset_name array to setActiveElements readable highlight points
-    let highlightPoints = datasetIndex.map(function(item) {
-        return {
-            datasetIndex: 0,
-            index: item
-        };
-    });
-    // highlight bars with given indexs
-    myBarChart.setActiveElements(highlightPoints);
-    myBarChart.update();
 }
