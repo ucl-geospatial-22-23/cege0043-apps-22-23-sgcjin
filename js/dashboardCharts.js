@@ -103,10 +103,7 @@ function highlightPie(condition_id) {
         // index of condition pie chart is condition_id -1
         index: condition_id - 1
     }]);
-    myPieChart.update();
-    console.log(condition_id - 1);
-    console.log(myPieChart.getActiveElements());
-    
+    myPieChart.update();    
 }
 
 
@@ -137,9 +134,10 @@ function addPieChart() {
             labels: labels,
             datasets: [{
                 data: data,
-                backgroundColor: ['#22f194', '#e0f122', '#f19722', '#f13022', '#c90d0d', '#858585'],
-                hoverOffset: 15,
-                hoverBackgroundColor: ['#6dfdc1', '#f5f750', '#f7a750', '#f75650', '#ff3c3c', '#a6a6a6']
+                backgroundColor: ['#2cba00', '#a3ff00', '#fff400', '#ffa700', '#ff0000', '#a6a6a6'],
+                hoverOffset: 10,
+                hoverBackgroundColor: ['#66ff33', '#97ff4d', '#ffff99', '#ffcc66', '#ff6666', '#a6a6a6'],
+                hoverBorderColor: '#4ddeff'
             }],
         },
         options: {
@@ -153,10 +151,6 @@ function addPieChart() {
                 yPadding: 15,
                 displayColors: false,
                 caretPadding: 10,
-            },
-            legend: {
-                display: true,
-                maxHeight: 50
             },
             cutoutPercentage: 80,
         },
