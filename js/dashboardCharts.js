@@ -185,7 +185,6 @@ document.getElementById("myPieChart").onclick = function(evt) {
 
         // highlight bars according to the asset names
         highlightBar(relatedAssets);
-
     }
 }
 

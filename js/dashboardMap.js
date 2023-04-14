@@ -43,39 +43,38 @@ function loadVectorLayer() {
 
 function setColorByCondition(dataSource) {
     // change color by condition
-        dataSource.entities.values.forEach(function(entity) {
-            console.log(entity);
-            // get condition value
-            let condition = entity.properties.condition_description._value;
-            if (condition === conditions[0].condition_description) {
-                entity.billboard.color = Cesium.Color.GREEN;
-            } else if (condition === conditions[1].condition_description) {
-                entity.billboard.color = Cesium.Color.YELLOWGREEN;
-            } else if (condition === conditions[2].condition_description) {
-                entity.billboard.color = Cesium.Color.YELLOW;
-            } else if (condition === conditions[3].condition_description) {
-                entity.billboard.color = Cesium.Color.ORANGE;
-            } else if (condition === conditions[4].condition_description) {
-                entity.billboard.color = Cesium.Color.RED;
-            }else{
-                entity.billboard.color = Cesium.Color.GRAY;
-            }
+    dataSource.entities.values.forEach(function(entity) {
+        console.log(entity);
+        // get condition value
+        let condition = entity.properties.condition_description._value;
+        if (condition === conditions[0].condition_description) {
+            entity.billboard.color = Cesium.Color.GREEN;
+        } else if (condition === conditions[1].condition_description) {
+            entity.billboard.color = Cesium.Color.YELLOWGREEN;
+        } else if (condition === conditions[2].condition_description) {
+            entity.billboard.color = Cesium.Color.YELLOW;
+        } else if (condition === conditions[3].condition_description) {
+            entity.billboard.color = Cesium.Color.ORANGE;
+        } else if (condition === conditions[4].condition_description) {
+            entity.billboard.color = Cesium.Color.RED;
+        } else {
+            entity.billboard.color = Cesium.Color.GRAY;
+        }
 
-        });
+    });
 }
-
 
 // click event: highlight bar and pie chart
 // adapted click event from https://stackoverflow.com/questions/65788440/cesium-trigger-event-when-a-point-is-selected
 viewer.selectedEntityChanged.addEventListener(function(selectedEntity) {
-  
+
     if (Cesium.defined(selectedEntity)) {
-      if (Cesium.defined(selectedEntity.name)) {
-        console.log(selectedEntity);
-        console.log('Selected ' + selectedEntity.name);
-        // highlight bar chart
-        highlightBar([selectedEntity.name]);
-        
-      } 
-  } 
+        if (Cesium.defined(selectedEntity.name)) {
+            // highlight bar chart
+            highlightBar([selectedEntity.name]);
+            let condition_description = selectedEntity.properties.condition_description._value;
+            // highlight Pie chart
+            highlightPie(getConditionValue(condition_description));
+        }
+    }
 });
