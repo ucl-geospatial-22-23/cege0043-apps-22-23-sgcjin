@@ -34,7 +34,6 @@ function loadVectorLayer() {
     dataSource.load(layerURL, geoJSONOptions).then(function(dataSource) {
         myDataSource = dataSource;
         viewer.flyTo(dataSource);
-        console.log(dataSource);
         // change color by condition
         setColorByCondition(dataSource);
 
@@ -46,7 +45,6 @@ function loadVectorLayer() {
 function setColorByCondition(dataSource) {
     // change color by condition
     dataSource.entities.values.forEach(function(entity) {
-        console.log(entity);
         // get condition value
         let condition = entity.properties.condition_description._value;
         if (condition === conditions[0].condition_description) {
@@ -89,13 +87,10 @@ function zoomToAssets(asset_names) {
     var entities = myDataSource.entities.values;
     var boundingSphere = new Cesium.BoundingSphere();
 
-    console.log(asset_names);
     // get an array of entities that relate to the asset_names array
     let selectedEntities = [];
     for (let i = 0; i < entities.length; i++) {
         let entity = entities[i];
-        console.log(entity.name);
-        console.log(entity);
         // if the entity is one of the asset_name array
         // add to selectedEntities array
         if (asset_names.includes(entity.name)) {
@@ -108,7 +103,6 @@ function zoomToAssets(asset_names) {
         // return Cartesian3 object to create CartesianArray
         return entity.position.getValue(viewer.clock.currentTime);
     }));
-    console.log(rectangle);
     // add offset for the rectangle
     // adapted from https://sandcastle.cesium.com/#c=jVRNj9MwEP0ro+6liNYpAsRumlZIAQkkxErsir304iaTxqxjL7bTqqz63xk7SZOwPZBDNX7z8d48J820sg72Ag9oYAUKD5CiFXXFfgZsuplk4Zxq5bhQaDaTV8uN2iiALPQekH5WML9ZsMWyh62uXUn42+sRjLypvv4wgpU2ofrdeIjBzHG1k0ipVtaPDmKF0dUn3BlEO/UtEKTMmjDQt7HnbMPA48PxDrooLHpdC/Z+QO9tue1S/8kP83baUMi/YHDh9RhrLOjATiO0d8MyXqHhrJDHez19blpy4hOKO6FVPBAbBp66DaMI7kp9AFdi7ycD+K69v79rYTBfwq+aFBXagKVaNuBF5YQTaBnP8473PCaGFvGOaZN7MWjjvmDWpQshZQwFl7bHyBlJb1QMztQv0FRLbeLO9XBiD1++3n9uC0/9lpPZJLHuKHHdzfgoqieyE2ojp4xFDqsn6ZVF2zp7RMcyazt7/HPld01LUoz5WcdV43gL94uS7cLSuGNMV6Zw2eNbnj3ujK5VPs8a9d7aPt+Ch1K4vu3UBEk03CDJxR5Evrrw8UEmubWUKWop78Qf3EzWSUT1L1ql5nQhu9s9GlLry8o3628NyBhLIjpe7nRayy0nsrOhfW5gFeX9nwS0x+Gs0QpDH6knDedLXcP4Lw
     let offset = 0.0002
@@ -116,7 +110,6 @@ function zoomToAssets(asset_names) {
     rectangle.west = rectangle.west - offset;
     rectangle.south = rectangle.south - offset;
     rectangle.north = rectangle.north + offset;
-    console.log(rectangle);
 
     viewer.camera.flyTo({
         destination: rectangle

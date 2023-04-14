@@ -85,7 +85,6 @@ document.getElementById("myBarChart").onclick = function(evt) {
         var asset_name = myBarChart.data.labels[firstPoint.index];
         // condotion id
         var condition_id = myBarChart.data.datasets[firstPoint.datasetIndex].data[firstPoint.index];
-        console.log(asset_name + ": " + condition_id);
         
         // highlight pie chart 
         highlightPie(condition_id);
@@ -176,7 +175,6 @@ document.getElementById("myPieChart").onclick = function(evt) {
         var label = myPieChart.data.labels[firstPoint.index];
         // asset count
         var value = myPieChart.data.datasets[firstPoint.datasetIndex].data[firstPoint.index];
-        console.log(label + ": " + value);
 
         // to highlight bars, first get asset names that have the condition_description
         let relatedAssets = Assetfeatures.map(function(item) {
