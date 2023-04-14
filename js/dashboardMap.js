@@ -63,3 +63,19 @@ function setColorByCondition(dataSource) {
 
         });
 }
+
+
+// click event: highlight bar and pie chart
+// adapted click event from https://stackoverflow.com/questions/65788440/cesium-trigger-event-when-a-point-is-selected
+viewer.selectedEntityChanged.addEventListener(function(selectedEntity) {
+  
+    if (Cesium.defined(selectedEntity)) {
+      if (Cesium.defined(selectedEntity.name)) {
+        console.log('Selected ' + selectedEntity.name);
+      } else {
+        console.log('Unknown entity selected.');
+      }
+  } else {
+    console.log('Deselected.');
+  }
+});
