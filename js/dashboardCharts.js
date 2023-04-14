@@ -193,8 +193,12 @@ document.getElementById("myPieChart").onclick = function(evt) {
         // highlight bars according to the asset names
         highlightBar(relatedAssets);
 
+        // filter table by condition condition_description
+        filterTableByKeyword(label);
+        
         // zoom to assets in map using asset names
         zoomToAssets(relatedAssets);
+
     }
 }
 
