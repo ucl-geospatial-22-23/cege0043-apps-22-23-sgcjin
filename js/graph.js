@@ -120,10 +120,9 @@ function createGraph() {
 
         // draw the legend
         // adapted from https://gist.github.com/hrecht/13ad131fd8a95b0838151c178f7ace00
+        // legend spacing
         var legspacing = 25;
-
         var legend = g.selectAll(".legend").data(subgroups).enter().append("g")
-
         // legend color bar
         legend.append("rect").attr("fill", color).attr("width", 20).attr("height", 20).attr("y", function(d, i) {
             return i * legspacing;

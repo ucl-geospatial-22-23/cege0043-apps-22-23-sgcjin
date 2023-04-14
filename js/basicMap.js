@@ -100,18 +100,9 @@ function setMapClickEvent() {
         mymap.off('click', onMapClick);
 
         // remove the map point if it exists
-        if (mapPoint && loadDefaultConditionFlag) {
+        if (loadDefaultConditionFlag) {
             // remove all layer
             removeAllLayer();
-            // load map point 
-            mymap.addLayer(mapPoint);
-            // push this layer into layer list
-            layerlist.push(["mapPoint", mapPoint]);
-            // start tracking
-            trackLocation();
-
-            // if map point haven't initalized and there are no other asset points layer, load mapPoint layer and track
-        } else if ((!mapPoint) && loadDefaultConditionFlag) {
             // set up a mapPoint layer with click functionality for add asset condition information
             setUpConditionBaseLayer();
             // start tracking
@@ -131,19 +122,9 @@ function setMapClickEvent() {
         // stop tracking if exists
         removePositionPoints();
 
-        // add asset points if it already exists
-        if (assetPoint) {
-            // add assetPoint layer back
-            mymap.addLayer(assetPoint);
-            layerlist.push(["assetPoint", assetPoint]);
-            // zoom to assetPoint layer
-            mymap.fitBounds(assetPoint.getBounds());
+        // set up assetPoint layer
+        setUpAssetCreationLayer();
 
-        } else {
-            // if assetPoint haven't been initialized, set up assetPoint layer
-            setUpAssetCreationLayer();
-
-        }
         // the on click functionality of the MAP will pop up a blank asset creation form
         mymap.on('click', onMapClick);
 
@@ -217,7 +198,6 @@ function getIconByValue(feature, conditions) {
         icon: 'play',
         markerColor: 'lightgray'
     });
-
 
     // assign color icon according to condition
     switch (feature.properties.condition_description) {
