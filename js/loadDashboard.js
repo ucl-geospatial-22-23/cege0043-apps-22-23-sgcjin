@@ -1,7 +1,7 @@
 // store the asset features
 let Assetfeatures;
 // set base url
-let baseURL = "https://cege0043-7.cs.ucl.ac.uk";
+let baseURL = document.location.origin;
 let conditions = [];
 let userID;
 async function setUpDashboard() {
