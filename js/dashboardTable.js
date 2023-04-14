@@ -22,12 +22,18 @@ function addTable() {
         // Add click event listener to the "reset table" button
         $('#resetTable').on('click', function() {
             table.search('').draw();
-            // Remove the filter and redraw the table
+            table.$('tr.highlight').removeClass('highlight');
         });
         // Add click event listener to the row
         // adapted from https://datatables.net/examples/advanced_init/events_live.html
         table.on('click', 'tr', function() {
             var data = table.row(this).data();
+            // highlight table when clicked
+            // Remove highlight from all other rows
+            table.$('tr.highlight').removeClass('highlight');
+            // Add highlight to clicked row
+            $(table.row(this).nodes()).addClass('highlight');
+
             let asset_name = data[0];
             let condition_description = data[2];
             // highlight bar chart
