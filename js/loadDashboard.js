@@ -3,7 +3,7 @@ let Assetfeatures;
 // set base url
 let baseURL = "https://cege0043-7.cs.ucl.ac.uk";
 let conditions = [];
-
+let userID;
 async function setUpDashboard() {
     // waiting to get data
     await getAssets();
@@ -21,7 +21,7 @@ function getAssets() {
             url: baseURL + "/api/userID",
             crossDomain: true,
             success: function(result) {
-                let userID = JSON.parse(JSON.stringify(result))[0].user_id;
+                userID = JSON.parse(JSON.stringify(result))[0].user_id;
                 // get condition values
                 // after get user id, get conditions
                 $.ajax({

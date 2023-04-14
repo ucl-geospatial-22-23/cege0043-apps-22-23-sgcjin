@@ -12,28 +12,49 @@ let viewer = new Cesium.Viewer('cesiumContainer',{
     selectedImageryProviderViewModel: imageryProviders[selectedImageryProviderIndex]
 });
 
-
 // load data points
 function loadVectorLayer() {
 
     // get the data - NB this assumes that the API is running
-    let layerURL = document.location.origin + "/api/geojson/ucfscde/buildings/building_id/location";
-    console.log(layerURL);
+    let layerURL = document.location.origin + "/api/geojson/userAssets/" + userID;
 
     let geoJSONOptions = {
-        stroke: Cesium.Color.RED,
-        fill: Cesium.Color.RED,
         strokeWidth: 3,
         markerSymbol: '*',
+        markerColor: Cesium.Color.WHITE
     }
-    let dataSource = new Cesium.GeoJsonDataSource("Buildings");
+
+    let dataSource = new Cesium.GeoJsonDataSource("Assets");
     dataSource.clampToGround = false;
-    dataSource._name = "Buildings";
-    
+    dataSource._name = "Assets";
+
     viewer.dataSources.add(dataSource);
-    
+
     dataSource.load(layerURL, geoJSONOptions).then(function(dataSource) {
         viewer.flyTo(dataSource);
+        console.log(dataSource);
+        // change color by condition
+        dataSource.entities.values.forEach(function(entity) {
+            console.log(entity);
+            // get condition value
+            let condition = entity.properties.condition_description._value;
+            if (condition === conditions[0].condition_description) {
+                entity.billboard.color = Cesium.Color.GREEN;
+            } else if (condition === conditions[1].condition_description) {
+                entity.billboard.color = Cesium.Color.YELLOW;
+            } else if (condition === conditions[2].condition_description) {
+                entity.billboard.color = Cesium.Color.ORANGE;
+            } else if (condition === conditions[3].condition_description) {
+                entity.billboard.color = Cesium.Color.RED;
+            } else if (condition === conditions[4].condition_description) {
+                entity.billboard.color = Cesium.Color.PURPLE;
+            }else{
+                entity.billboard.color = Cesium.Color.GRAY;
+            }
+
+        });
 
     });
+    // end of then
+
 }
