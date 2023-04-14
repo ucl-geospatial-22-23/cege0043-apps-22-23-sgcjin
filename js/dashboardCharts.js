@@ -90,7 +90,7 @@ document.getElementById("myBarChart").onclick = function(evt) {
         highlightPie(condition_id);
         
         // filter dataTable according to asset name
-        filterTableByAssetName(asset_name);
+        filterTableByKeyword(asset_name);
         
         // zoom to the asset names
         zoomToAssets([asset_name]);

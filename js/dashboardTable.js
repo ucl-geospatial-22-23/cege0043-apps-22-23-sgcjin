@@ -28,12 +28,8 @@ function addTable() {
     // end of ready function    
 }
 
-// use asset_name to filter Table
-function filterTableByAssetName(asset_name){
-    table.search(asset_name).draw();
+// use keyword to filter Table
+function filterTableByKeyword(key){
+    table.search(key).draw();
 }
 
-// use condition_description to filter Table
-function filterTableByCondition(condition_description) {
-    table.search(asset_name).draw();
-}
