@@ -4,7 +4,6 @@ let myBarChart;
 // store pie chart for click event
 let myPieChart;
 
-
 // add barchart from given labels and data
 function addBarChart() {
     // get barchart canvas
@@ -186,41 +185,55 @@ document.getElementById("myPieChart").onclick = function(evt) {
     if (activePoints.length) {
         var firstPoint = activePoints[0];
         // label
-        var label = myPieChart.data.labels[firstPoint.index];;
-        // value
+        var label = myPieChart.data.labels[firstPoint.index];
+        ;// value
         var value = myPieChart.data.datasets[firstPoint.datasetIndex].data[firstPoint.index];
         console.log(label + ": " + value);
 
         // now highlight related bars 
-        // first get assets that has clicked condition
+        // first get assets lables that has clicked condition
         let relatedAssets = Assetfeatures.map(function(item) {
             if (item.properties.condition_description === label) {
                 return item.properties.asset_name;
             }
-        }).filter(function(item){return item !== undefined;});
-        console.log(relatedAssets);
-        // highlight bars of these assets
-        highlightBar(relatedAssets);
+        }).filter(function(item) {
+            return item !== undefined;
+        });
+
+        // then use the labels to find data index in bar chart
+        let datasetIndex = relatedAssets.map(function(asset_name){
+            return findDatasetIndex(myBarChart,asset_name);
+        })
+        
+        // highlight bars of these assets index
+        highlightBar(datasetIndex);
+    }
+}
+
+// find the dataset index according to a given label
+function findDatasetIndex(chart, label) {
+    for (let i = 0; i < chart.data.labels.length; i++) {
+        if (chart.data.labels[i] === label) {
+            return i;
+        }
     }
 }
 
 // change color of barChart based on the x index (label)
 // adapted from tutorial in https://www.youtube.com/watch?v=IatLn8Od5W4
-function highlightBar(relatedAssets) {
+function highlightBar(datasetIndex) {
+    // clear all highlight bar
+    if (myBarChart.getActiveElements().length > 0) {
+        myBarChart.setActiveElements([]);
+    }
     // convert asset_name array to setActiveElements readable highlight points
-    let highlightPoints = relatedAssets.map(function(item){
+    let highlightPoints = datasetIndex.map(function(item) {
         return {
-        datasetIndex: 0,
-        index: item
-    };
+            datasetIndex: 0,
+            index: item
+        };
     });
-    console.log(highlightPoints);
-    
     // highlight bars with given indexs
-    myBarChart.setActiveElements([{
-        datasetIndex: 0,
-        index: 1
-    }]);
+    myBarChart.setActiveElements(highlightPoints);
     myBarChart.update();
-    console.log('highlighted');
 }
