@@ -45,39 +45,6 @@ function addBarChart() {
                     bottom: 0
                 }
             },
-            scales: {
-                xAxes: [{
-                    time: {
-                        unit: 'asset'
-                    },
-                    gridLines: {
-                        display: false,
-                        drawBorder: false
-                    },
-                    ticks: {
-                        maxTicksLimit: data.length
-                    },
-                }],
-                yAxes: [{
-                    ticks: {
-                        min: 0,
-                        max: conditions.length - 1,
-                        maxTicksLimit: conditions.length,
-                        padding: 10,
-                        // add condition id 
-                        callback: function(value, index, values) {
-                            return "Condition ID " + value;
-                        }
-                    },
-                    gridLines: {
-                        color: "rgb(234, 236, 244)",
-                        zeroLineColor: "rgb(234, 236, 244)",
-                        drawBorder: false,
-                        borderDash: [2],
-                        zeroLineBorderDash: [2]
-                    }
-                }],
-            },
             legend: {
                 display: false
             },
@@ -171,8 +138,8 @@ function addPieChart() {
             datasets: [{
                 data: data,
                 backgroundColor: ['#22f194', '#e0f122', '#f19722', '#f13022', '#c90d0d', '#858585'],
-                hoverOffset: 5,
-                hoverBackgroundColor: ['#22f194', '#22f194', '#22f194', '#22f194', '#22f194', '#22f194']
+                hoverOffset: 15,
+                hoverBackgroundColor: ['#6dfdc1', '#f5f750', '#f7a750', '#f75650', '#ff3c3c', '#a6a6a6']
             }],
         },
         options: {
