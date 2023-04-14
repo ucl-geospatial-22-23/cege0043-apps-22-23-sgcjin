@@ -70,11 +70,16 @@ viewer.selectedEntityChanged.addEventListener(function(selectedEntity) {
 
     if (Cesium.defined(selectedEntity)) {
         if (Cesium.defined(selectedEntity.name)) {
+            
             // highlight bar chart
             highlightBar([selectedEntity.name]);
+            
             let condition_description = selectedEntity.properties.condition_description._value;
             // highlight Pie chart
             highlightPie(getConditionValue(condition_description));
+
+            // filter data table by asset name
+            filterTableByKeyword(selectedEntity.name);
         }
     }
 });
