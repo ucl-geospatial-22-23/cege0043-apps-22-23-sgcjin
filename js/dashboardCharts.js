@@ -144,7 +144,8 @@ function addPieChart() {
                 backgroundColor: ['#2cba00', '#a3ff00', '#fff400', '#ffa700', '#ff0000', '#a6a6a6'],
                 hoverOffset: 10,
                 hoverBackgroundColor: ['#66ff33', '#97ff4d', '#ffff99', '#ffcc66', '#ff6666', '#a6a6a6'],
-                hoverBorderColor: '#4ddeff'
+                hoverBorderColor: '#4ddeff',
+                hoverBorderWidth: 5
             }],
         },
         options: {
