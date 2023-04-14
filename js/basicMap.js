@@ -64,8 +64,6 @@ function setUpConditionAndUserID() {
                         }
                         // after load user id and condition, allow loadMap to continue
                         resolve(conditions);
-                        console.log(conditions);
-
                     }
                 });
                 // end of AJAX get conditions
