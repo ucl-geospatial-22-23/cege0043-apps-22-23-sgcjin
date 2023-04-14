@@ -116,11 +116,34 @@ document.getElementById("myBarChart").onclick = function(evt) {
         var firstPoint = activePoints[0];
         // label
         var label = myBarChart.data.labels[firstPoint.index];
-        // value
-        var value = myBarChart.data.datasets[firstPoint.datasetIndex].data[firstPoint.index];
-        console.log(label + ": " + value);
+        // condotion id
+        var condition_id = myBarChart.data.datasets[firstPoint.datasetIndex].data[firstPoint.index];
+        console.log(label + ": " + condition_id);
+
+        highlightPie(condition_id)
     }
 }
+
+// highlight Pie chart according to condition id
+function highlightPie(condition_id) {
+    // clear all highlight bar if exists
+    if (myPieChart.getActiveElements().length > 0) {
+        myPieChart.setActiveElements([]);
+    }
+    // highlight pie with given index (condition id -1)
+    myPieChart.setActiveElements([{
+        datasetIndex: 0,
+        // index of condition pie chart is condition_id -1
+        index: condition_id - 1
+    }]);
+    myPieChart.update();
+    console.log(condition_id - 1);
+    console.log(myPieChart.getActiveElements());
+    
+}
+
+
+
 
 function addPieChart() {
     // Pie Chart Example
@@ -148,8 +171,8 @@ function addPieChart() {
             datasets: [{
                 data: data,
                 backgroundColor: ['#22f194', '#e0f122', '#f19722', '#f13022', '#c90d0d', '#858585'],
-                hoverBackgroundColor: ['#5eb58e', '#adb45f', '#b58f5e', '#ba605a', '#8d4949', '#666666'],
-                hoverBorderColor: "rgba(234, 236, 244, 1)",
+                hoverOffset: 5,
+                hoverBackgroundColor: ['#22f194', '#22f194', '#22f194', '#22f194', '#22f194', '#22f194']
             }],
         },
         options: {
@@ -166,7 +189,6 @@ function addPieChart() {
             },
             legend: {
                 display: true,
-                position: 'bottom',
                 maxHeight: 50
             },
             cutoutPercentage: 80,
@@ -200,7 +222,7 @@ document.getElementById("myPieChart").onclick = function(evt) {
 // adapted from tutorial in https://www.youtube.com/watch?v=IatLn8Od5W4
 function highlightBar(label) {
 
-    // first get assets lables that has clicked condition
+    // first get assets lables array that has clicked condition
     let relatedAssets = Assetfeatures.map(function(item) {
         if (item.properties.condition_description === label) {
             return item.properties.asset_name;
@@ -214,7 +236,7 @@ function highlightBar(label) {
         return findDatasetIndex(myBarChart, asset_name);
     })
 
-    // clear all highlight bar
+    // clear all highlight bar if exists
     if (myBarChart.getActiveElements().length > 0) {
         myBarChart.setActiveElements([]);
     }
