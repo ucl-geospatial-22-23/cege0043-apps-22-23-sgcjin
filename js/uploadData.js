@@ -79,9 +79,10 @@ function checkCondition(id) {
     }
 
     if (condition == previousConditionValue) {
-        alert("The selected condition is the same as the previous condition");
+        alert("The selected condition is the same as the previous condition: "+condition);
     } else {
-        alert("The selected condition is NOT the same as the previous condition");
+        alert("The selected condition is NOT the same as the previous condition. \n Previous condition: "+previousConditionValue+
+             "\n Selected condition: "+condition);
     }
 
     postString = postString + "&condition_description=" + condition
