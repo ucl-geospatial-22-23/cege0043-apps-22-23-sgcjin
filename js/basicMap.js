@@ -1,8 +1,8 @@
 "use strict";
 // wdith of the window
 let width;
-// width to determine whether to load condition APP
-let conditionWidth = 992;
+// width to determine whether to load condition APP: small than 768
+let conditionWidth = 768;
 
 // keep this as a global variable
 let popup;
@@ -30,13 +30,15 @@ async function loadMap() {
         maxZoom: 19,
         attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
     }).addTo(mymap);
-
-    window.addEventListener('resize', setMapClickEvent);
-
+    
     // waiting for getting conditions and user id 
     await setUpConditionAndUserID();
     // after get user id and conditions, start other functions
     setMapClickEvent();
+    
+    window.addEventListener('resize', setMapClickEvent);
+
+
 }
 //end code to add the leaflet map
 
@@ -89,12 +91,12 @@ function setMapClickEvent() {
 
     // get the window width
     width = $(window).width();
-    // we use the bootstrap Medium and Large options for the asset location capture
+    // we use the bootstrap Large options for the asset location capture
     // and the small and XS options for the condition option
-    // see here: https://www.w3schools.com/bootstrap/bootstrap_grid_system.asp
-    if (width <= conditionWidth) {
-        //the condition capture –
-        //anything smaller than 992px is defined as 'medium' by bootstrap
+    
+    // condition APP: small than 768
+    if (width < 768) {
+        
 
         // cancel the map onclick event using off ..
         mymap.off('click', onMapClick);
@@ -108,9 +110,8 @@ function setMapClickEvent() {
             // start tracking
             trackLocation();
         }
-
-    } else {
-        // the asset creation page
+    // asset APP: large screen -> small than 1200, large than 992
+    } else if ( width>=992 && width<1200){
         // remove all layer
         removeAllLayer();
 
@@ -128,6 +129,21 @@ function setMapClickEvent() {
         // the on click functionality of the MAP will pop up a blank asset creation form
         mymap.on('click', onMapClick);
 
+    // else when no app 
+    }else{
+        // remove all layer
+        removeAllLayer();
+        
+        // since all other layer is removed
+        // base condition layer is allowed to be load when size is small
+        // set flag for base condition layer
+        loadDefaultConditionFlag = true;
+        // stop tracking if exists
+        removePositionPoints();
+        
+        // cancel the map onclick event using off ..
+        mymap.off('click', onMapClick);
+        
     }
 }
 // end of setMapClickEvent

@@ -16,7 +16,7 @@ function closeAssetData() {
 }
 
 function processWindowResize() {
- closeAssetData();
+    closeAssetData();
 }
 
 function loadGraph() {
