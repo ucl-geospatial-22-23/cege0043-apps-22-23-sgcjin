@@ -83,6 +83,7 @@ function add5ClosestAssets() {
                         // pass geoJSON features and conditions to construct popUpHTML
                         let popUpHTML = "<div>Asset Name:" + feature.properties.asset_name + "</div><br /><div>Installation Date:" + feature.properties.installation_date + " </div>";
                         // set all initial color using getIconByValue
+                        // since condition_description is undefined, markers are all gray
                         return L.marker(latlng, {
                             icon: getIconByValue(feature, conditions)
                         }).bindPopup(popUpHTML);

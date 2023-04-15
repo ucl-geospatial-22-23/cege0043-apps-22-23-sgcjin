@@ -47,7 +47,6 @@ function showPosition(position) {
         .bindPopup("Latitude: "+position.coords.latitude+" Longitude: "+position.coords.longitude)
         .addTo(mymap);
     
-    
     mymap.flyTo([position.coords.latitude, position.coords.longitude], 15) // fly to user location
     // loop through markers and find markers that near the user
     mapPoint.eachLayer(function(layer) {
