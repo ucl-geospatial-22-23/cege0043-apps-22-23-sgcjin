@@ -111,10 +111,8 @@ function remove5ClosestAssets() {
     removelayers("closestAssets");
     // allow  condition asst points to load when resized and < conditionWidth
     loadDefaultConditionFlag = true;
-    // start loading condition asst points
-    setUpConditionBaseLayer();
-    // start tracking
-    trackLocation();
+    // reload base APP layer
+    setMapClickEvent();
 
 }
 // add 5 last report layer
@@ -164,10 +162,8 @@ function remove5LastReports() {
     removelayers("lastReports");
     // allow  condition asst points to load when resized and < conditionWidth
     loadDefaultConditionFlag = true;
-    // start loading condition asst points
-    setUpConditionBaseLayer();
-    // start tracking
-    trackLocation();
+    // reload base APP layer
+    setMapClickEvent();
 
 }
 
@@ -226,9 +222,7 @@ function removeNotRated() {
     removelayers("notRated");
     // allow  condition asst points to load when resized and < conditionWidth
     loadDefaultConditionFlag = true;
-    // start loading condition asst points
-    setUpConditionBaseLayer();
-    // start tracking
-    trackLocation();
+    // reload base APP layer
+    setMapClickEvent();
 
 }

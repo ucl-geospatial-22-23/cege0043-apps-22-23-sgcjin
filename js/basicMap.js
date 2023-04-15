@@ -175,11 +175,6 @@ function setUpConditionBaseLayer() {
             });
             // end of mappoint
 
-            // add layer only if width is condition APP size   
-            if (width < conditionWidth) {
-                mapPoint.addTo(mymap);
-                layerlist.push(["mapPoint", mapPoint]);
-            }
             // end of if condition
         }
     });
@@ -308,13 +303,6 @@ function setUpAssetCreationLayer() {
             });
             // end of mappoint
 
-            // add layer only if width is asset creation APP size   
-            if (width >= conditionWidth) {
-                assetPoint.addTo(mymap);
-                layerlist.push(["assetPoint", mapPoint]);
-                mymap.fitBounds(assetPoint.getBounds());
-            }
-            // end of if condition
         }
     });
     //end of the AJAX call of userAssets         
