@@ -30,14 +30,13 @@ async function loadMap() {
         maxZoom: 19,
         attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
     }).addTo(mymap);
-    
+
     // waiting for getting conditions and user id 
     await setUpConditionAndUserID();
     // after get user id and conditions, start other functions
     setMapClickEvent();
-    
-    window.addEventListener('resize', setMapClickEvent);
 
+    window.addEventListener('resize', setMapClickEvent);
 
 }
 //end code to add the leaflet map
@@ -93,10 +92,9 @@ function setMapClickEvent() {
     width = $(window).width();
     // we use the bootstrap Large options for the asset location capture
     // and the small and XS options for the condition option
-    
+
     // condition APP: small than 768
     if (width < 768) {
-        
 
         // cancel the map onclick event using off ..
         mymap.off('click', onMapClick);
@@ -110,8 +108,8 @@ function setMapClickEvent() {
             // start tracking
             trackLocation();
         }
-    // asset APP: large screen -> small than 1200, large than 992
-    } else if ( width>=992 && width<1200){
+        // asset APP: large screen -> small than 1200, large than 992
+    } else if (width >= 992 && width < 1200) {
         // remove all layer
         removeAllLayer();
 
@@ -129,21 +127,21 @@ function setMapClickEvent() {
         // the on click functionality of the MAP will pop up a blank asset creation form
         mymap.on('click', onMapClick);
 
-    // else when no app 
-    }else{
+        // else when no app 
+    } else {
         // remove all layer
         removeAllLayer();
-        
+
         // since all other layer is removed
         // base condition layer is allowed to be load when size is small
         // set flag for base condition layer
         loadDefaultConditionFlag = true;
         // stop tracking if exists
         removePositionPoints();
-        
+
         // cancel the map onclick event using off ..
         mymap.off('click', onMapClick);
-        
+
     }
 }
 // end of setMapClickEvent
@@ -168,7 +166,7 @@ function setUpConditionBaseLayer() {
                     // set all initial color using getIconByValue
                     return L.marker(latlng, {
                         icon: getIconByValue(feature, conditions)
-                    }).bindPopup(popUpHTML);
+                    }).bindPopup(popUpHTML).addTo(mymap);
 
                 },
                 // end of point to layer          
@@ -296,13 +294,13 @@ function setUpAssetCreationLayer() {
                     // set all initial color as blue
                     return L.marker(latlng, {
                         icon: getIconByValue(feature, conditions)
-                    }).bindPopup(popUpHTML);
+                    }).bindPopup(popUpHTML).addTo(mymap);
 
                 },
                 // end of point to layer          
             });
             // end of mappoint
-
+            mymap.fitBounds(assetPoint.getBounds());
         }
     });
     //end of the AJAX call of userAssets         
