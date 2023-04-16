@@ -65,9 +65,16 @@ function setUpConditionAndUserID() {
                         }
                         // after load user id and condition, allow loadMap to continue
                         resolve(conditions);
+                    },
+                    error: function(requestObject, error, errorThrown) {
+                        alert("Failed to load the condition details. \n " + error + ": " + errorThrown);
                     }
+
                 });
                 // end of AJAX get conditions
+            },
+            error: function(requestObject, error, errorThrown) {
+                alert("Failed to get the user id. \n " + error + ": " + errorThrown);
             }
         });
     }
@@ -89,13 +96,13 @@ function countlayers() {
 function setMapClickEvent() {
 
     // get the window width
-    
+
     width = window.innerWidth;
     // use window.innerWidth instead of $(window).width() 
     // because jquery $(window).width() will return wrong value when there's a scroll bar 
     // (according to https://stackoverflow.com/questions/30559831/jquery-window-width-sometimes-return-wrong-value)
     // as we need the scroll bar in asset list, we use window.innerWidth instead
-    
+
     // we use the bootstrap Large options for the asset location capture
     // and the small and XS options for the condition option
 
@@ -133,7 +140,7 @@ function setMapClickEvent() {
 
         // else when no app 
     } else {
-        console.log(width+': no points');
+        console.log(width + ': no points');
         // remove all layer
         removeAllLayer();
 
@@ -180,6 +187,9 @@ function setUpConditionBaseLayer() {
 
             // start tracking
             trackLocation();
+        },
+        error: function(requestObject, error, errorThrown) {
+            alert("Failed to load the created assets of user ${user_id}. \n " + error + ": " + errorThrown);
         }
     });
     //end of the AJAX call of userAssets         
@@ -232,7 +242,7 @@ function getIconByValue(feature, conditions) {
         // if unknown OR other values, return grey
         return testMarkerLightGray;
     }
-    
+
 }
 
 // set up pop up html for condition app
@@ -314,15 +324,7 @@ function setUpAssetCreationLayer() {
 
 // set up map click pop ups for asset creation app
 function onMapClick(e) {
-    let formHTML = '<div>' 
-        + '<label for="asset_name">Asset Name </label><input type="text" size="25" id="asset_name"/><br />' 
-        + '<label for="installation_date">Installation Date </label><input type="date" size="25" id="installation_date"/><br />' 
-        + '<div id="latitude" value= "' + e.latlng.lat.toString() + '">Latitude: ' 
-        + e.latlng.lat.toString() + '</div><br />' + '<div id="longitude" value= "' 
-        + e.latlng.lng.toString() + '">Longitude: ' + e.latlng.lng.toString() 
-        + '</div><br />' + '<div id="user_id" style="display: none;">' + userID 
-        + '</div>' + '<button id="startUpload" onclick="saveNewAsset()">saveAsset</button>' 
-        + '</div>';
+    let formHTML = '<div>' + '<label for="asset_name">Asset Name </label><input type="text" size="25" id="asset_name"/><br />' + '<label for="installation_date">Installation Date </label><input type="date" size="25" id="installation_date"/><br />' + '<div id="latitude" value= "' + e.latlng.lat.toString() + '">Latitude: ' + e.latlng.lat.toString() + '</div><br />' + '<div id="longitude" value= "' + e.latlng.lng.toString() + '">Longitude: ' + e.latlng.lng.toString() + '</div><br />' + '<div id="user_id" style="display: none;">' + userID + '</div>' + '<button id="startUpload" onclick="saveNewAsset()">saveAsset</button>' + '</div>';
     popup = L.popup();
     popup.setLatLng(e.latlng).setContent(formHTML).openOn(mymap);
 }
