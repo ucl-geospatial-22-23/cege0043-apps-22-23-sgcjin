@@ -89,7 +89,13 @@ function countlayers() {
 function setMapClickEvent() {
 
     // get the window width
-    width = $(window).width();
+    
+    width = window.innerWidth;
+    // use window.innerWidth instead of $(window).width() 
+    // because jquery $(window).width() will return wrong value when there's a scroll bar 
+    // (according to https://stackoverflow.com/questions/30559831/jquery-window-width-sometimes-return-wrong-value)
+    // as we need the scroll bar in asset list, we use window.innerWidth instead
+    
     // we use the bootstrap Large options for the asset location capture
     // and the small and XS options for the condition option
 
@@ -105,8 +111,6 @@ function setMapClickEvent() {
             removeAllLayer();
             // set up a mapPoint layer with click functionality for add asset condition information
             setUpConditionBaseLayer();
-            // start tracking
-            trackLocation();
         }
         // asset APP: large screen -> small than 1200, large than 992
     } else if (width >= 992 && width < 1200) {
@@ -129,6 +133,7 @@ function setMapClickEvent() {
 
         // else when no app 
     } else {
+        console.log(width+': no points');
         // remove all layer
         removeAllLayer();
 
@@ -173,7 +178,8 @@ function setUpConditionBaseLayer() {
             });
             // end of mappoint
 
-            // end of if condition
+            // start tracking
+            trackLocation();
         }
     });
     //end of the AJAX call of userAssets         
