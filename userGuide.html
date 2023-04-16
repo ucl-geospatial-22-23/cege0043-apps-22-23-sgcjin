@@ -7,15 +7,12 @@
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
         <meta name="description" content="">
         <meta name="author" content="Chunyu Jin">
-        <title>Asset Management - Dashboard</title>
+        <title>Asset Creation APP - User Guide</title>
         <!-- Custom fonts for this template-->
         <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
         <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
         <!-- Custom styles for this template-->
         <link href="css/sb-admin-2.min.css" rel="stylesheet">
-        <link href="vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
-        <!-- Cesium -->
-        <script src="Build/Cesium/Cesium.js"></script>
     </head>
     <body id="page-top">
         <!-- Page Wrapper -->
@@ -28,43 +25,111 @@
                     <div class="container-fluid">
                         <!-- Page Heading -->
                         <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                            <h1 class="h3 mb-0 text-gray-800">Dashboard</h1>
+                            <h1 class="h3 mb-0 text-gray-800">Asset Creation APP - User Guide</h1>
                         </div>
                         <!-- Content Row -->
                         <div class="row">
-                            <div class="col-lg-6 mb-4">
+                            <div class="col-12 mb-4">
+                                <!-- Approach -->
+                                <div class="card shadow mb-4">
+                                    <div class="card-header py-3">
+                                        <h6 class="m-0 font-weight-bold text-primary">Introduction</h6>
+                                    </div>
+                                    <div class="card-body">
+                                        <p>Welcome to the user guide of Asset Creation APP! This guide will help you to create and
+                                        upload assets to our server. With this guide, you will be able to create assets
+                                                that meet the requirements and use some extra functionalities </p>
+                                    </div>
+                                </div>
                                 <!-- Illustrations -->
                                 <div class="card shadow mb-4">
                                     <div class="card-header py-3">
-                                        <h6 class="m-0 font-weight-bold text-primary">Illustrations</h6>
+                                        <h6 class="m-0 font-weight-bold text-primary">Step 1: Navigate to the Asset Creation Webpage</h6>
                                     </div>
                                     <div class="card-body">
                                         <div class="text-center">
-                                            <img class="img-fluid px-3 px-sm-4 mt-3 mb-4" style="width: 25rem;" src="img/icon.jpg" alt="...">
+                                            <img class="img-fluid px-3 px-sm-4 mt-3 mb-4" style="width: 20rem;" src="img/icon.jpg" alt="...">
                                         </div>
-                                        <p>
-                                            Add some quality, svg illustrations to your project courtesy of <a target="_blank" rel="nofollow" href="https://undraw.co/">unDraw</a>
-                                            , a
-                                        constantly updated collection of beautiful svg images that you can use
-                                        completely free and without attribution!
+                                        <p>To access the Asset Creation Webpage, open the bootStrap.html file in your web browser. 
+                                                Ensure that your screen size is between 992 and 1200 pixels to properly view the Asset
+                                                Creation Webpage. The Asset Creation APP has the following components:
                                         </p>
-                                        <a target="_blank" rel="nofollow" href="https://undraw.co/">Browse Illustrations on
-                                        unDraw &rarr;</a>
+                                        <p>- User Name</p>
+                                        <p>- Help Menu</p>
+                                        <p>- Side Bar Switch</p>
+                                        <p>- List of Assets in Best Condition Menu</p>
+                                        <p>- Daily Reporting Rates Graph – All Users Menu</p>
+                                        <p>- Base Map</p>
+                                        <p>- Your Asset Points</p>
                                     </div>
                                 </div>
                                 <!-- Approach -->
                                 <div class="card shadow mb-4">
                                     <div class="card-header py-3">
-                                        <h6 class="m-0 font-weight-bold text-primary">Development Approach</h6>
+                                        <h6 class="m-0 font-weight-bold text-primary">Step 2: View the Existing Assets</h6>
                                     </div>
                                     <div class="card-body">
-                                        <p>SB Admin 2 makes extensive use of Bootstrap 4 utility classes in order to reduce
-                                        CSS bloat and poor page performance. Custom CSS classes are used to create
-                                        custom components and custom utility classes.</p>
-                                        <p class="mb-0">Before working with this theme, you should become familiar with the
-                                        Bootstrap framework, especially the utility classes.</p>
+                                        <p>The existing assets are represented as markers on the map. When you click on a marker,
+                                                a pop-up message will appear displaying the name and latest condition description of the asset. 
+                                                The markers are color-coded, with red indicating a poor condition and green indicating a good condition.</p>
+                                        <p class="mb-0"></p>
                                     </div>
                                 </div>
+                                <div class="card shadow mb-4">
+                                    <div class="card-header py-3">
+                                        <h6 class="m-0 font-weight-bold text-primary">Step 3: Fill in your Asset Information</h6>
+                                    </div>
+                                    <div class="card-body">
+                                        <p>To create a new asset, click anywhere on the map. A form will pop up,
+                                                displaying the latitude and longitude of the location you clicked,
+                                                you will be asked to fill in the following information:</p>
+                                        <p class="mb-0">Asset Name: Enter a unique name for your asset. </p>
+                                        <p>Please ensure that the asset name you enter is unique,
+                                                as our platform will not insert the asset if the name is already in use and
+                                                will instead display an alert message.</p>
+                                        <p>Installation date: Select an installation date for your asset.</p>
+                                    </div>
+                                </div>
+                                <div class="card shadow mb-4">
+                                    <div class="card-header py-3">
+                                        <h6 class="m-0 font-weight-bold text-primary">Step 4: Upload your Asset</h6>
+                                    </div>
+                                    <div class="card-body">
+                                        <p>Once you have filled in the Asset Information, 
+                                                    you can upload your asset by clicking on the "saveAsset" button.</p>
+                                        <p class="mb-0">After you have successfully created the asset, you will receive an alert message confirming its creation.
+                                                    Then You can view the newly created asset on the map.</p>
+                                    </div>
+                                </div>
+                                <div class="card shadow mb-4">
+                                    <div class="card-header py-3">
+                                        <h6 class="m-0 font-weight-bold text-primary">Additional Functionality 1: List of Assets in Best Condition</h6>
+                                    </div>
+                                    <div class="card-body">
+                                        <p>You can view a list of all assets that have at least one report (at any point in time)
+                                                indicating they are in the best condition by clicking on the "List of Assets in Best Condition"
+                                                option in the side bar.</p>
+                                    </div>
+                                </div>
+                                <div class="card shadow mb-4">
+                                    <div class="card-header py-3">
+                                        <h6 class="m-0 font-weight-bold text-primary">Additional Functionality 2: Daily Reporting Rates Graph – All Users</h6>
+                                    </div>
+                                    <div class="card-body">
+                                        <p>You can view a graph of daily reporting rates for all users by clicking on the
+                                                "Daily Reporting Rates Graph – All Users" option in the side bar.</p>
+                                    </div>
+                                </div>
+                                <div class="card shadow mb-4">
+                                    <div class="card-header py-3">
+                                        <h6 class="m-0 font-weight-bold text-primary">Why I get these alert messages?</h6>
+                                    </div>
+                                    <div class="card-body">
+                                        <p>You can view a graph of daily reporting rates for all users by clicking on the
+                                                "Daily Reporting Rates Graph – All Users" option in the side bar.</p>
+                                    </div>
+                                </div>
+
                             </div>
                         </div>
                     </div>
