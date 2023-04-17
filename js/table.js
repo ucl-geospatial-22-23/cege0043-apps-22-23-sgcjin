@@ -54,6 +54,9 @@ function createTable() {
             tableHTML += "<tbody></table>";
             // update the DIV
             document.getElementById("tablediv").innerHTML = tableHTML;
+        },
+        error: function(requestObject, error, errorThrown) {
+            alert("Failed to load the assets.\n " + error + ": " + errorThrown);
         }
 
     });

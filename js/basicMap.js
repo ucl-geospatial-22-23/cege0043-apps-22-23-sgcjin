@@ -9,8 +9,6 @@ let mapPoint;
 let assetPoint;
 // leaflet base map
 let mymap;
-// let baseURL = document.location.origin;
-baseURL = "https://cege0043-7.cs.ucl.ac.uk";
 // list of loaded layers
 let layerlist = [];
 // store user id that loaded at set up
@@ -47,7 +45,7 @@ function setUpConditionAndUserID() {
             url: baseURL + "/api/userID",
             crossDomain: true,
             success: function(result) {
-                userID = JSON.parse(JSON.stringify(result))[0].user_id;
+                userID = result[0].user_id;
                 // after get user id, get conditions
                 $.ajax({
                     url: baseURL + "/api/geojson/conditionDetails",
@@ -57,8 +55,8 @@ function setUpConditionAndUserID() {
                         conditions = [];
                         // variable to store conditions
                         // loop and parse condition_descriptions 
-                        for (let i = 0; i < JSON.parse(JSON.stringify(result)).length; i++) {
-                            conditions.push(JSON.parse(JSON.stringify(result))[i].condition_description);
+                        for (let i = 0; i < result.length; i++) {
+                            conditions.push(result[i].condition_description);
                         }
                         // after load user id and condition, allow loadMap to continue
                         resolve(conditions);
@@ -271,7 +269,7 @@ function getReportPopupHTML(feature, conditions) {
     htmlString = htmlString + "<input type='radio' name='answer' value='" + con_3 + "' id ='" + id + "_3'/>" + con_3 + "<br/>";
     htmlString = htmlString + "<input type='radio' name='answer' value='" + con_4 + "' id ='" + id + "_4'/>" + con_4 + "<br/>";
     htmlString = htmlString + "<input type='radio' name='answer' value='" + con_5 + "' id ='" + id + "_5'/>" + con_5 + "<br/>";
-    htmlString = htmlString + "<button onclick='checkCondition(" + id + ");return false;'>SAVE CONDITION BUTTON</button>";
+    htmlString = htmlString + "<button onclick='checkCondition(" + id + ");return false;'>SAVE CONDITION</button>";
     htmlString = htmlString + "</div>";
 
     return htmlString;
@@ -317,7 +315,12 @@ function setUpAssetCreationLayer() {
 
 // set up map click pop ups for asset creation app
 function onMapClick(e) {
-    let formHTML = '<div>' + '<label for="asset_name">Asset Name :</label><input type="text" size="25" id="asset_name"/><br /><br />' + '<label for="installation_date">Installation Date : </label><input type="date" size="25" id="installation_date"/><br />' + '<div id="latitude" value= "' + e.latlng.lat.toString() + '"><br />Latitude: ' + e.latlng.lat.toString() + '</div><br />' + '<div id="longitude" value= "' + e.latlng.lng.toString() + '">Longitude: ' + e.latlng.lng.toString() + '</div><br />' + '<div id="user_id" style="display: none;">' + userID + '</div>' + '<button id="startUpload" onclick="saveNewAsset()">saveAsset</button>' + '</div>';
+    let formHTML = '<div>' + '<label for="asset_name">Asset Name :</label><input type="text" size="25" id="asset_name"/><br /><br />' +
+        '<label for="installation_date">Installation Date : </label><input type="date" size="25" id="installation_date"/><br />' +
+        '<div id="latitude" value= "' + e.latlng.lat.toString() + '"><br />Latitude: ' + e.latlng.lat.toString() + '</div><br />' +
+        '<div id="longitude" value= "' + e.latlng.lng.toString() + '">Longitude: ' + e.latlng.lng.toString() + '</div><br />' +
+        '<div id="user_id" style="display: none;">' + userID + '</div>' +
+        '<button id="startUpload" onclick="saveNewAsset()">Save Asset</button>' + '</div>';
     popup = L.popup();
     popup.setLatLng(e.latlng).setContent(formHTML).openOn(mymap);
 }

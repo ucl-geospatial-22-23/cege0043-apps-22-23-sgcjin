@@ -97,7 +97,11 @@ function add5ClosestAssets() {
                 // fit bounds
                 mymap.fitBounds(closestAssets.getBounds());
 
+            },
+            error: function(requestObject, error, errorThrown) {
+                alert("Failed to load the assets.\n " + error + ": " + errorThrown);
             }
+
         });
         //end of the AJAX call of userAssets
     });
@@ -154,6 +158,9 @@ function add5LastReports() {
             // fit bounds
             mymap.fitBounds(lastReports.getBounds());
 
+        },
+        error: function(requestObject, error, errorThrown) {
+            alert("Failed to load the assets.\n " + error + ": " + errorThrown);
         }
     });
     //end of the AJAX call of userAssets
@@ -217,6 +224,9 @@ function addNotRated() {
             // fit bounds
             mymap.fitBounds(notRated.getBounds());
 
+        },
+        error: function(requestObject, error, errorThrown) {
+            alert("Failed to load the assets.\n " + error + ": " + errorThrown);
         }
     });
     //end of the AJAX call of userAssets

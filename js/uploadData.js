@@ -1,5 +1,7 @@
 "use strict";
-let baseURL = "https://cege0043-7.cs.ucl.ac.uk";
+// set base url
+let baseURL = document.location.origin;
+baseURL = "https://cege0043-7.cs.ucl.ac.uk";
 
 function saveNewAsset() {
     // get asset_information values
@@ -81,6 +83,9 @@ function checkCondition(id) {
     if (condition == previousConditionValue) {
         alert("The selected condition is the same as the previous condition: "+condition);
     } else {
+        if(previousConditionValue==="Unkown"){
+            previousConditionValue="no condition captured";
+        }
         alert("The selected condition is NOT the same as the previous condition. \n Previous condition: "+previousConditionValue+
              "\n Selected condition: "+condition);
     }
