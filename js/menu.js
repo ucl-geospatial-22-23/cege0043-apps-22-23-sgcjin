@@ -1,7 +1,7 @@
 "use strict";
 // check if layer is already loaded
 function loadedOrNot(name) {
-    for (var i = 0; i < listOfThings.length; i++) {
+    for (var i = 0; i < layerlist.length; i++) {
         if (layerlist[i][0] == name) {
             return true;
         }
@@ -21,7 +21,7 @@ function removeAllLayer() {
     // clear all layers in layer list
 }
 
-// remove a layer by name
+// remove all layers by name
 function removelayers(name) {
     for (var i = 0; i < layerlist.length; i++) {
         // use a loop to use layer name to delete layers
@@ -67,7 +67,6 @@ function add5ClosestAssets() {
     // stop tracking
     removePositionPoints();
 
-
     navigator.geolocation.getCurrentPosition(function(position) {
         let latitude = position.coords.latitude;
         let longitude = position.coords.longitude;
@@ -84,6 +83,7 @@ function add5ClosestAssets() {
                         // pass geoJSON features and conditions to construct popUpHTML
                         let popUpHTML = "<div>Asset Name:" + feature.properties.asset_name + "</div><br /><div>Installation Date:" + feature.properties.installation_date + " </div>";
                         // set all initial color using getIconByValue
+                        // since condition_description is undefined, markers are all gray
                         return L.marker(latlng, {
                             icon: getIconByValue(feature, conditions)
                         }).bindPopup(popUpHTML);
@@ -107,15 +107,17 @@ function add5ClosestAssets() {
 
 // remove 5 Closest Assets layer
 function remove5ClosestAssets() {
-    // remove 5ClosestAssets layer
-    removelayers("closestAssets");
-    // allow  condition asst points to load when resized and < conditionWidth
-    loadDefaultConditionFlag = true;
-    // start loading condition asst points
-    setUpConditionBaseLayer();
-    // start tracking
-    trackLocation();
 
+    // check if the layer is loaded
+    if (loadedOrNot("closestAssets")) {
+
+        // remove 5ClosestAssets layer
+        removelayers("closestAssets");
+        // allow  condition asst points to load when resized and < conditionWidth
+        loadDefaultConditionFlag = true;
+        // reload base APP layer
+        setMapClickEvent();
+    }
 }
 // add 5 last report layer
 function add5LastReports() {
@@ -160,15 +162,15 @@ function add5LastReports() {
 
 // menu 11
 function remove5LastReports() {
-    // remove 5ClosestAssets layer
-    removelayers("lastReports");
-    // allow  condition asst points to load when resized and < conditionWidth
-    loadDefaultConditionFlag = true;
-    // start loading condition asst points
-    setUpConditionBaseLayer();
-    // start tracking
-    trackLocation();
-
+    // check if the layer is loaded
+    if (loadedOrNot("lastReports")) {
+        // remove 5ClosestAssets layer
+        removelayers("lastReports");
+        // allow  condition asst points to load when resized and < conditionWidth
+        loadDefaultConditionFlag = true;
+        // reload base APP layer
+        setMapClickEvent();
+    }
 }
 
 function addNotRated() {
@@ -222,13 +224,13 @@ function addNotRated() {
 
 // remove NotRated layer 
 function removeNotRated() {
-    // remove 5ClosestAssets layer
-    removelayers("notRated");
-    // allow  condition asst points to load when resized and < conditionWidth
-    loadDefaultConditionFlag = true;
-    // start loading condition asst points
-    setUpConditionBaseLayer();
-    // start tracking
-    trackLocation();
-
+    // check if the layer is loaded
+    if (loadedOrNot("notRated")) {
+        // remove 5ClosestAssets layer
+        removelayers("notRated");
+        // allow  condition asst points to load when resized and < conditionWidth
+        loadDefaultConditionFlag = true;
+        // reload base APP layer
+        setMapClickEvent();
+    }
 }

@@ -4,6 +4,7 @@ let Assetfeatures;
 let baseURL = document.location.origin;
 let conditions = [];
 let userID;
+// init dashboard contents
 async function setUpDashboard() {
     // waiting to get data
     await getAssets();

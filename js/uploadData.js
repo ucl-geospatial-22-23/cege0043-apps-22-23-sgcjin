@@ -29,7 +29,7 @@ function saveNewAsset() {
             for (var i = 0; i < result.features.length; i++) {
                 // if asset name is not unique, end saveNewAsset()
                 if (asset_name == result.features[i].properties.asset_name) {
-                    alert("The asset name is not unique, please insert another one!")
+                    alert("The asset name is not unique. Please choose a different one!")
                     return;
                 }
             }
@@ -79,9 +79,10 @@ function checkCondition(id) {
     }
 
     if (condition == previousConditionValue) {
-        alert("The selected condition is the same as the previous condition");
+        alert("The selected condition is the same as the previous condition: "+condition);
     } else {
-        alert("The selected condition is NOT the same as the previous condition");
+        alert("The selected condition is NOT the same as the previous condition. \n Previous condition: "+previousConditionValue+
+             "\n Selected condition: "+condition);
     }
 
     postString = postString + "&condition_description=" + condition
@@ -100,7 +101,7 @@ function insertAsset(postString) {
             assetInserted(data);
         },
         error: function(requestObject, error, errorThrown) {
-            alert("Failed to insert the asset. Please try again. \n "+error+": "+errorThrown);
+            alert("Failed to insert the asset.\n " + error + ": " + errorThrown);
         },
         data: postString
     });
@@ -118,7 +119,7 @@ function insertCondition(postString) {
         },
         // alert response and report counts
         error: function(requestObject, error, errorThrown) {
-            alert("Failed to insert the condition report. Please try again.  \n "+error+": "+errorThrown);
+            alert("Failed to insert the condition report. \n " + error + ": " + errorThrown);
         },
         data: postString
     });
@@ -128,16 +129,8 @@ function insertCondition(postString) {
 async function assetInserted(data) {
     // show the response without double quote
     alert(JSON.stringify(data).replace(/"/g, ''));
-    // refresh asset points after asset insertion
-    
-    setUpConditionBaseLayer();
-    // refresh condition layer first (+ new condition layer)
-    
-    removeAllLayer();
-    // remove all (- old asset creation layer, - new condition layer)
-    
-    setUpAssetCreationLayer();
-    // reload asset creation layer (+ new asset creation layer)
+    // refresh map points after asset insertion
+    setMapClickEvent();
 }
 
 // create the code to process the insert condition response from the data server
@@ -154,15 +147,8 @@ function reportUploaded(data) {
             alert(JSON.stringify(data).replace(/"/g, '') + "\n You have created " + result[0].array_to_json[0].num_reports + " reports.");
             // .replace(/"/g, '') is to replace double quote
 
-            // refresh all assets after upload report
-            setUpConditionBaseLayer();
-            // refresh asset creation layer first (+ new asset creation layer)
-            
-            removeAllLayer();
-            // then remove all (- old condition layer, - new asset creation layer)
-            
-            setUpConditionBaseLayer();
-            // reload again (+ new condition layer)
+            // refresh map points after asset insertion
+            setMapClickEvent();
         }
     });
     //end of the AJAX call

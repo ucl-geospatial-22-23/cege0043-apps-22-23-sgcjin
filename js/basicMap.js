@@ -1,9 +1,6 @@
 "use strict";
 // wdith of the window
 let width;
-// width to determine whether to load condition APP
-let conditionWidth = 992;
-
 // keep this as a global variable
 let popup;
 // layer for base condition APP
@@ -31,12 +28,13 @@ async function loadMap() {
         attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
     }).addTo(mymap);
 
-    window.addEventListener('resize', setMapClickEvent);
-
     // waiting for getting conditions and user id 
     await setUpConditionAndUserID();
     // after get user id and conditions, start other functions
     setMapClickEvent();
+
+    window.addEventListener('resize', setMapClickEvent);
+
 }
 //end code to add the leaflet map
 
@@ -64,11 +62,16 @@ function setUpConditionAndUserID() {
                         }
                         // after load user id and condition, allow loadMap to continue
                         resolve(conditions);
-                        console.log(conditions);
-
+                    },
+                    error: function(requestObject, error, errorThrown) {
+                        alert("Failed to load the condition details. \n " + error + ": " + errorThrown);
                     }
+
                 });
                 // end of AJAX get conditions
+            },
+            error: function(requestObject, error, errorThrown) {
+                alert("Failed to get the user id. \n " + error + ": " + errorThrown);
             }
         });
     }
@@ -90,38 +93,31 @@ function countlayers() {
 function setMapClickEvent() {
 
     // get the window width
-    width = $(window).width();
-    // we use the bootstrap Medium and Large options for the asset location capture
+
+    width = window.innerWidth;
+    // use window.innerWidth instead of $(window).width() 
+    // because jquery $(window).width() will return wrong value when there's a scroll bar 
+    // (according to https://stackoverflow.com/questions/30559831/jquery-window-width-sometimes-return-wrong-value)
+    // as we need the scroll bar in asset list, we use window.innerWidth instead
+
+    // we use the bootstrap Large options for the asset location capture
     // and the small and XS options for the condition option
-    // see here: https://www.w3schools.com/bootstrap/bootstrap_grid_system.asp
-    if (width <= conditionWidth) {
-        //the condition capture –
-        //anything smaller than 992px is defined as 'medium' by bootstrap
+
+    // condition APP: small than 768
+    if (width < 768) {
 
         // cancel the map onclick event using off ..
         mymap.off('click', onMapClick);
 
         // remove the map point if it exists
-        if (mapPoint && loadDefaultConditionFlag) {
+        if (loadDefaultConditionFlag) {
             // remove all layer
             removeAllLayer();
-            // load map point 
-            mymap.addLayer(mapPoint);
-            // push this layer into layer list
-            layerlist.push(["mapPoint", mapPoint]);
-            // start tracking
-            trackLocation();
-
-            // if map point haven't initalized and there are no other asset points layer, load mapPoint layer and track
-        } else if ((!mapPoint) && loadDefaultConditionFlag) {
             // set up a mapPoint layer with click functionality for add asset condition information
             setUpConditionBaseLayer();
-            // start tracking
-            trackLocation();
         }
-
-    } else {
-        // the asset creation page
+        // asset APP: large screen -> small than 1200, large than 992
+    } else if (width >= 992 && width < 1200) {
         // remove all layer
         removeAllLayer();
 
@@ -133,21 +129,27 @@ function setMapClickEvent() {
         // stop tracking if exists
         removePositionPoints();
 
-        // add asset points if it already exists
-        if (assetPoint) {
-            // add assetPoint layer back
-            mymap.addLayer(assetPoint);
-            layerlist.push(["assetPoint", assetPoint]);
-            // zoom to assetPoint layer
-            mymap.fitBounds(assetPoint.getBounds());
+        // set up assetPoint layer
+        setUpAssetCreationLayer();
 
-        } else {
-            // if assetPoint haven't been initialized, set up assetPoint layer
-            setUpAssetCreationLayer();
-
-        }
         // the on click functionality of the MAP will pop up a blank asset creation form
         mymap.on('click', onMapClick);
+
+        // else when no app 
+    } else {
+        console.log(width + ': no points');
+        // remove all layer
+        removeAllLayer();
+
+        // since all other layer is removed
+        // base condition layer is allowed to be load when size is small
+        // set flag for base condition layer
+        loadDefaultConditionFlag = true;
+        // stop tracking if exists
+        removePositionPoints();
+
+        // cancel the map onclick event using off ..
+        mymap.off('click', onMapClick);
 
     }
 }
@@ -173,19 +175,18 @@ function setUpConditionBaseLayer() {
                     // set all initial color using getIconByValue
                     return L.marker(latlng, {
                         icon: getIconByValue(feature, conditions)
-                    }).bindPopup(popUpHTML);
+                    }).bindPopup(popUpHTML).addTo(mymap);
 
                 },
                 // end of point to layer          
             });
             // end of mappoint
 
-            // add layer only if width is condition APP size   
-            if (width < conditionWidth) {
-                mapPoint.addTo(mymap);
-                layerlist.push(["mapPoint", mapPoint]);
-            }
-            // end of if condition
+            // start tracking
+            trackLocation();
+        },
+        error: function(requestObject, error, errorThrown) {
+            alert("Failed to load the created assets of user ${user_id}. \n " + error + ": " + errorThrown);
         }
     });
     //end of the AJAX call of userAssets         
@@ -219,8 +220,6 @@ function getIconByValue(feature, conditions) {
         icon: 'play',
         markerColor: 'lightgray'
     });
-
-
     // assign color icon according to condition
     switch (feature.properties.condition_description) {
     case "Unknown":
@@ -291,12 +290,6 @@ function setUpAssetCreationLayer() {
         url: baseURL + "/api/geojson/userAssets/" + user_id,
         crossDomain: true,
         success: function(result) {
-            // create color icon
-            let testMarkerBlue = L.AwesomeMarkers.icon({
-                icon: 'play',
-                markerColor: 'blue'
-            });
-
             // use the mapPoint and add it to the map  
             assetPoint = L.geoJson(result, {
                 // use point to layer to create the points
@@ -307,20 +300,16 @@ function setUpAssetCreationLayer() {
                     // set all initial color as blue
                     return L.marker(latlng, {
                         icon: getIconByValue(feature, conditions)
-                    }).bindPopup(popUpHTML);
+                    }).bindPopup(popUpHTML).addTo(mymap);
 
                 },
                 // end of point to layer          
             });
             // end of mappoint
-
-            // add layer only if width is asset creation APP size   
-            if (width >= conditionWidth) {
-                assetPoint.addTo(mymap);
-                layerlist.push(["assetPoint", mapPoint]);
-                mymap.fitBounds(assetPoint.getBounds());
-            }
-            // end of if condition
+            mymap.fitBounds(assetPoint.getBounds());
+        },
+         error: function(requestObject, error, errorThrown) {
+            alert("Failed to load the created assets of user ${user_id}. \n " + error + ": " + errorThrown);
         }
     });
     //end of the AJAX call of userAssets         
@@ -329,7 +318,7 @@ function setUpAssetCreationLayer() {
 
 // set up map click pop ups for asset creation app
 function onMapClick(e) {
-    let formHTML = '<div>' + '<label for="asset_name">Asset Name </label><input type="text" size="25" id="asset_name"/><br />' + '<label for="installation_date">Installation Date </label><input type="text" size="25" id="installation_date"/><br />' + '<div id="latitude" value= "' + e.latlng.lat.toString() + '">Latitude: ' + e.latlng.lat.toString() + '</div><br />' + '<div id="longitude" value= "' + e.latlng.lng.toString() + '">Longitude: ' + e.latlng.lng.toString() + '</div><br />' + '<div id="user_id" style="display: none;">' + userID + '</div>' + '<button id="startUpload" onclick="saveNewAsset()">saveAsset</button>' + '</div>';
+    let formHTML = '<div>' + '<label for="asset_name">Asset Name :</label><input type="text" size="25" id="asset_name"/><br /><br />' + '<label for="installation_date">Installation Date : </label><input type="date" size="25" id="installation_date"/><br />' + '<div id="latitude" value= "' + e.latlng.lat.toString() + '"><br />Latitude: ' + e.latlng.lat.toString() + '</div><br />' + '<div id="longitude" value= "' + e.latlng.lng.toString() + '">Longitude: ' + e.latlng.lng.toString() + '</div><br />' + '<div id="user_id" style="display: none;">' + userID + '</div>' + '<button id="startUpload" onclick="saveNewAsset()">saveAsset</button>' + '</div>';
     popup = L.popup();
     popup.setLatLng(e.latlng).setContent(formHTML).openOn(mymap);
 }

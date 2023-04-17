@@ -3,6 +3,7 @@
 let myBarChart;
 // store pie chart for click event
 let myPieChart;
+// code adapted from https://github.com/StartBootstrap/startbootstrap-sb-admin-2
 
 // add barchart from given labels and data
 function addBarChart() {
