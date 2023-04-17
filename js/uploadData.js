@@ -29,7 +29,7 @@ function saveNewAsset() {
             for (var i = 0; i < result.features.length; i++) {
                 // if asset name is not unique, end saveNewAsset()
                 if (asset_name == result.features[i].properties.asset_name) {
-                    alert("The asset name is not unique, please insert another one!")
+                    alert("The asset name is not unique. Please choose a different one!")
                     return;
                 }
             }
@@ -101,7 +101,7 @@ function insertAsset(postString) {
             assetInserted(data);
         },
         error: function(requestObject, error, errorThrown) {
-            alert("Failed to insert the asset. Please try again. \n " + error + ": " + errorThrown);
+            alert("Failed to insert the asset.\n " + error + ": " + errorThrown);
         },
         data: postString
     });
@@ -119,7 +119,7 @@ function insertCondition(postString) {
         },
         // alert response and report counts
         error: function(requestObject, error, errorThrown) {
-            alert("Failed to insert the condition report. Please try again.  \n " + error + ": " + errorThrown);
+            alert("Failed to insert the condition report. \n " + error + ": " + errorThrown);
         },
         data: postString
     });

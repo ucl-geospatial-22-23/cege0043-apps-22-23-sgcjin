@@ -1,9 +1,6 @@
 "use strict";
 // wdith of the window
 let width;
-// width to determine whether to load condition APP: small than 768
-let conditionWidth = 768;
-
 // keep this as a global variable
 let popup;
 // layer for base condition APP
@@ -293,12 +290,6 @@ function setUpAssetCreationLayer() {
         url: baseURL + "/api/geojson/userAssets/" + user_id,
         crossDomain: true,
         success: function(result) {
-            // create color icon
-            let testMarkerBlue = L.AwesomeMarkers.icon({
-                icon: 'play',
-                markerColor: 'blue'
-            });
-
             // use the mapPoint and add it to the map  
             assetPoint = L.geoJson(result, {
                 // use point to layer to create the points
@@ -316,6 +307,9 @@ function setUpAssetCreationLayer() {
             });
             // end of mappoint
             mymap.fitBounds(assetPoint.getBounds());
+        },
+         error: function(requestObject, error, errorThrown) {
+            alert("Failed to load the created assets of user ${user_id}. \n " + error + ": " + errorThrown);
         }
     });
     //end of the AJAX call of userAssets         
@@ -324,7 +318,7 @@ function setUpAssetCreationLayer() {
 
 // set up map click pop ups for asset creation app
 function onMapClick(e) {
-    let formHTML = '<div>' + '<label for="asset_name">Asset Name </label><input type="text" size="25" id="asset_name"/><br />' + '<label for="installation_date">Installation Date </label><input type="date" size="25" id="installation_date"/><br />' + '<div id="latitude" value= "' + e.latlng.lat.toString() + '">Latitude: ' + e.latlng.lat.toString() + '</div><br />' + '<div id="longitude" value= "' + e.latlng.lng.toString() + '">Longitude: ' + e.latlng.lng.toString() + '</div><br />' + '<div id="user_id" style="display: none;">' + userID + '</div>' + '<button id="startUpload" onclick="saveNewAsset()">saveAsset</button>' + '</div>';
+    let formHTML = '<div>' + '<label for="asset_name">Asset Name :</label><input type="text" size="25" id="asset_name"/><br /><br />' + '<label for="installation_date">Installation Date : </label><input type="date" size="25" id="installation_date"/><br />' + '<div id="latitude" value= "' + e.latlng.lat.toString() + '"><br />Latitude: ' + e.latlng.lat.toString() + '</div><br />' + '<div id="longitude" value= "' + e.latlng.lng.toString() + '">Longitude: ' + e.latlng.lng.toString() + '</div><br />' + '<div id="user_id" style="display: none;">' + userID + '</div>' + '<button id="startUpload" onclick="saveNewAsset()">saveAsset</button>' + '</div>';
     popup = L.popup();
     popup.setLatLng(e.latlng).setContent(formHTML).openOn(mymap);
 }
