@@ -137,7 +137,6 @@ function setMapClickEvent() {
 
         // else when no app 
     } else {
-        console.log(width + ': no points');
         // remove all layer
         removeAllLayer();
 

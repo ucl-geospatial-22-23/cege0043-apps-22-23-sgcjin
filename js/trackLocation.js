@@ -47,25 +47,36 @@ function showPosition(position) {
         .bindPopup("Latitude: "+position.coords.latitude+" Longitude: "+position.coords.longitude)
         .addTo(mymap);
     
-    mymap.flyTo([position.coords.latitude, position.coords.longitude], 15) // fly to user location
+    mymap.flyTo([position.coords.latitude, position.coords.longitude], 14) // fly to user location
+
+    // store the closest point that < 25m
+    let closePoint;
+    // set the initial minimum distance, any value larger than 0.025 is okay
+    let minDistance = 10;
+    
     // loop through markers and find markers that near the user
     mapPoint.eachLayer(function(layer) {
         let coordinates = layer.getLatLng();
         let distance = calculateDistance(position.coords.latitude, position.coords.longitude,
             coordinates.lat, coordinates.lng, 'K');
-        if (distance < 0.1) {
-            // alert("Proximity alert: you are close to an asset you have created");
-            // add a message in popup
-            let popupHTML = layer.getPopup().getContent(); // get pop up
-            // if the popup html doesn't have the alert message, add alert message
-            if (!popupHTML.includes("<p><b>Proximity Alert! You are close to:</b> </p>")) {
-                popupHTML = "<p><b>Proximity Alert! You are close to:</b> </p>" + popupHTML // modify popup
-            }
-            layer.setPopupContent(popupHTML); // set pop up
-            layer.openPopup(); // make the marker pops up automatically
+        // if the distance is small than 25m 
+        if (distance < 0.025 && distance<minDistance) {
+            closePoint = layer;
+            minDistance = distance;
         }
 
-    });
+    }); // end of eachLayer
+
+    if(closePoint){
+        // add a message in popup
+        let popupHTML = closePoint.getPopup().getContent(); // get pop up
+        // if the popup html doesn't have the alert message, add alert message
+        if (!popupHTML.includes("<p><b>Proximity Alert! You are close to:</b> </p>")) {
+            popupHTML = "<p><b>Proximity Alert! You are close to:</b> </p>" + popupHTML // modify popup
+        }
+        closePoint.setPopupContent(popupHTML); // set pop up
+        closePoint.openPopup(); // make the marker pops up automatically
+    }
 
 
 
