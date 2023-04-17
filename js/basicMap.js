@@ -62,30 +62,20 @@ function setUpConditionAndUserID() {
                         resolve(conditions);
                     },
                     error: function(requestObject, error, errorThrown) {
-                        alert("Failed to load the condition details. \n " + error + ": " + errorThrown);
+                        alert("Failed to load the condition details.  " );
                     }
 
                 });
                 // end of AJAX get conditions
             },
             error: function(requestObject, error, errorThrown) {
-                alert("Failed to get the user id. \n " + error + ": " + errorThrown);
+                alert("Failed to get the user id.  " );
             }
         });
     }
     );
     // end of promise
     return promise;
-}
-
-// check current number of layers
-function countlayers() {
-    let layerCount = 0;
-    mymap.eachLayer(function(layer) {
-        layerCount++;
-    });
-    console.log("Number of layers:", layerCount);
-    console.log(layerlist);
 }
 
 function setMapClickEvent() {
@@ -183,7 +173,7 @@ function setUpConditionBaseLayer() {
             trackLocation();
         },
         error: function(requestObject, error, errorThrown) {
-            alert("Failed to load the created assets of user ${user_id}. \n " + error + ": " + errorThrown);
+            alert("Failed to load the created assets of user ${user_id}." );
         }
     });
     //end of the AJAX call of userAssets         
@@ -306,7 +296,7 @@ function setUpAssetCreationLayer() {
             mymap.fitBounds(assetPoint.getBounds());
         },
          error: function(requestObject, error, errorThrown) {
-            alert("Failed to load the created assets of user ${user_id}. \n " + error + ": " + errorThrown);
+            alert("Failed to load the created assets of user ${user_id}.  " );
         }
     });
     //end of the AJAX call of userAssets         

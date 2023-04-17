@@ -41,7 +41,6 @@ function dailyReportingRates() {
     loadGraph();
 }
 
-function help() {}
 
 // alert user ranking
 function userRanking() {
@@ -53,7 +52,10 @@ function userRanking() {
         crossDomain: true,
         success: function(result) {
             alert("Your ranking is: " + result[0].array_to_json[0].rank);
-        }
+        },
+            error: function(requestObject, error, errorThrown) {
+                alert("Failed to get the user ranking of user ${user_id}.");
+            }
     });
     //end of the AJAX call        
 }
@@ -99,7 +101,7 @@ function add5ClosestAssets() {
 
             },
             error: function(requestObject, error, errorThrown) {
-                alert("Failed to load the assets.\n " + error + ": " + errorThrown);
+                alert("Failed to load the assets." );
             }
 
         });
@@ -160,7 +162,7 @@ function add5LastReports() {
 
         },
         error: function(requestObject, error, errorThrown) {
-            alert("Failed to load the assets.\n " + error + ": " + errorThrown);
+            alert("Failed to load the assets." );
         }
     });
     //end of the AJAX call of userAssets
@@ -226,7 +228,7 @@ function addNotRated() {
 
         },
         error: function(requestObject, error, errorThrown) {
-            alert("Failed to load the assets.\n " + error + ": " + errorThrown);
+            alert("Failed to load the assets." );
         }
     });
     //end of the AJAX call of userAssets
