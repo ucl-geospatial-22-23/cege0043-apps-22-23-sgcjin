@@ -35,14 +35,20 @@ function loadGraph() {
 
     // code to create the graph goes here – see below
     // use the wrapper's parent for clientWidth
-    // because ("assetDataWrapper").clientWidth*2 will double the width of the graph everytime to inf when clicked loadGraph
-    let widtha = document.getElementById("wrapper_column").clientWidth;
+    // because ("assetDataWrapper").clientWidth*2 will double the width of the graph everytime to INF when clicked loadGraph
+    // get extra padding of parent div wrapper_column:
+    let leftPad = parseFloat(getComputedStyle(document.getElementById("wrapper_column")).paddingLeft);
+    let rightPad = parseFloat(getComputedStyle(document.getElementById("wrapper_column")).paddingRight);
+    let widtha = document.getElementById("wrapper_column").clientWidth-leftPad-rightPad;
+    
+    // height of assetDataWrapper
     let heighta = document.getElementById("assetDataWrapper").offsetHeight;
-
+    
     // Add the close button and an SVG element for the graph
     document.getElementById("assetDataWrapper").innerHTML = `<div class="h-100 w-100">
- <button type="button" class="btn-close float-end" arialabel="Close" onclick="closeAssetData()"></button>
- <svg fill="blue" width="` + widtha + `" height="` + heighta + `" id="svg1">
+ <button type="button" class="btn-close float-end" arialabel="Close" onclick="closeAssetData()"
+ ></button>
+ <svg fill="black" width="` + widtha + `" height="` + heighta + `" id="svg1">
  </svg>
  </div>`;
     createGraph();

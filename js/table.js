@@ -14,9 +14,9 @@ function loadTable() {
     bsAdwCollapse.show();
 
     // Add the close button and an SVG element for the graph
-    document.getElementById("assetDataWrapper").innerHTML = `<div class="h-100 w-100">
+    document.getElementById("assetDataWrapper").innerHTML = `<div class="h-100 w-100 scroll-div">
  <button type="button" class="btn-close float-end" arialabel="Close" onclick="closeAssetData()"></button>
- <div id="tablediv" style="text-align:center">
+ <div id="tablediv"  style="text-align:center">
  
  </div>
  

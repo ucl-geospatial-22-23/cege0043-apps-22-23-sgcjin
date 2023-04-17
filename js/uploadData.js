@@ -1,6 +1,7 @@
 "use strict";
 // set base url
 let baseURL = document.location.origin;
+// baseURL = "https://cege0043-7.cs.ucl.ac.uk";
 
 function saveNewAsset() {
     // get asset_information values
