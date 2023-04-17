@@ -34,7 +34,9 @@ function loadGraph() {
     bsAdwCollapse.show();
 
     // code to create the graph goes here – see below
-    let widtha = document.getElementById("assetDataWrapper").clientWidth * 2;
+    // use the wrapper's parent for clientWidth
+    // because ("assetDataWrapper").clientWidth*2 will double the width of the graph everytime to inf when clicked loadGraph
+    let widtha = document.getElementById("wrapper_column").clientWidth;
     let heighta = document.getElementById("assetDataWrapper").offsetHeight;
 
     // Add the close button and an SVG element for the graph
