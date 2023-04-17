@@ -108,57 +108,120 @@ function createGraph() {
         y.domain([0, d3.max(data, d=>Math.max(d.reports_submitted, d.reports_not_working))]);
 
         // adapted from: https://bl.ocks.org/mbostock/7555321 10th March 2021/
-        g.append("g").attr("class", "axis axis-x").attr("transform", `translate(0,${height})`).call(d3.axisBottom(x)).selectAll(".tick text").call(wrap, x.bandwidth());
+        g.append("g").attr("class", "axis axis-x")
+            .attr("transform", `translate(0,${height})`)
+            .call(d3.axisBottom(x)).selectAll(".tick text")
+            .call(wrap, x.bandwidth());
 
-        g.append("g").attr("class", "axis axis-y").call(d3.axisLeft(y).ticks(10).tickSize(8));
+        g.append("g")
+            .attr("class", "axis axis-y")
+            .call(d3.axisLeft(y).ticks(10).tickSize(8));
 
-        // Another scale for subgroup position?
-        var xSubgroup = d3.scaleBand().domain(subgroups).range([0, x.bandwidth()]).padding([0.05])
+        // Another scale for subgroup position
+        var xSubgroup = d3.scaleBand()
+            .domain(subgroups)
+            .range([0, x.bandwidth()]).padding([0.05])
 
         // color palette = one color per subgroup
-        var color = d3.scaleOrdinal().domain(subgroups).range(['#377eb8', '#e41a1c'])
+        var color = d3.scaleOrdinal()
+            .domain(subgroups)
+            .range(['#377eb8', '#e41a1c'])
 
         // draw the legend
         // adapted from https://gist.github.com/hrecht/13ad131fd8a95b0838151c178f7ace00
         // legend spacing
         var legspacing = 25;
-        var legend = g.selectAll(".legend").data(subgroups).enter().append("g")
+        var legend = g.selectAll(".legend")
+            .data(subgroups)
+            .enter()
+            .append("g")
         // legend color bar
-        legend.append("rect").attr("fill", color).attr("width", 20).attr("height", 20).attr("y", function(d, i) {
+        legend.append("rect")
+            .attr("fill", color)
+            .attr("width", 20)
+            .attr("height", 20)
+            .attr("y", function(d, i) {
             return i * legspacing;
         }).attr("x", 0);
 
         // set legend text
-        legend.append("text").attr("class", "label").attr("y", function(d, i) {
+        legend.append("text")
+            .attr("class", "label")
+            .attr("y", function(d, i) {
             return i * legspacing + 14;
             // offset of 14 to align text with color bar
-        }).attr("x", 30).attr("text-anchor", "start").text(function(d, i) {
+        })
+            .attr("x", 30)
+            .attr("text-anchor", "start")
+            .text(function(d, i) {
             return LABELS[i];
         });
 
         // Enter in data 
-        g.selectAll(".bar").data(data).enter().append("g").attr("transform", function(d) {
+        let bars = g.selectAll(".bar")
+            .data(data)
+            .enter()
+            .append("g")
+            .attr("transform", function(d) {
             return "translate(" + x(d.day) + ",0)";
-        }).selectAll("rect").data(function(d) {
+        });
+           
+        bars.selectAll("rect")
+            .data(function(d) {
             return subgroups.map(function(key) {
                 return {
                     key: key,
                     value: d[key]
                 };
             });
-        }).enter().append("rect").attr("x", function(d) {
+        })
+            .enter()
+            .append("rect")
+            .attr("x", function(d) {
             return xSubgroup(d.key);
-        }).attr("y", function(d) {
+        })
+            .attr("y", function(d) {
             return y(d.value);
-        }).attr("width", xSubgroup.bandwidth()).attr("height", function(d) {
+        })
+            .attr("width", xSubgroup.bandwidth())
+            .attr("height", function(d) {
             return height - y(d.value);
-        }).attr("fill", function(d) {
+        })
+            .attr("fill", function(d) {
             return color(d.key);
         });
 
-    }
+        // add numbers on the bar
+        // adapted from https://stackoverflow.com/questions/41332520/how-to-add-numbers-to-bars-with-d3-js
+        bars.selectAll("text")
+            .data(function(d) {
+            return subgroups.map(function(key) {
+                return {
+                    key: key,
+                    value: d[key]
+                };
+            });
+        })
+            .enter()
+            .append("text")
+            .text(function(d) {
+                return d.value;
+            })
+            .attr("x", function(d) {
+            return xSubgroup(d.key)+7;
+        })
+            .attr("y", function(d) {
+            return y(d.value)-5;
+        });
+
+    }// end of json
     ).catch(err=>{
-        svg.append("text").attr("y", 20).attr("text-anchor", "left").style("font-size", "10px").style("font-weight", "bold").text(`Couldn't open the data file: "${err}".`);
+        svg.append("text")
+            .attr("y", 20)
+            .attr("text-anchor", "left")
+            .style("font-size", "10px")
+            .style("font-weight", "bold")
+            .text(`Couldn't open the data file: "${err}".`);
     }
     );
 
