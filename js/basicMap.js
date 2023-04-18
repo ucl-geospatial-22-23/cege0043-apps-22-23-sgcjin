@@ -245,6 +245,7 @@ function getReportPopupHTML(feature, conditions) {
     let con_3 = conditions[2];
     let con_4 = conditions[3];
     let con_5 = conditions[4];
+    let con_6 = conditions[5];
 
     let htmlString = "<DIV id='popup'" + id + ">";
     htmlString = htmlString + "<div id=asset_name_" + id + " value='" + asset_name + "'>Asset Name: " + asset_name + "</div>";
@@ -259,6 +260,7 @@ function getReportPopupHTML(feature, conditions) {
     htmlString = htmlString + "<input type='radio' name='answer' value='" + con_3 + "' id ='" + id + "_3'/>" + con_3 + "<br/>";
     htmlString = htmlString + "<input type='radio' name='answer' value='" + con_4 + "' id ='" + id + "_4'/>" + con_4 + "<br/>";
     htmlString = htmlString + "<input type='radio' name='answer' value='" + con_5 + "' id ='" + id + "_5'/>" + con_5 + "<br/>";
+    htmlString = htmlString + "<input type='radio' name='answer' value='" + con_6 + "' id ='" + id + "_6'/>" + con_6 + "<br/>";
     htmlString = htmlString + "<button onclick='checkCondition(" + id + ");return false;'>SAVE CONDITION</button>";
     htmlString = htmlString + "</div>";
 

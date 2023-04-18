@@ -74,6 +74,8 @@ function checkCondition(id) {
         condition = document.getElementById(id + "_4").value;
     } else if (document.getElementById(id + "_5").checked) {
         condition = document.getElementById(id + "_5").value;
+    }else if (document.getElementById(id + "_6").checked) {
+        condition = document.getElementById(id + "_6").value;
     }// if no condition is checked, return an alert and stop
     else {
         alert("Please select a condition value!")
