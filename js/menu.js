@@ -190,11 +190,6 @@ function addNotRated() {
     // stop tracking
     removePositionPoints();
 
-    // create color icon
-    let testMarkerBlue = L.AwesomeMarkers.icon({
-        icon: 'play',
-        markerColor: 'blue'
-    });
     // get user id
     let user_id = userID;
 
@@ -202,7 +197,7 @@ function addNotRated() {
         url: baseURL + "/api/geojson/conditionReportMissing/" + user_id,
         crossDomain: true,
         success: function(result) {
-            if (!result.feature) {
+            if (!result.features) {
                 alert("There are NO assets that you haven't rated in last 3 days.")
                 return;
             }
@@ -212,10 +207,12 @@ function addNotRated() {
                 // use point to layer to create the points
                 pointToLayer: function(feature, latlng) {
                     // pass geoJSON features and conditions to construct popUpHTML
-                    let popUpHTML = "<div>Asset Name:" + feature.properties.asset_name + "</div>";
+                    let popUpHTML ="<div>Asset Name:" + feature.properties.asset_name +
+                        "</div><br /><div>Condition Description: " +
+                        feature.properties.condition_description + "</div>";
                     // set all initial color using getIconByValue
                     return L.marker(latlng, {
-                        icon: testMarkerBlue
+                        icon: getIconByValue(feature, conditions)
                     }).bindPopup(popUpHTML);
                 },
                 // end of point to layer          
