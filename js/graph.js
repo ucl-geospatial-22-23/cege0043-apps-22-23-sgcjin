@@ -57,7 +57,7 @@ function loadGraph() {
 // create the graph
 function createGraph() {
     // create an SVG container for the graph    
-    let marginTop = 30;
+    let marginTop = 70;
     let marginBottom = 60;
     let marginLeft = 50;
     let marginRight = 20;
@@ -149,17 +149,17 @@ function createGraph() {
             .attr("width", 20)
             .attr("height", 20)
             .attr("y", function(d, i) {
-            return i * legspacing;
-        }).attr("x", 0);
+            return i * legspacing - 66;
+        }).attr("x", 10);
 
         // set legend text
         legend.append("text")
             .attr("class", "label")
             .attr("y", function(d, i) {
-            return i * legspacing + 14;
-            // offset of 14 to align text with color bar
+            return i * legspacing -50;
+            // offset 50 to make legends not overlapped with bars
         })
-            .attr("x", 30)
+            .attr("x", 40)
             .attr("text-anchor", "start")
             .text(function(d, i) {
             return LABELS[i];
