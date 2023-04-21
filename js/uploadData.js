@@ -3,6 +3,7 @@
 let baseURL = document.location.origin;
 // baseURL = "https://cege0043-7.cs.ucl.ac.uk";
 
+// function to get new asset value from div and insert the asset
 function saveNewAsset() {
     // get asset_information values
     let asset_name = document.getElementById("asset_name").value;
@@ -19,24 +20,7 @@ function saveNewAsset() {
         alert("Please insert installation date!");
         return;
     }
-    // check if asset_name is unique
-    // if it's not unique, alert the message and stop insertion
-    // use an AJAX call to get all the asset of all users
-    $.ajax({
-        url: baseURL + "/api/geojson/allUserAssets",
-        crossDomain: true,
-        success: function(result) {
-
-            // loop through all asset name and find if its unique
-            for (var i = 0; i < result.features.length; i++) {
-                // if asset name is not unique, end saveNewAsset()
-                if (asset_name == result.features[i].properties.asset_name) {
-                    alert("The asset name is not unique. Please choose a different one!")
-                    return;
-                }
-            }
-            // end of loop
-            // if it's unique, continue insertion
+    
             // add to postString
             let postString = "asset_name=" + asset_name;
             postString = postString + "&installation_date=" + installation_date;
@@ -47,12 +31,9 @@ function saveNewAsset() {
             // if success, it will update data of all layers
             insertAsset(postString);
 
-        }
-    });
-    //end of the AJAX call 
-
 }
 
+// get the condition from div and insert the condition report
 function checkCondition(id) {
     let postString = '';
     let previousConditionValue = document.getElementById("previousCondition_" + id).innerHTML;
@@ -82,8 +63,9 @@ function checkCondition(id) {
         return;
     }
 
+    // check if current condition is the same as the previous condition
     if (condition == previousConditionValue) {
-        alert("The selected condition is the same as the previous condition: "+condition);
+        alert("The selected condition is the same as the previous condition: \n"+condition);
     } else {
         if(previousConditionValue==="Unkown"){
             previousConditionValue="no condition captured";
@@ -108,7 +90,15 @@ function insertAsset(postString) {
             assetInserted(data);
         },
         error: function(requestObject, error, errorThrown) {
-            alert("Failed to insert the asset.\n " + error + ": " + errorThrown);
+            // check if the error is caused by "asset_name_unique" constraint
+            // alert asset is not unique error
+            if (requestObject.responseJSON.constraint==="asset_name_unique"){
+                // get the table where the error occurs
+                let table_name = requestObject.responseJSON.table;
+                alert(`Failed to insert the asset. The asset name is not unique in table ${table_name}. Please try a different one.`);
+            }else{
+                alert("Failed to insert the asset.");
+            }
         },
         data: postString
     });
@@ -126,7 +116,7 @@ function insertCondition(postString) {
         },
         // alert response and report counts
         error: function(requestObject, error, errorThrown) {
-            alert("Failed to insert the condition report. \n " + error + ": " + errorThrown);
+            alert("Failed to insert the condition report. \n ");
         },
         data: postString
     });
@@ -156,7 +146,10 @@ function reportUploaded(data) {
 
             // refresh map points after asset insertion
             setMapClickEvent();
-        }
+        },
+        error: function(requestObject, error, errorThrown) {
+            alert("Failed to get the reports count your have created.");
+        },
     });
     //end of the AJAX call
 }

@@ -54,7 +54,7 @@ function userRanking() {
             alert("Your ranking is: " + result[0].array_to_json[0].rank);
         },
             error: function(requestObject, error, errorThrown) {
-                alert("Failed to get the user ranking of user ${user_id}.");
+                alert(`Failed to get the user ranking of user ${user_id}.`);
             }
     });
     //end of the AJAX call        

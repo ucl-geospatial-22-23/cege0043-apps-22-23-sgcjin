@@ -18,6 +18,7 @@ let conditions = [];
 // this variable is used for determine whether base condition map will be loaded when resized
 var loadDefaultConditionFlag = true;
 
+// setup user id and load map layers
 async function loadMap() {
     // CODE TO INITIALISE AND CREATE THE MAP GOES HERE 
     mymap = L.map('mapid').setView([51.505, -0.09], 13);
@@ -42,7 +43,7 @@ function setUpConditionAndUserID() {
     const promise = new Promise((resolve)=>{
         // set up user id first
         $.ajax({
-            url: baseURL + "/api/userID",
+            url: baseURL + "/api/userId",
             crossDomain: true,
             success: function(result) {
                 userID = result[0].user_id;
@@ -69,7 +70,7 @@ function setUpConditionAndUserID() {
                 // end of AJAX get conditions
             },
             error: function(requestObject, error, errorThrown) {
-                alert("Failed to get the user id.  " );
+                alert("Failed to get the user id. " );
             }
         });
     }
@@ -78,6 +79,7 @@ function setUpConditionAndUserID() {
     return promise;
 }
 
+// set map points based on the width of the window
 function setMapClickEvent() {
 
     // get the window width
@@ -173,7 +175,7 @@ function setUpConditionBaseLayer() {
             trackLocation();
         },
         error: function(requestObject, error, errorThrown) {
-            alert("Failed to load the created assets of user ${user_id}." );
+            alert(`Failed to load the created assets of user ${user_id}.` );
         }
     });
     //end of the AJAX call of userAssets         
@@ -298,7 +300,7 @@ function setUpAssetCreationLayer() {
             mymap.fitBounds(assetPoint.getBounds());
         },
          error: function(requestObject, error, errorThrown) {
-            alert("Failed to load the created assets of user ${user_id}.  " );
+            alert(`Failed to load the created assets of user ${user_id}.  `);
         }
     });
     //end of the AJAX call of userAssets         
